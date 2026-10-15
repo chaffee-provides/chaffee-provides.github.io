@@ -17,8 +17,9 @@ python scripts/sync_data.py ../colorado-open-food-web/exports/chaffee-provides.j
 The sync script refuses an export it doesn't understand (wrong format version, counts that don't match,
 a hidden address that carries a street address), so a bad release never reaches the published site.
 Do not edit `data/chaffee-provides.json` by hand. Monthly updates and Guidestone's review happen in the
-Food Web repo, not here. `data/photos.json` and `assets/photos/` are this site's own (photos reused from
-the old site with Guidestone's permission; thumbnails in `assets/photos/thumb/`).
+Food Web repo, not here. `data/photos.json`, `assets/photos/` and `data/descriptions.json` are this site's own: photos and business
+descriptions reused from the old site with Guidestone's permission (thumbnails in `assets/photos/thumb/`). None of
+it goes into the Food Web. `python scripts/import_descriptions.py <wordpress-export.xml>` rebuilds the descriptions file.
 
 ## Pages
 
@@ -36,6 +37,12 @@ Producer map, producer directory (cards, category filters, name and address sear
 and the list-your-business form. Not included: Spotlight blog (dropped), food assistance schedule
 (possible later), restaurants (off for now).
 
+## To talk to Guidestone about
+
+- **Who owns the business descriptions.** They came from what each business submitted to the old site, and they
+  live only in this repo. It would help to have Guidestone's okay (ownership or a clear license) to show them
+  in other places too, such as the Food Web or other sites. That can wait; for now they stay here.
+
 ## Ideas for later
 
 - **Season tags.** A small tag on a way to buy ("Closing for the season soon", "Opens for the season soon")

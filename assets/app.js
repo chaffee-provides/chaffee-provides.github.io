@@ -142,8 +142,8 @@
   // The whole site runs on this model: every producer, market and free-food site, each with its places.
   function loadModel(){
     if(!cache.model){
-      cache.model = Promise.all([load("chaffee-provides"), load("photos").catch(function(){ return { photos:{} }; })]).then(function(r){
-        var d = r[0], photos = (r[1] && r[1].photos) || {};
+      cache.model = Promise.all([load("chaffee-provides"), load("photos").catch(function(){ return { photos:{} }; }), load("descriptions").catch(function(){ return { descriptions:{} }; })]).then(function(r){
+        var d = r[0], photos = (r[1] && r[1].photos) || {}, descs = (r[2] && r[2].descriptions) || {};
         if(d.export.format_version !== CONFIG.supportedFormat)
           throw new Error("this site understands export format " + CONFIG.supportedFormat + ", but the data is format " + d.export.format_version);
         var labels = d.vocab.sales_channels, recs = [];
@@ -151,6 +151,7 @@
         d.producers.forEach(function(x){ recs.push(makeRec(x, "farm", photos, labels, plabels)); });
         d.markets.forEach(function(x){ recs.push(makeRec(x, "market", photos, labels, plabels)); });
         d.access_points.forEach(function(x){ recs.push(makeRec(x, "access", photos, labels, plabels)); });
+        recs.forEach(function(x){ x.description = descs[x.slug] || ""; });   // text each business submitted to the old site (data/descriptions.json)
         return { meta:d.export, vocab:d.vocab, recs:recs, bySlug:recs.reduce(function(o, x){ o[x.slug] = x; return o; }, {}) };
       });
     }
