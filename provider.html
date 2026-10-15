@@ -43,7 +43,7 @@
     var raw = r.raw, basis = raw.visit_basis || {};
     var fromListing = function(k){ return basis[k] === "listing" ? ' <span class="muted">(from their listing)</span>' : ""; };
     if(r.dropin === false && r.farmPickup === false)      // one plain message, not three
-      return { tone:"no", html:vrow(false, "", "<strong>Not open to visitors.</strong> " + (r.visitNote ? esc(r.visitNote) : "No drop-in visits or farm pickup."), "") };
+      return { tone:"no", compact:true, html:vrow(false, "", "<strong>No drop-in visits or farm pickup.</strong>", "") };
     var html = vrow(r.dropin, "<strong>Drop-in visits welcome.</strong> You can just show up." + fromListing("dropin")
       + (raw.dropin_hours ? '<div class="vhours">Drop-in hours: ' + esc(raw.dropin_hours) + '</div>' : ""),
       "<strong>No drop-in visits.</strong> Please don't show up unannounced.",
@@ -108,7 +108,7 @@
       return '<a class="chip" href="directory.html?product='+encodeURIComponent(g)+'">'+esc(r.productText[i])+'</a>';
     }).join(" ");
     var v = visit(r), wl = ways(r);
-    var notes = /^not open to the public/i.test(raw.hours_text || "") && !(r.dropin === false && r.farmPickup === false) ? '<div class="notice-box"><strong>Not open to the public.</strong> Please don\'t visit in person; use the website to order.</div>' : "";
+    var notes = /^not open to the public/i.test(raw.hours_text || "") ? '<div class="notice-box"><strong>Not open to the public.</strong> Please don\'t visit in person; use the website to order.</div>' : "";
     var pins = r.places.filter(function(p){ return p.pin; });
     var verified = raw.last_verified ? '<span class="pill ok">Checked '+esc(CP.fmtDate(raw.last_verified))+'</span>'
       : '';
@@ -141,8 +141,9 @@
       +   '<h1>'+esc(r.name)+'</h1><div>'+tag+(r.group === "farm" && r.homeTown ? ' <span class="muted">· Based in '+esc(r.homeTown)+'</span>' : '')+'</div>'
       +   '<div style="margin-top:12px">'+verified+'</div>'+notes
       +   (r.photo ? CP.photoHtml(r, "hero-photo") : "")
-      +   '<div class="visit '+v.tone+'" role="note">'+v.html+'</div>'
+      +   (v.compact ? '' : '<div class="visit '+v.tone+'" role="note">'+v.html+'</div>')
       +   '<h2 style="font-size:1.25rem;margin-top:22px">How to get it</h2>'
+      +   (v.compact ? '<div class="visit compact '+v.tone+'" role="note">'+v.html+'</div>' : '')
       +   '<ul class="ways">'+wl.join("")+'</ul>'
       +   (prodChips || r.products ? '<h2 style="font-size:1.25rem;margin-top:24px">What they offer</h2>' + (prodChips ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+prodChips+'</div>' : '') + (r.products ? '<p>'+esc(r.products)+'</p>' : '') : '')
       +   (r.places.length ? '<h2 style="font-size:1.25rem;margin-top:24px">'+(r.group === "farm" ? "All the places to find them" : "Location")+'</h2>'
