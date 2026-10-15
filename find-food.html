@@ -136,6 +136,22 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
       + '<div style="margin-top:8px;display:flex;gap:12px"><a href="'+CP.recUrl(r)+'">Details and how to buy →</a><a href="'+CP.directions(p)+'" target="_blank" rel="noopener">Directions</a></div>';
   }
 
+  // Several businesses can sell at one spot (a farmers market, a pickup lot). One pin per place, listing who is there.
+  function groupPopup(g){
+    var lead = g.ps.filter(function(p){ return p.role === "market_site" || p.role === "access_site"; })[0] || g.ps[0];
+    var L0 = lead.loc, isMarket = lead.role === "market_site";
+    var title = isMarket ? lead.rec.name : (L0.name || L0.address || L0.city || "This spot");
+    var others = g.ps.filter(function(p){ return p !== lead || !isMarket; });
+    var addr = L0.address ? esc(L0.address) + (L0.city && L0.address.toLowerCase().indexOf(L0.city.toLowerCase()) === -1 ? ", " + esc(L0.city) : "") : esc(L0.city || "");
+    var items = others.map(function(p){
+      return '<li><a href="'+CP.recUrl(p.rec)+'">'+esc(p.rec.name)+'</a>'+(p.rec.productText.length ? ' <span class="muted">· '+esc(p.rec.productText.slice(0,3).join(", "))+'</span>' : '')+'</li>';
+    }).join("");
+    return '<h4>'+esc(title)+'</h4><div style="font-size:.9rem">'+addr+(lead.hours ? '<br>'+esc(lead.hours) : '')+'</div>'
+      + '<div class="muted" style="margin-top:8px;font-size:.85rem">'+(isMarket ? "Vendors here (" + others.length + "):" : "Businesses here:")+'</div>'
+      + '<ul class="plain" style="max-height:170px;overflow:auto;font-size:.9rem">'+items+'</ul>'
+      + '<div style="margin-top:8px;display:flex;gap:12px">'+(isMarket ? '<a href="'+CP.recUrl(lead.rec)+'">Market details →</a>' : '')+'<a href="'+CP.directions(lead)+'" target="_blank" rel="noopener">Directions</a></div>';
+  }
+
   function apply(){
     writeUrl();
     var stamp = apply.n = (apply.n || 0) + 1;
@@ -151,15 +167,25 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
 
     var pins = [];
     rows.forEach(function(x){ x.ps.forEach(function(p){ if(p.pin) pins.push(p); }); });
-    var offs = CP.fanOut(pins);
+    var byLoc = {};
+    pins.forEach(function(p){ (byLoc[p.loc.id] = byLoc[p.loc.id] || []).push(p); });
+    var groups = Object.keys(byLoc).map(function(k){ return { id:k, ps:byLoc[k], lat:byLoc[k][0].lat, lng:byLoc[k][0].lng }; });
+    var offs = CP.fanOut(groups);
     var bounds = [];
-    pins.forEach(function(p){
-      var m = L.marker([p.lat, p.lng], { icon:CP.pinIcon(p.kind, offs[p.id], p.unconfirmed, p.pickup), title:p.rec.name }).bindPopup(popup(p), { maxWidth:290 });
-      m.on("mouseover", function(){ hl(p.rec.id, true); }); m.on("mouseout", function(){ hl(p.rec.id, false); });
-      m.addTo(layer); if(p.rec._stamp !== stamp){ p.rec._m = m; p.rec._stamp = stamp; } bounds.push([p.lat, p.lng]);
+    groups.forEach(function(g){
+      var lead = g.ps.filter(function(p){ return p.role === "market_site" || p.role === "access_site"; })[0] || g.ps[0];
+      var many = g.ps.length > 1;
+      var unconf = g.ps.every(function(p){ return p.unconfirmed; });
+      var m = L.marker([g.lat, g.lng], { icon:CP.pinIcon(lead.kind, offs[g.id], unconf, !many && lead.pickup), title:many ? (lead.role === "market_site" ? lead.rec.name : "Several businesses") : lead.rec.name })
+        .bindPopup(many ? groupPopup(g) : popup(lead), { maxWidth:300 });
+      g.ps.forEach(function(p){
+        m.on("mouseover", function(){ hl(p.rec.id, true); }); m.on("mouseout", function(){ hl(p.rec.id, false); });
+        if(p.rec._stamp !== stamp){ p.rec._m = m; p.rec._stamp = stamp; }
+      });
+      m.addTo(layer); bounds.push([g.lat, g.lng]);
     });
     var offMap = rows.filter(function(x){ return !x.ps.some(function(p){ return p.pin; }); }).length;
-    els.count.textContent = rows.length + " of " + ALL.length + " listings · " + pins.length + " places on the map" + (offMap ? " ("+offMap+" not on the map)" : "");
+    els.count.textContent = rows.length + " of " + ALL.length + " listings · " + groups.length + " places on the map" + (offMap ? " ("+offMap+" not on the map)" : "");
     var filtered = state.q || state.cat || state.product || state.town || state.snap || state.dropin;
     var fit = bounds.length ? L.latLngBounds(bounds) : null;
     if(!filtered && countyBounds) fit = fit ? fit.extend(countyBounds) : countyBounds;

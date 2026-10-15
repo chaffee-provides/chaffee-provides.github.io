@@ -124,6 +124,7 @@
       dropin:(group === "farm" ? (raw.dropin_visits == null ? null : raw.dropin_visits) : true),
       farmPickup:(raw.farm_pickup == null ? null : raw.farm_pickup), visitNote:raw.visit_note || "", places:places, towns:towns,
       town:towns[0] || "", channels:channels, channelText:channels.map(function(c){ return channelLabels[c] || c; }),
+      homeTown:((places.filter(function(p){ return p.role === "home_base"; })[0] || { loc:{} }).loc.city || ""),
       photo:photos[raw.slug] || null,
       hours:raw.hours_text || "", products:(raw.products || []).join(", "), categories:raw.categories || [] };
     places.forEach(function(p){ p.rec = rec; });

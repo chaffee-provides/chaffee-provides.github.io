@@ -120,6 +120,15 @@
     if(raw.months_open && raw.months_open.length) facts += fact("Season", esc(raw.months_open.length === 12 ? "Year-round" : raw.months_open.join(", ")));
     facts += fact("Also", [raw.accepts_snap && "Accepts SNAP", raw.certified_organic && "Certified organic", raw.ada_accessible && "ADA accessible"].filter(Boolean).map(esc).join(" · "));
 
+    // A market lists its vendors: every business that sells at its location.
+    var vendorsHtml = "";
+    if(r.group === "market"){
+      var mloc = r.places[0] && r.places[0].loc.id;
+      var vs = M.recs.filter(function(x){ return x !== r && x.places.some(function(p){ return p.loc.id === mloc; }); })
+        .sort(function(a, b){ return a.name.localeCompare(b.name); });
+      if(vs.length) vendorsHtml = '<h2 style="font-size:1.25rem;margin-top:24px">Vendors at this market ('+vs.length+')</h2><ul class="plain vendors">'
+        + vs.map(function(x){ return '<li><a href="'+CP.recUrl(x)+'">'+esc(x.name)+'</a> <span class="muted">· '+esc([x.homeTown ? "based in " + x.homeTown : "", x.productText.slice(0,3).join(", ")].filter(Boolean).join(" · "))+'</span></li>'; }).join("") + '</ul>';
+    }
     var related = M.recs.filter(function(x){
       return x !== r && x.cat === r.cat && x.towns.some(function(t){ return r.towns.indexOf(t) !== -1; });
     }).slice(0, 4);
@@ -136,6 +145,7 @@
       +   (prodChips || r.products ? '<h2 style="font-size:1.25rem;margin-top:24px">What they offer</h2>' + (prodChips ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+prodChips+'</div>' : '') + (r.products ? '<p>'+esc(r.products)+'</p>' : '') : '')
       +   '<h2 style="font-size:1.25rem;margin-top:24px">'+(r.group === "farm" ? "All the places to find them" : "Location")+'</h2>'
       +   '<ul class="places">'+r.places.map(placeItem).join("")+'</ul>'
+      +   vendorsHtml
       +   '<div class="facts">'+facts+'</div>'
       +   '<p style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-ghost" href="'+CP.suggestUrl(r, "Listing update")+'">Suggest an update</a>'
       +   '<a class="btn btn-ghost" href="'+CP.suggestUrl(r, "Remove my listing")+'">Remove this listing</a></p>'
