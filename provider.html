@@ -24,15 +24,53 @@
 
   function fact(label, html){ return html ? '<div class="fact"><span class="ic">'+label+'</span><div>'+html+'</div></div>' : ""; }
   function phone(p){ return p ? '<a href="tel:'+esc(p.replace(/[^0-9+]/g,""))+'">'+esc(p)+'</a>' : ""; }
+  function addr(p){
+    var a = p.loc.address, c = p.loc.city;
+    if(a && c && a.toLowerCase().indexOf(c.toLowerCase()) === -1) return a + ", " + c;
+    return a || c || "";
+  }
+  function isMarket(p){ return /market/i.test(p.title || "") || /market/i.test(p.loc.name || ""); }
+  function line(p){ var named = p.title && p.title !== p.loc.address && p.title !== p.loc.city; return esc(named ? p.title + (addr(p) ? ", " + addr(p) : "") : addr(p)) + (p.hours ? ' <span class="muted">· ' + esc(p.hours) + '</span>' : ""); }
+
+  // Plain answers to "can I show up?" and "how do I get it?"
+  function visit(r){
+    var ch = r.channels, raw = r.raw;
+    if(r.group !== "farm") return { tone:"ok", html:'<strong>Open to everyone.</strong> Come at the times shown below.' };
+    if(ch.indexOf("farm_stand") !== -1 || ch.indexOf("u_pick") !== -1){
+      var stand = r.places.filter(function(p){ return p.pin && (p.role === "home_base" || p.role === "farm_stand"); })[0];
+      return { tone:"ok", html:'<strong>You\'re welcome to visit.</strong>' + (stand ? ' ' + line(stand) : "") };
+    }
+    if(ch.length) return { tone:"no", html:'<strong>Please don\'t show up at the ' + (r.cat === "ranch" ? "ranch" : "farm") + '.</strong> It isn\'t open to visitors. Use one of the ways to buy below.' };
+    return { tone:"unknown", html:'<strong>We haven\'t confirmed whether you can visit.</strong> Please call first.' + (raw.phone ? ' ' + phone(raw.phone) : "") };
+  }
+  function ways(r){
+    var raw = r.raw, ch = r.channels, out = [];
+    function add(title, html){ out.push('<li><strong>'+esc(title)+'</strong><div>'+html+'</div></li>'); }
+    var markets = r.places.filter(function(p){ return p.pickup && isMarket(p); });
+    var pickups = r.places.filter(function(p){ return p.pickup && !isMarket(p) && p.pin; });
+    var site = raw.website ? CP.safeLink(raw.website) : "";
+    if(ch.indexOf("farm_stand") !== -1){
+      var s = r.places.filter(function(p){ return p.pin && (p.role === "home_base" || p.role === "farm_stand"); })[0];
+      add("Visit the farm stand", s ? line(s) : "Ask them for the address and hours.");
+    }
+    if(ch.indexOf("u_pick") !== -1) add("Pick your own", esc(raw.hours_text || "Ask them when you can come pick.") + (/appointment/i.test(raw.hours_text || "") ? "" : ""));
+    if(ch.indexOf("csa") !== -1) add("Join their CSA", "A weekly share of the harvest. " + (site ? "Sign up on " + site + "." : "Contact them to sign up."));
+    if(ch.indexOf("farmers_market") !== -1 || markets.length) add("At the farmers market", markets.length ? '<ul class="plain">' + markets.map(function(p){ return '<li>' + line(p) + '</li>'; }).join("") + '</ul>' : "They sell at local farmers markets. Check their page for dates.");
+    if(ch.indexOf("pickup") !== -1 || pickups.length) add("Pick up an order", (ch.indexOf("online") !== -1 ? "Order first, then pick it up at one of these places:" : "Pick up at one of these places:") + (pickups.length ? '<ul class="plain">' + pickups.map(function(p){ return '<li>' + line(p) + '</li>'; }).join("") + '</ul>' : " Ask them where."));
+    if(ch.indexOf("delivery") !== -1) add("Delivery", "They deliver. Ask them where and when." + (raw.phone ? " " + phone(raw.phone) : ""));
+    if(ch.indexOf("online") !== -1) add("Order online", site ? "Order at " + site + "." : "Ask them how to order.");
+    if(ch.indexOf("retail_partners") !== -1) add("In local stores", "You can find their products in some local stores.");
+    if(ch.indexOf("wholesale") !== -1) add("Wholesale", ch.length === 1 ? "They sell to restaurants and stores, not to the public." : "They also sell wholesale to restaurants and stores.");
+    if(!out.length && r.group === "farm") add("How to buy", "We haven't confirmed how to buy from them yet. " + (raw.phone ? "Call " + phone(raw.phone) + ". " : "") + (site ? "Or see " + site + "." : ""));
+    return out;
+  }
 
   function placeItem(p){
-    var role = CP.ROLE_LABEL[p.role] || "";
-    var where = p.loc.address && p.loc.city && p.loc.address.toLowerCase().indexOf(p.loc.city.toLowerCase()) !== -1 ? p.loc.address : [p.loc.address, p.loc.city].filter(Boolean).join(", ");
+    var role = p.pickup ? "Pickup point" : (CP.ROLE_LABEL[p.role] || "");
     var hidden = p.loc.precision === "town";
-    var title = p.title !== p.loc.address && p.title !== p.loc.city ? p.title : "";
-    return '<li class="'+(p.kind === "pickup" ? "pickup" : "")+'"><div class="role">'+esc(role)+'</div>'
-      + (title ? '<strong>'+esc(title)+'</strong><br>' : '')
-      + (where ? esc(where) : (hidden ? esc((p.loc.city || "Chaffee County") + " (exact address not shared)") : ""))
+    return '<li class="'+(p.pickup ? "pickup" : "")+'"><div class="role">'+esc(role)+'</div>'
+      + (p.title && p.title !== p.loc.address && p.title !== p.loc.city ? '<strong>'+esc(p.title)+'</strong><br>' : '')
+      + (addr(p) ? esc(addr(p)) : (hidden ? esc((p.loc.city || "Chaffee County") + " (exact address not shared)") : ""))
       + (p.hours ? '<br>'+esc(p.hours) : '')
       + (p.unconfirmed && p.pin ? '<div class="faint">We haven\'t confirmed that they sell here yet. Please call first.</div>' : '')
       + (p.pin ? '<div style="margin-top:6px"><a href="'+CP.directions(p)+'" target="_blank" rel="noopener">Directions</a></div>' : '')
@@ -42,16 +80,15 @@
   CP.loadModel().then(function(M){
     var r = M.bySlug[slug];
     if(!r){ main.innerHTML = '<p style="padding:40px 0">We couldn\'t find that listing. <a href="directory.html">Browse the directory →</a></p>'; return; }
-    var raw = r.raw, st = CP.typeStyle(r.group);
+    var raw = r.raw, st = CP.typeStyle(r.cat);
     document.title = r.name + " · Chaffee Provides";
 
-    var tags = '<span class="tag" style="color:'+st.color+'">'+esc(CP.GROUPS[r.group].label)+'</span>';
-    var chips = r.channelText.map(function(c, i){
-      return '<a class="chip" href="directory.html?channel='+encodeURIComponent(r.channels[i])+'">'+esc(c)+'</a>';
+    var tag = '<span class="tag" style="color:'+st.color+'">'+esc(CP.GROUPS[r.cat].label.replace(/ies$/,"y").replace(/s$/,""))+'</span>';
+    var prodChips = r.productGroups.map(function(g, i){
+      return '<a class="chip" href="directory.html?product='+encodeURIComponent(g)+'">'+esc(r.productText[i])+'</a>';
     }).join(" ");
-
-    var notes = "";
-    if(/^not open to the public/i.test(raw.hours_text || "")) notes += '<div class="notice-box"><strong>Not open to the public.</strong> Please don\'t visit in person; use the website to order.</div>';
+    var v = visit(r), wl = ways(r);
+    var notes = /^not open to the public/i.test(raw.hours_text || "") ? '<div class="notice-box"><strong>Not open to the public.</strong> Please don\'t visit in person; use the website to order.</div>' : "";
     var pins = r.places.filter(function(p){ return p.pin; });
     var verified = raw.last_verified ? '<span class="pill ok">Checked '+esc(CP.fmtDate(raw.last_verified))+'</span>'
       : '<span class="pill warn">Not yet confirmed with the business</span>';
@@ -60,26 +97,26 @@
     facts += fact("Phone", phone(raw.phone) + (raw.call_first ? ' <em>(call first)</em>' : ''));
     facts += fact("Email", raw.email ? '<a href="mailto:'+esc(raw.email)+'">'+esc(raw.email)+'</a>' : "");
     facts += fact("Website", raw.website ? CP.safeLink(raw.website) : "");
-    var social = [raw.facebook && CP.safeLink(raw.facebook, "Facebook"), raw.instagram && CP.safeLink(raw.instagram, "Instagram")].filter(Boolean);
-    facts += fact("Social", social.join(" · "));
-    if(raw.hours_text && r.group !== "farm" || (r.group === "farm" && !r.places.some(function(p){ return p.hours; }) && raw.hours_text)) facts += fact("Hours", esc(raw.hours_text));
+    facts += fact("Social", [raw.facebook && CP.safeLink(raw.facebook, "Facebook"), raw.instagram && CP.safeLink(raw.instagram, "Instagram")].filter(Boolean).join(" · "));
+    if(raw.hours_text && (r.group !== "farm" || !r.places.some(function(p){ return p.hours; }))) facts += fact("Hours", esc(raw.hours_text));
     if(raw.months_open && raw.months_open.length) facts += fact("Season", esc(raw.months_open.length === 12 ? "Year-round" : raw.months_open.join(", ")));
-    var flags = [raw.accepts_snap && "Accepts SNAP", raw.certified_organic && "Certified organic", raw.ada_accessible && "ADA accessible"].filter(Boolean);
-    facts += fact("Also", flags.map(esc).join(" · "));
+    facts += fact("Also", [raw.accepts_snap && "Accepts SNAP", raw.certified_organic && "Certified organic", raw.ada_accessible && "ADA accessible"].filter(Boolean).map(esc).join(" · "));
 
     var related = M.recs.filter(function(x){
-      return x !== r && x.group === r.group && x.towns.some(function(t){ return r.towns.indexOf(t) !== -1; });
+      return x !== r && x.cat === r.cat && x.towns.some(function(t){ return r.towns.indexOf(t) !== -1; });
     }).slice(0, 4);
 
     main.innerHTML =
       '<nav class="crumbs" aria-label="Breadcrumb"><a href="find-food.html">Map</a> › <a href="directory.html">Directory</a> › '+esc(r.name)+'</nav>'
       + '<div class="provider"><div>'
-      +   '<h1>'+esc(r.name)+'</h1><div>'+tags+'</div>'
+      +   '<h1>'+esc(r.name)+'</h1><div>'+tag+'</div>'
       +   '<div style="margin-top:12px">'+verified+'</div>'+notes
       +   (r.photo ? CP.photoHtml(r, "hero-photo") : "")
-      +   (r.products ? '<h2 style="font-size:1.25rem;margin-top:24px">What they offer</h2><p>'+esc(r.products)+'</p>' : '')
-      +   (chips ? '<h2 style="font-size:1.25rem;margin-top:24px">How to get it</h2><div style="display:flex;gap:6px;flex-wrap:wrap">'+chips+'</div>' : '')
-      +   '<h2 style="font-size:1.25rem;margin-top:24px">'+(r.group === "farm" ? "Where to find them" : "Location")+'</h2>'
+      +   '<div class="visit '+v.tone+'" role="note">'+v.html+'</div>'
+      +   '<h2 style="font-size:1.25rem;margin-top:22px">How to get it</h2>'
+      +   '<ul class="ways">'+wl.join("")+'</ul>'
+      +   (prodChips || r.products ? '<h2 style="font-size:1.25rem;margin-top:24px">What they offer</h2>' + (prodChips ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+prodChips+'</div>' : '') + (r.products ? '<p>'+esc(r.products)+'</p>' : '') : '')
+      +   '<h2 style="font-size:1.25rem;margin-top:24px">'+(r.group === "farm" ? "All the places to find them" : "Location")+'</h2>'
       +   '<ul class="places">'+r.places.map(placeItem).join("")+'</ul>'
       +   '<div class="facts">'+facts+'</div>'
       +   '<p style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-ghost" href="'+CP.suggestUrl(r, "Listing update")+'">Suggest an update</a>'
@@ -98,7 +135,8 @@
       CP.basemap(m); CP.countyOutline(m);
       var offs = CP.fanOut(pins), b = [];
       pins.forEach(function(p){
-        L.marker([p.lat, p.lng], { icon:CP.pinIcon(p.kind, offs[p.id], p.unconfirmed), title:p.title }).addTo(m).bindPopup('<strong>'+esc(CP.ROLE_LABEL[p.role] || "")+'</strong><br>'+esc(p.title)+(p.hours ? '<br>'+esc(p.hours) : ''));
+        L.marker([p.lat, p.lng], { icon:CP.pinIcon(p.kind, offs[p.id], p.unconfirmed, p.pickup), title:p.title }).addTo(m)
+          .bindPopup('<strong>'+esc(p.pickup ? "Pickup point" : (CP.ROLE_LABEL[p.role] || ""))+'</strong><br>'+esc(p.title)+(p.hours ? '<br>'+esc(p.hours) : ''));
         b.push([p.lat, p.lng]);
       });
       if(b.length === 1) m.setView(b[0], 12); else m.fitBounds(b, { padding:[30,30], maxZoom:12 });

@@ -13,12 +13,16 @@
     supportedFormat: 1                // export format_version this site understands
   };
 
-  // What a pin or card is. Colors come from site.css (--t-*).
+  // What a pin or card is: the business's own category. Colors come from site.css (--t-*).
+  // Pickup points use the owner's color with a 📍 symbol, so they are never a separate "type" to filter by.
   var GROUPS = {
-    farm:   { label:"Farms & Ranches", emoji:"🐄", color:"var(--t-farm)",       hex:"#2f6b3c" },
-    market: { label:"Farmers Markets", emoji:"🧺", color:"var(--t-market)",     hex:"#a8761d" },
-    access: { label:"Free food",       emoji:"🥫", color:"var(--t-assistance)", hex:"#a94f28" },
-    pickup: { label:"Pickup points",   emoji:"📍", color:"var(--t-community)",  hex:"#3f7f9c" }
+    farm:    { label:"Farms",           emoji:"🥬", color:"var(--t-farm)",       hex:"#2f6b3c" },
+    ranch:   { label:"Ranches",         emoji:"🐄", color:"var(--t-ranch)",      hex:"#8a5a3c" },
+    orchard: { label:"Orchards",        emoji:"🍎", color:"var(--t-farm)",       hex:"#2f6b3c" },
+    maker:   { label:"Food makers",     emoji:"🍞", color:"var(--t-dining)",     hex:"#5b6b8c" },
+    winery:  { label:"Wineries",        emoji:"🍷", color:"var(--t-dining)",     hex:"#5b6b8c" },
+    market:  { label:"Farmers markets", emoji:"🧺", color:"var(--t-market)",     hex:"#a8761d" },
+    access:  { label:"Free food",       emoji:"🥫", color:"var(--t-assistance)", hex:"#a94f28" }
   };
   var ROLE_LABEL = { home_base:"At the farm", farm_stand:"Farm stand", pickup:"Pickup point", csa_dropoff:"CSA pickup",
     market_site:"Market", access_site:"Free food" };
@@ -99,17 +103,14 @@
   function placeTitle(l){
     return l.name || l.address || l.city || "Location";
   }
-  function pinKind(group, role){
-    if(group !== "farm") return group;
-    return (role === "pickup" || role === "csa_dropoff") ? "pickup" : "farm";
-  }
-  function makeRec(raw, group, photos, channelLabels){
-    var places = [];
+  function catOf(raw, group){ return group === "farm" ? (GROUPS[raw.kind] ? raw.kind : "farm") : group; }
+  function makeRec(raw, group, photos, channelLabels, productLabels){
+    var cat = catOf(raw, group), places = [];
     var locs = group === "farm" ? raw.locations : [raw.location];
     locs.forEach(function(l){
       if(!l) return;
       var role = group === "farm" ? l.role : (group === "market" ? "market_site" : "access_site");
-      places.push({ id:raw.id + ":" + l.id, rec:null, loc:l, role:role, kind:pinKind(group, role),
+      places.push({ id:raw.id + ":" + l.id, rec:null, loc:l, role:role, kind:cat, pickup:(role === "pickup" || role === "csa_dropoff"),
         title:placeTitle(l), hours:l.hours_text || (group === "farm" ? "" : raw.hours_text) || "", days:l.days || [],
         pin:!!l.pin && l.lat != null, unconfirmed:l.pin_basis === "unconfirmed", lat:l.lat, lng:l.lon });
     });
@@ -117,12 +118,14 @@
     places.forEach(function(p){ if(p.pin && p.loc.city && towns.indexOf(p.loc.city) === -1) towns.push(p.loc.city); });
     if(!towns.length) places.forEach(function(p){ if(p.loc.city && towns.indexOf(p.loc.city) === -1) towns.push(p.loc.city); });
     var channels = (raw.sales_channels || []);
-    var rec = { id:raw.id, slug:raw.slug, name:raw.name, group:group, raw:raw, places:places, towns:towns,
+    var groups = raw.product_groups || [];
+    var rec = { id:raw.id, slug:raw.slug, name:raw.name, group:group, cat:cat, raw:raw, productGroups:groups,
+      productText:groups.map(function(g){ return productLabels[g] || g; }), places:places, towns:towns,
       town:towns[0] || "", channels:channels, channelText:channels.map(function(c){ return channelLabels[c] || c; }),
       photo:photos[raw.slug] || null,
       hours:raw.hours_text || "", products:(raw.products || []).join(", "), categories:raw.categories || [] };
     places.forEach(function(p){ p.rec = rec; });
-    rec.search = [raw.name, towns.join(" "), rec.products, rec.categories.join(" "), rec.channelText.join(" "),
+    rec.search = [raw.name, towns.join(" "), rec.products, rec.productText.join(" "), GROUPS[cat].label,
       places.map(function(p){ return [p.title, p.loc.address].join(" "); }).join(" ")].join(" ").toLowerCase();
     return rec;
   }
@@ -134,9 +137,10 @@
         if(d.export.format_version !== CONFIG.supportedFormat)
           throw new Error("this site understands export format " + CONFIG.supportedFormat + ", but the data is format " + d.export.format_version);
         var labels = d.vocab.sales_channels, recs = [];
-        d.producers.forEach(function(x){ recs.push(makeRec(x, "farm", photos, labels)); });
-        d.markets.forEach(function(x){ recs.push(makeRec(x, "market", photos, labels)); });
-        d.access_points.forEach(function(x){ recs.push(makeRec(x, "access", photos, labels)); });
+        var plabels = d.vocab.product_groups || {};
+        d.producers.forEach(function(x){ recs.push(makeRec(x, "farm", photos, labels, plabels)); });
+        d.markets.forEach(function(x){ recs.push(makeRec(x, "market", photos, labels, plabels)); });
+        d.access_points.forEach(function(x){ recs.push(makeRec(x, "access", photos, labels, plabels)); });
         return { meta:d.export, vocab:d.vocab, recs:recs, bySlug:recs.reduce(function(o, x){ o[x.slug] = x; return o; }, {}) };
       });
     }
@@ -146,10 +150,10 @@
   function thisMonth(){ return MONTHS[new Date().getMonth()]; }
   function typeStyle(k){ return GROUPS[k] || GROUPS.farm; }
   // off = [dx, dy] pixel nudge for pins that share one spot (see fanOut). unconfirmed = lighter pin.
-  function pinIcon(kind, off, unconfirmed){
+  function pinIcon(kind, off, unconfirmed, pickup){
     var st = typeStyle(kind), dx = off ? off[0] : 0, dy = off ? off[1] : 0;
     return L.divIcon({ className:"", iconSize:[28,28], iconAnchor:[14-dx,28-dy], popupAnchor:[dx,dy-26],
-      html:'<div class="pin'+(unconfirmed ? " unconfirmed" : "")+'" style="background:'+st.hex+'"><span>'+st.emoji+'</span></div>' });
+      html:'<div class="pin'+(unconfirmed ? " unconfirmed" : "")+'" style="background:'+st.hex+'"><span>'+(pickup ? "📍" : st.emoji)+'</span></div>' });
   }
   // Basemap: OpenStreetMap's standard map. ?basemap=streets (Esri) is there to compare.
   var BASEMAPS = {
