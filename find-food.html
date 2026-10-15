@@ -91,8 +91,8 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
       var cats = Object.keys(CP.GROUPS).filter(function(k){ return ALL.some(function(r){ return r.cat === k; }); });
       div.innerHTML = '<div class="map-legend-title">Map key</div>' + cats.map(function(k){
         return '<button type="button" data-key="'+k+'"><span class="pin-swatch" style="background:'+CP.typeStyle(k).hex+'"><span aria-hidden="true">'+CP.typeStyle(k).emoji+'</span></span>'+esc(CP.GROUPS[k].label)+'</button>';
-      }).join("") + '<div class="map-legend-note"><span class="pin-swatch" style="background:#7a7a72"><span aria-hidden="true">📍</span></span>Pickup point</div>'
-        + '<div class="map-legend-note"><span class="pin-swatch faded" style="background:#7a7a72"><span aria-hidden="true"></span></span>Faded: call first, not confirmed yet</div>';
+      }).join("") + '<div class="map-legend-note"><span class="pin-swatch" style="background:#7a7a72"><span aria-hidden="true">📍</span></span>Pickup point</div><div class="map-legend-note"><span class="pin-swatch" style="background:#7a7a72"><span aria-hidden="true">' + CP.typeStyle("market").emoji + '</span></span>Sells at a farmers market</div>'
+        + '<div class="map-legend-note"><span class="pin-swatch faded" style="background:#7a7a72"><span aria-hidden="true"></span></span>Faded: not confirmed yet</div>';
       L.DomEvent.disableClickPropagation(div);
       div.querySelectorAll("button").forEach(function(b){
         b.addEventListener("click", function(){ state.cat = state.cat === b.dataset.key ? "" : b.dataset.key; sync(); apply(); });
@@ -125,13 +125,13 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
   function catTag(r){ var st = CP.typeStyle(r.cat); return '<span class="tag" style="color:'+st.color+'">'+esc(CP.GROUPS[r.cat].single)+'</span>'; }
   function popup(p){
     var r = p.rec;
-    var where = p.pickup ? "Pickup point" : (CP.ROLE_LABEL[p.role] || "");
+    var where = CP.placeLabel(p);
     var title = p.title !== p.loc.address && p.title !== p.loc.city ? p.title : "";
     var addr = p.loc.address ? esc(p.loc.address) + (p.loc.city && p.loc.address.toLowerCase().indexOf(p.loc.city.toLowerCase()) === -1 ? ", " + esc(p.loc.city) : "") : (p.loc.city ? esc(p.loc.city) : "");
-    return '<h4>'+esc(r.name)+'</h4><div style="margin-bottom:6px">'+catTag(r)+CP.visitBadge(r)+'</div>'
+    return '<h4><a href="'+CP.recUrl(r)+'">'+esc(r.name)+'</a></h4><div style="margin-bottom:6px">'+catTag(r)+CP.visitBadge(r)+'</div>'
       + '<div style="font-size:.9rem"><strong>'+esc(where)+(title ? ": "+esc(title) : "")+'</strong>'+(addr ? '<br>'+addr : '')+(p.hours ? '<br>'+esc(p.hours) : '')+'</div>'
       + (r.productText.length ? '<div class="muted" style="font-size:.85rem;margin-top:6px">'+esc(r.productText.join(" · "))+'</div>' : '')
-      + (p.unconfirmed ? '<div class="muted" style="font-size:.84rem;margin-top:6px">Not confirmed yet that they sell here. Please call first.</div>' : '')
+      + (p.unconfirmed ? '<div class="muted" style="font-size:.84rem;margin-top:6px">Not confirmed yet that they sell here.</div>' : '')
       + (r.raw.phone ? '<div style="margin-top:6px;font-size:.9rem"><a href="tel:'+esc(r.raw.phone.replace(/[^0-9+]/g,""))+'">'+esc(r.raw.phone)+'</a></div>' : '')
       + '<div style="margin-top:8px;display:flex;gap:12px"><a href="'+CP.recUrl(r)+'">Details and how to buy →</a><a href="'+CP.directions(p)+'" target="_blank" rel="noopener">Directions</a></div>';
   }
@@ -146,7 +146,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
     var items = others.map(function(p){
       return '<li><a href="'+CP.recUrl(p.rec)+'">'+esc(p.rec.name)+'</a>'+(p.rec.productText.length ? ' <span class="muted">· '+esc(p.rec.productText.slice(0,3).join(", "))+'</span>' : '')+'</li>';
     }).join("");
-    return '<h4>'+esc(title)+'</h4><div style="font-size:.9rem">'+addr+(lead.hours ? '<br>'+esc(lead.hours) : '')+'</div>'
+    return '<h4>'+(isMarket ? '<a href="'+CP.recUrl(lead.rec)+'">'+esc(title)+'</a>' : esc(title))+'</h4><div style="font-size:.9rem">'+addr+(lead.hours ? '<br>'+esc(lead.hours) : '')+'</div>'
       + '<div class="muted" style="margin-top:8px;font-size:.85rem">'+(isMarket ? "Vendors here (" + others.length + "):" : "Businesses here:")+'</div>'
       + '<ul class="plain" style="max-height:170px;overflow:auto;font-size:.9rem">'+items+'</ul>'
       + '<div style="margin-top:8px;display:flex;gap:12px">'+(isMarket ? '<a href="'+CP.recUrl(lead.rec)+'">Market details →</a>' : '')+'<a href="'+CP.directions(lead)+'" target="_blank" rel="noopener">Directions</a></div>';
@@ -176,7 +176,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
       var lead = g.ps.filter(function(p){ return p.role === "market_site" || p.role === "access_site"; })[0] || g.ps[0];
       var many = g.ps.length > 1;
       var unconf = g.ps.every(function(p){ return p.unconfirmed; });
-      var m = L.marker([g.lat, g.lng], { icon:CP.pinIcon(lead.kind, offs[g.id], unconf, !many && lead.pickup), title:many ? (lead.role === "market_site" ? lead.rec.name : "Several businesses") : lead.rec.name })
+      var m = L.marker([g.lat, g.lng], { icon:CP.pinIcon(lead.kind, offs[g.id], unconf, !many && lead.pickup, !many && lead.market), title:many ? (lead.role === "market_site" ? lead.rec.name : "Several businesses") : lead.rec.name })
         .bindPopup(many ? groupPopup(g) : popup(lead), { maxWidth:300 });
       g.ps.forEach(function(p){
         m.on("mouseover", function(){ hl(p.rec.id, true); }); m.on("mouseout", function(){ hl(p.rec.id, false); });

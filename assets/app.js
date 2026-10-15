@@ -112,6 +112,7 @@
       if(!l) return;
       var role = group === "farm" ? l.role : (group === "market" ? "market_site" : "access_site");
       places.push({ id:raw.id + ":" + l.id, rec:null, loc:l, role:role, kind:cat, pickup:(role === "pickup" || role === "csa_dropoff"),
+        market:(role === "pickup" && /market/i.test(l.name || "")),   // a stand at a farmers market, not a pickup point
         title:placeTitle(l), hours:l.hours_text || (group === "farm" ? "" : raw.hours_text) || "", days:l.days || [],
         pin:!!l.pin && l.lat != null, unconfirmed:l.pin_basis === "unconfirmed", lat:l.lat, lng:l.lon });
     });
@@ -159,10 +160,10 @@
   function thisMonth(){ return MONTHS[new Date().getMonth()]; }
   function typeStyle(k){ return GROUPS[k] || GROUPS.farm; }
   // off = [dx, dy] pixel nudge for pins that share one spot (see fanOut). unconfirmed = lighter pin.
-  function pinIcon(kind, off, unconfirmed, pickup){
+  function pinIcon(kind, off, unconfirmed, pickup, market){
     var st = typeStyle(kind), dx = off ? off[0] : 0, dy = off ? off[1] : 0;
     return L.divIcon({ className:"", iconSize:[28,28], iconAnchor:[14-dx,28-dy], popupAnchor:[dx,dy-26],
-      html:'<div class="pin'+(unconfirmed ? " unconfirmed" : "")+'" style="background:'+st.hex+'"><span>'+(pickup ? "📍" : st.emoji)+'</span></div>' });
+      html:'<div class="pin'+(unconfirmed ? " unconfirmed" : "")+'" style="background:'+st.hex+'"><span>'+(market ? typeStyle("market").emoji : (pickup ? "📍" : st.emoji))+'</span></div>' });
   }
   // Basemap: OpenStreetMap's standard map. ?basemap=streets (Esri) is there to compare.
   var BASEMAPS = {
@@ -234,7 +235,9 @@
     return "";
   }
 
-  window.CP = { visitBadge:visitBadge, esc:esc, url:url, load:load, loadModel:loadModel, CONFIG:CONFIG, GROUPS:GROUPS, ROLE_LABEL:ROLE_LABEL, MONTHS:MONTHS,
+  function placeLabel(p){ return p.market ? "Sells at the farmers market" : (p.pickup ? "Pickup point" : (ROLE_LABEL[p.role] || "")); }
+
+  window.CP = { placeLabel:placeLabel, visitBadge:visitBadge, esc:esc, url:url, load:load, loadModel:loadModel, CONFIG:CONFIG, GROUPS:GROUPS, ROLE_LABEL:ROLE_LABEL, MONTHS:MONTHS,
     fanOut:fanOut, thisMonth:thisMonth, typeStyle:typeStyle, pinIcon:pinIcon, basemap:basemap, countyOutline:countyOutline,
     fmtDate:fmtDate, directions:directions, recUrl:recUrl, safeLink:safeLink, photoHtml:photoHtml, mailto:mailto, suggestUrl:suggestUrl };
 

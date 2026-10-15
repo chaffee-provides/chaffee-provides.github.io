@@ -30,7 +30,9 @@
     return a || c || "";
   }
   function isMarket(p){ return /market/i.test(p.title || "") || /market/i.test(p.loc.name || ""); }
-  function line(p){ var named = p.title && p.title !== p.loc.address && p.title !== p.loc.city; return esc(named ? p.title + (addr(p) ? ", " + addr(p) : "") : addr(p)) + (p.hours ? ' <span class="muted">· ' + esc(p.hours) + '</span>' : ""); }
+  function line(p){ var named = p.title && p.title !== p.loc.address && p.title !== p.loc.city; return esc(named ? p.title + (addr(p) ? ", " + addr(p) : "") : addr(p)) + (p.hours ? ' <span class="muted">· ' + esc(p.hours) + '</span>' : "") + ownPage(p); }
+  // The business's own page that says it sells here, so a visitor can check it for themselves.
+  function ownPage(p){ return p.loc.confirm_url ? ' <span class="muted">· ' + CP.safeLink(p.loc.confirm_url, "their page confirms this") + '</span>' : ""; }
 
   // Plain answers to "can I show up?" and "how do I get it?"
   // Two separate answers: can I just show up, and can I pick up an order at the farm?
@@ -44,14 +46,18 @@
     var fromListing = function(k){ return basis[k] === "listing" ? ' <span class="muted">(from their listing)</span>' : ""; };
     if(r.dropin === false && r.farmPickup === false)      // one plain message, not three
       return { tone:"no", compact:true, html:vrow(false, "", "<strong>No drop-in visits or farm pickup.</strong>", "") };
-    var html = vrow(r.dropin, "<strong>Drop-in visits welcome.</strong> You can just show up." + fromListing("dropin")
+    var site = raw.website ? CP.safeLink(raw.website) : "";
+    // We looked where they would list drop-in visits (their site and social pages) and found how they sell, but no drop-in visits.
+    var researched = r.dropin == null && r.channels.length > 0;
+    var html = vrow(researched ? false : r.dropin, "<strong>Drop-in visits welcome.</strong> You can just show up." + fromListing("dropin")
       + (raw.dropin_hours ? '<div class="vhours">Drop-in hours: ' + esc(raw.dropin_hours) + '</div>' : ""),
-      "<strong>No drop-in visits.</strong> Please don't show up unannounced.",
-      "<strong>Drop-in visits not confirmed.</strong> Please call first." + (raw.phone ? " " + phone(raw.phone) : ""));
+      researched ? "<strong>Drop-in visits are not offered at this time.</strong> See the ways to buy below." + (site ? " Their website has the details: " + site : "")
+                 : "<strong>No drop-in visits.</strong> Please don't show up unannounced.",
+      "<strong>We haven't confirmed how to buy from them yet.</strong>" + (site ? " Their website: " + site : ""));
     if(r.farmPickup === true) html += vrow(true, "<strong>Farm pickup.</strong> You can pick up an order at the farm, by arrangement." + fromListing("pickup"), "", "");
     else if(r.farmPickup === false) html += vrow(false, "", "<strong>No farm pickup.</strong> Use one of the ways to buy below.", "");
     if(r.visitNote) html += '<div class="vnote">'+esc(r.visitNote)+'</div>';
-    return { tone:(r.dropin === true ? "ok" : (r.dropin === false ? "no" : "unknown")), html:html };
+    return { tone:(r.dropin === true ? "ok" : (r.dropin === false || researched ? "no" : "unknown")), html:html };
   }
   function ways(r){
     var raw = r.raw, ch = r.channels, out = [];
@@ -78,13 +84,14 @@
   // "Phone, hours: confirmed by Guidestone Colorado, October 13, 2026" / "Products: from the business's Facebook page"
 
   function placeItem(p){
-    var role = p.pickup ? "Pickup point" : (CP.ROLE_LABEL[p.role] || "");
+    var role = CP.placeLabel(p);
     var hidden = p.loc.precision === "town";
     return '<li class="'+(p.pickup ? "pickup" : "")+'"><div class="role">'+esc(role)+'</div>'
       + (p.title && p.title !== p.loc.address && p.title !== p.loc.city ? '<strong>'+esc(p.title)+'</strong><br>' : '')
       + (addr(p) ? esc(addr(p)) : (hidden ? esc((p.loc.city || "Chaffee County") + " (exact address not shared)") : ""))
       + (p.hours ? '<br>'+esc(p.hours) : '')
-      + (p.unconfirmed && p.pin ? '<div class="faint">We haven\'t confirmed that they sell here yet. Please call first.</div>' : '')
+      + (p.unconfirmed && p.pin ? '<div class="faint">We haven\'t confirmed that they sell here yet.</div>' : '')
+      + (p.loc.confirm_url ? '<div class="faint">' + CP.safeLink(p.loc.confirm_url, "Their page confirms they sell here") + '</div>' : '')
       + (p.pin ? '<div style="margin-top:6px"><a href="'+CP.directions(p)+'" target="_blank" rel="noopener">Directions</a></div>' : '')
       + '</li>';
   }
@@ -128,6 +135,7 @@
       + '<div class="provider"><div>'
       +   '<h1>'+esc(r.name)+'</h1><div>'+tag+(r.group === "farm" && r.homeTown ? ' <span class="muted">· Based in '+esc(r.homeTown)+'</span>' : '')+'</div>'
       +   '<div style="margin-top:12px">'+verified+'</div>'+notes
+      +   (raw.website ? '<div class="site-line">Website: ' + CP.safeLink(raw.website) + '</div>' : '')
       +   (r.photo ? CP.photoHtml(r, "hero-photo") : "")
       +   (v.compact ? '' : '<div class="visit '+v.tone+'" role="note">'+v.html+'</div>')
       +   '<h2 style="font-size:1.25rem;margin-top:22px">How to get it</h2>'
@@ -148,8 +156,8 @@
       CP.basemap(m); CP.countyOutline(m);
       var offs = CP.fanOut(pins), b = [];
       pins.forEach(function(p){
-        L.marker([p.lat, p.lng], { icon:CP.pinIcon(p.kind, offs[p.id], p.unconfirmed, p.pickup), title:p.title }).addTo(m)
-          .bindPopup('<strong>'+esc(p.pickup ? "Pickup point" : (CP.ROLE_LABEL[p.role] || ""))+'</strong><br>'+esc(p.title)+(p.hours ? '<br>'+esc(p.hours) : ''));
+        L.marker([p.lat, p.lng], { icon:CP.pinIcon(p.kind, offs[p.id], p.unconfirmed, p.pickup, p.market), title:p.title }).addTo(m)
+          .bindPopup('<strong>'+esc(CP.placeLabel(p))+'</strong><br>'+esc(p.title)+(p.hours ? '<br>'+esc(p.hours) : ''));
         b.push([p.lat, p.lng]);
       });
       if(b.length === 1) m.setView(b[0], 12); else m.fitBounds(b, { padding:[30,30], maxZoom:12 });
