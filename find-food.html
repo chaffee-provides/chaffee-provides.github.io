@@ -126,14 +126,14 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
   function popup(p){
     var r = p.rec;
     var where = CP.placeLabel(p);
-    var title = p.title !== p.loc.address && p.title !== p.loc.city ? p.title : "";
+    var title = p.title !== p.loc.address && p.title !== p.loc.city && p.title !== r.name ? p.title : "";
     var addr = p.loc.address ? esc(p.loc.address) + (p.loc.city && p.loc.address.toLowerCase().indexOf(p.loc.city.toLowerCase()) === -1 ? ", " + esc(p.loc.city) : "") : (p.loc.city ? esc(p.loc.city) : "");
-    return '<h4><a href="'+CP.recUrl(r)+'">'+esc(r.name)+'</a></h4><div style="margin-bottom:6px">'+catTag(r)+CP.visitBadge(r)+'</div>'
+    return '<h4>'+esc(r.name)+'</h4><div style="margin:2px 0 6px"><a href="'+CP.recUrl(r)+'">Details and how to buy →</a></div><div style="margin-bottom:6px">'+catTag(r)+CP.visitBadge(r)+'</div>'
       + '<div style="font-size:.9rem"><strong>'+esc(where)+(title ? ": "+esc(title) : "")+'</strong>'+(addr ? '<br>'+addr : '')+(p.hours ? '<br>'+esc(p.hours) : '')+'</div>'
       + (r.productText.length ? '<div class="muted" style="font-size:.85rem;margin-top:6px">'+esc(r.productText.join(" · "))+'</div>' : '')
       + (p.unconfirmed ? '<div class="muted" style="font-size:.84rem;margin-top:6px">Not confirmed yet that they sell here.</div>' : '')
       + (r.raw.phone ? '<div style="margin-top:6px;font-size:.9rem"><a href="tel:'+esc(r.raw.phone.replace(/[^0-9+]/g,""))+'">'+esc(r.raw.phone)+'</a></div>' : '')
-      + '<div style="margin-top:8px;display:flex;gap:12px"><a href="'+CP.recUrl(r)+'">Details and how to buy →</a><a href="'+CP.directions(p)+'" target="_blank" rel="noopener">Directions</a></div>';
+      + '<div style="margin-top:8px"><a href="'+CP.directions(p)+'" target="_blank" rel="noopener">Directions</a></div>';
   }
 
   // Several businesses can sell at one spot (a farmers market, a pickup lot). One pin per place, listing who is there.
@@ -146,10 +146,10 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
     var items = others.map(function(p){
       return '<li><a href="'+CP.recUrl(p.rec)+'">'+esc(p.rec.name)+'</a>'+(p.rec.productText.length ? ' <span class="muted">· '+esc(p.rec.productText.slice(0,3).join(", "))+'</span>' : '')+'</li>';
     }).join("");
-    return '<h4>'+(isMarket ? '<a href="'+CP.recUrl(lead.rec)+'">'+esc(title)+'</a>' : esc(title))+'</h4><div style="font-size:.9rem">'+addr+(lead.hours ? '<br>'+esc(lead.hours) : '')+'</div>'
+    return '<h4>'+esc(title)+'</h4>'+(isMarket ? '<div style="margin:2px 0 6px"><a href="'+CP.recUrl(lead.rec)+'">Market details →</a></div>' : '')+'<div style="font-size:.9rem">'+addr+(lead.hours ? '<br>'+esc(lead.hours) : '')+'</div>'
       + '<div class="muted" style="margin-top:8px;font-size:.85rem">'+(isMarket ? "Vendors here (" + others.length + "):" : "Businesses here:")+'</div>'
       + '<ul class="plain" style="max-height:170px;overflow:auto;font-size:.9rem">'+items+'</ul>'
-      + '<div style="margin-top:8px;display:flex;gap:12px">'+(isMarket ? '<a href="'+CP.recUrl(lead.rec)+'">Market details →</a>' : '')+'<a href="'+CP.directions(lead)+'" target="_blank" rel="noopener">Directions</a></div>';
+      + '<div style="margin-top:8px"><a href="'+CP.directions(lead)+'" target="_blank" rel="noopener">Directions</a></div>';
   }
 
   function apply(){
