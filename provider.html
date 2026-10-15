@@ -65,6 +65,16 @@
     return out;
   }
 
+  // "Phone, hours: confirmed by Guidestone Colorado, October 13, 2026" / "Products: from the business's Facebook page"
+  function confirmedHtml(list){
+    return (list || []).filter(function(c){ return c.fields.length; }).map(function(c){
+      var fields = c.fields.join(", "); fields = fields.charAt(0).toUpperCase() + fields.slice(1);
+      var by = c.url ? '<a href="'+esc(c.url)+'" target="_blank" rel="noopener">'+esc(c.by)+'</a>' : esc(c.by);
+      var partner = c.by === "Guidestone Colorado";
+      return '<li>'+esc(fields)+': '+(partner ? 'confirmed by ' : 'from ')+by+(c.date ? ', '+esc(CP.fmtDate(c.date)) : '')+'</li>';
+    }).join("");
+  }
+
   function placeItem(p){
     var role = p.pickup ? "Pickup point" : (CP.ROLE_LABEL[p.role] || "");
     var hidden = p.loc.precision === "town";
@@ -123,7 +133,7 @@
       +   '<a class="btn btn-ghost" href="'+CP.suggestUrl(r, "Remove my listing")+'">Remove this listing</a></p>'
       + '</div><div>'
       +   (pins.length ? '<div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '<div class="callout">No map location to show for this listing.</div>')
-      +   '<h2 style="font-size:1.1rem;margin-top:22px">Where this information comes from</h2><ul class="sources">'
+      +   (confirmedHtml(raw.confirmed_by) ? '<h2 style="font-size:1.1rem;margin-top:22px">What has been confirmed</h2><ul class="sources">'+confirmedHtml(raw.confirmed_by)+'</ul>' : '') + '<h2 style="font-size:1.1rem;margin-top:22px">Where this information comes from</h2><ul class="sources">'
       +   (raw.sources || []).map(function(s){ return '<li>'+(s.url ? '<a href="'+esc(s.url)+'" target="_blank" rel="noopener">'+esc(s.label)+'</a>' : esc(s.label))+'</li>'; }).join("")
       +   '</ul><p class="muted" style="font-size:.88rem">When sources disagree, what Guidestone and the business have confirmed wins, then the business\'s own website, then public directories.</p>'
       +   (related.length ? '<h2 style="font-size:1.1rem;margin-top:22px">Nearby</h2><ul class="sources">'
