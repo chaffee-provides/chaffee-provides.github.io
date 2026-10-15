@@ -16,13 +16,13 @@
   // What a pin or card is: the business's own category. Colors come from site.css (--t-*).
   // Pickup points use the owner's color with a 📍 symbol, so they are never a separate "type" to filter by.
   var GROUPS = {
-    farm:    { label:"Farms",           emoji:"🥬", color:"var(--t-farm)",       hex:"#2f6b3c" },
-    ranch:   { label:"Ranches",         emoji:"🐄", color:"var(--t-ranch)",      hex:"#8a5a3c" },
-    orchard: { label:"Orchards",        emoji:"🍎", color:"var(--t-farm)",       hex:"#2f6b3c" },
-    maker:   { label:"Food makers",     emoji:"🍞", color:"var(--t-dining)",     hex:"#5b6b8c" },
-    winery:  { label:"Wineries",        emoji:"🍷", color:"var(--t-dining)",     hex:"#5b6b8c" },
-    market:  { label:"Farmers markets", emoji:"🧺", color:"var(--t-market)",     hex:"#a8761d" },
-    access:  { label:"Free food",       emoji:"🥫", color:"var(--t-assistance)", hex:"#a94f28" }
+    farm:    { label:"Farms", single:"Farm",           emoji:"🥬", color:"var(--t-farm)",       hex:"#2f6b3c" },
+    ranch:   { label:"Ranches", single:"Ranch",         emoji:"🐄", color:"var(--t-ranch)",      hex:"#8a5a3c" },
+    orchard: { label:"Orchards", single:"Orchard",        emoji:"🍎", color:"var(--t-farm)",       hex:"#2f6b3c" },
+    maker:   { label:"Food makers", single:"Food maker",     emoji:"🍞", color:"var(--t-dining)",     hex:"#5b6b8c" },
+    winery:  { label:"Wineries", single:"Winery",        emoji:"🍷", color:"var(--t-dining)",     hex:"#5b6b8c" },
+    market:  { label:"Farmers markets", single:"Farmers market", emoji:"🧺", color:"var(--t-market)",     hex:"#a8761d" },
+    access:  { label:"Free food", single:"Free food",       emoji:"🥫", color:"var(--t-assistance)", hex:"#a94f28" }
   };
   var ROLE_LABEL = { home_base:"At the farm", farm_stand:"Farm stand", pickup:"Pickup point", csa_dropoff:"CSA pickup",
     market_site:"Market", access_site:"Free food" };

@@ -93,7 +93,7 @@
     var raw = r.raw, st = CP.typeStyle(r.cat);
     document.title = r.name + " · Chaffee Provides";
 
-    var tag = '<span class="tag" style="color:'+st.color+'">'+esc(CP.GROUPS[r.cat].label.replace(/ies$/,"y").replace(/s$/,""))+'</span>';
+    var tag = '<span class="tag" style="color:'+st.color+'">'+esc(CP.GROUPS[r.cat].single)+'</span>';
     var prodChips = r.productGroups.map(function(g, i){
       return '<a class="chip" href="directory.html?product='+encodeURIComponent(g)+'">'+esc(r.productText[i])+'</a>';
     }).join(" ");
