@@ -122,7 +122,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
     return r.places.filter(function(p){ return !state.town || p.loc.city === state.town; });
   }
 
-  function catTag(r){ var st = CP.typeStyle(r.cat); return '<span class="tag" style="color:'+st.color+'">'+esc(CP.GROUPS[r.cat].single)+'</span>'; }
+  function catTag(r){ var st = CP.typeStyle(r.cat); return '<span class="tag" style="color:'+st.color+'">'+esc(CP.catLabel(r.cat))+'</span>'; }
   function popup(p){
     var r = p.rec;
     var where = CP.placeLabel(p);
