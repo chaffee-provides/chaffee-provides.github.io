@@ -19,6 +19,7 @@
     farm:    { label:"Farms", single:"Farm",           emoji:"🥬", color:"var(--t-farm)",       hex:"#2f6b3c" },
     ranch:   { label:"Ranches", single:"Ranch",         emoji:"🐄", color:"var(--t-ranch)",      hex:"#8a5a3c" },
     orchard: { label:"Orchards", single:"Orchard",        emoji:"🍎", color:"var(--t-farm)",       hex:"#2f6b3c" },
+    bakery:  { label:"Bakeries",    single:"Bakery",         emoji:"🥖", color:"var(--t-dining)",     hex:"#5b6b8c" },
     maker:   { label:"Food makers", single:"Food maker",     emoji:"🍞", color:"var(--t-dining)",     hex:"#5b6b8c" },
     winery:  { label:"Wineries", single:"Winery",        emoji:"🍷", color:"var(--t-dining)",     hex:"#5b6b8c" },
     market:  { label:"Farmers markets", single:"Farmers market", emoji:"🧺", color:"var(--t-market)",     hex:"#a8761d" },
