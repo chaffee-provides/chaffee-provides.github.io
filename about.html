@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" data-root=".">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>About · Chaffee Provides</title>
+<meta name="description" content="Chaffee Provides connects Chaffee County residents with local farms, ranches, markets and food programs. A project of Guidestone Colorado.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;1,200&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="about.html">
+<div id="site-header"></div>
+<main id="main">
+  <article class="article">
+    <h1>Connecting you to Chaffee County's agricultural community</h1>
+    <p style="font-size:1.15rem">Chaffee Provides helps people in the Upper Arkansas Valley find food grown and raised here: beef and lamb, eggs and dairy, vegetables, garlic, flowers and honey. It also lists the markets, restaurants and food programs that bring that food to the table.</p>
+    <p>Buying local does more than fill the fridge. It keeps working farms and ranches working, which protects open land, wildlife habitat and water quality in a fast-growing valley, and keeps more of every food dollar in the community.</p>
+
+    <h2>Who we are</h2>
+    <p>Chaffee Provides is a project of <a href="https://guidestonecolorado.org/">Guidestone Colorado</a>, a Salida nonprofit building a strong agricultural future through education and partnerships, with <a href="https://envisionchaffeecounty.org/">Envision Chaffee County</a>. The site launched in 2021, when pandemic supply-chain gaps showed how much the valley could feed itself.</p>
+    <p>Funded in part by the <a href="https://www.chaffeecommunity.org/">Chaffee County Community Foundation</a>'s Food Access Cohort and <a href="https://chaffeecommonground.org/">Chaffee Common Ground</a>.</p>
+
+    <h2>How we keep listings current</h2>
+    <p>Directories go stale: markets move parks, farm stands change days, phone numbers change hands. The listings here come from the <a href="https://github.com/open-food-web/colorado-open-food-web">Colorado Open Food Web</a>, an open dataset that is updated once a month:</p>
+    <ul>
+      <li><strong>Many sources, one listing.</strong> It combines Guidestone Colorado's own review, <a href="https://coloradoproud.com/">Colorado Proud</a>, the <a href="https://www.cofarmersmarkets.org/">Colorado Farmers Market Association</a>, the <a href="https://www.usdalocalfoodportal.com/">USDA Local Food Portal</a> and each business's own website.</li>
+      <li><strong>Automatic checks every month.</strong> Each business's website is checked for changes in hours, contact details and where to buy.</li>
+      <li><strong>Guidestone has the last word.</strong> Details that Guidestone or the business has confirmed are never overwritten by an automatic check. A monthly report shows exactly what changed.</li>
+      <li><strong>Nothing is guessed.</strong> A detail only appears if a source states it. Where we haven't confirmed that a business sells at a spot, its pin is shown faded and we ask you to call first.</li>
+      <li><strong>You can fix it.</strong> Every listing has "Suggest an update" and "Remove this listing" buttons. Removal requests are honored first.</li>
+    </ul>
+    <div class="callout" id="stats">Loading directory stats…</div>
+
+    <h2>Contact</h2>
+    <p>Email <a href="mailto:info@guidestonecolorado.org">info@guidestonecolorado.org</a>, or write to Chaffee Provides, c/o Guidestone Colorado, P.O. Box 1056, Salida, CO 81201. Follow along on <a href="https://www.facebook.com/ChaffeeProvides">Facebook</a>.</p>
+    <p>Farmers and food businesses: <a href="list-your-business.html">list your business for free</a>.</p>
+  </article>
+</main>
+<div id="site-footer"></div>
+<script src="assets/app.js"></script>
+<script>
+CP.loadModel().then(function(M){
+  var by = { farm:0, market:0, access:0 }; M.recs.forEach(function(r){ by[r.group]++; });
+  var pins = M.meta.counts.pins;
+  document.getElementById("stats").innerHTML = "<strong>The directory today:</strong> " + M.recs.length + " listings ("
+    + by.farm + " farms and ranches, " + by.market + " farmers markets, " + by.access + " free-food sites) and " + pins
+    + " places on the map. Data release " + CP.esc(M.meta.release) + ", built " + CP.esc(CP.fmtDate(M.meta.generated)) + ".<br>"
+    + '<span class="muted" style="font-size:.9rem">' + CP.esc(M.meta.attribution) + "</span>";
+}).catch(function(e){ document.getElementById("stats").textContent = "Directory numbers are unavailable (" + e.message + ")."; });
+</script>
+</body>
+</html>

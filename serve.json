@@ -1,0 +1,9 @@
+{
+  "cleanUrls": false,
+  "directoryListing": false,
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/spotlight", "destination": "/spotlight/index.html" },
+    { "source": "/spotlight/", "destination": "/spotlight/index.html" }
+  ]
+}
