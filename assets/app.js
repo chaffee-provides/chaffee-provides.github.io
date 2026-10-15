@@ -120,7 +120,9 @@
     var channels = (raw.sales_channels || []);
     var groups = raw.product_groups || [];
     var rec = { id:raw.id, slug:raw.slug, name:raw.name, group:group, cat:cat, raw:raw, productGroups:groups,
-      productText:groups.map(function(g){ return productLabels[g] || g; }), places:places, towns:towns,
+      productText:groups.map(function(g){ return productLabels[g] || g; }),
+      dropin:(group === "farm" ? (raw.dropin_visits == null ? null : raw.dropin_visits) : true),
+      farmPickup:(raw.farm_pickup == null ? null : raw.farm_pickup), visitNote:raw.visit_note || "", places:places, towns:towns,
       town:towns[0] || "", channels:channels, channelText:channels.map(function(c){ return channelLabels[c] || c; }),
       photo:photos[raw.slug] || null,
       hours:raw.hours_text || "", products:(raw.products || []).join(", "), categories:raw.categories || [] };
@@ -218,7 +220,15 @@
     return '<img class="'+cls+'" src="'+url(rec.photo.file)+'" alt="'+esc(rec.photo.alt)+'" loading="lazy" width="'+rec.photo.width+'" height="'+rec.photo.height+'">';
   }
 
-  window.CP = { esc:esc, url:url, load:load, loadModel:loadModel, CONFIG:CONFIG, GROUPS:GROUPS, ROLE_LABEL:ROLE_LABEL, MONTHS:MONTHS,
+  // Small flag for lists and popups. Only a confirmed yes or no is shown; unknown says nothing.
+  function visitBadge(r){
+    if(r.group !== "farm") return "";
+    if(r.dropin === true) return ' <span class="vflag yes">Drop-in visits welcome</span>';
+    if(r.dropin === false) return ' <span class="vflag no">No drop-in visits</span>';
+    return "";
+  }
+
+  window.CP = { visitBadge:visitBadge, esc:esc, url:url, load:load, loadModel:loadModel, CONFIG:CONFIG, GROUPS:GROUPS, ROLE_LABEL:ROLE_LABEL, MONTHS:MONTHS,
     fanOut:fanOut, thisMonth:thisMonth, typeStyle:typeStyle, pinIcon:pinIcon, basemap:basemap, countyOutline:countyOutline,
     fmtDate:fmtDate, directions:directions, recUrl:recUrl, safeLink:safeLink, photoHtml:photoHtml, mailto:mailto, suggestUrl:suggestUrl };
 
