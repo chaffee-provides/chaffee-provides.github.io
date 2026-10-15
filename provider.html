@@ -32,7 +32,7 @@
   function isMarket(p){ return /market/i.test(p.title || "") || /market/i.test(p.loc.name || ""); }
   function line(p, label){ var named = p.title && p.title !== p.loc.address && p.title !== p.loc.city; return esc(named ? p.title + (addr(p) ? ", " + addr(p) : "") : addr(p)) + (p.hours ? ' <span class="muted">· ' + esc(p.hours) + '</span>' : "") + ownPage(p, label); }
   // The business's own page that says it sells here, so a visitor can check it for themselves.
-  function ownPage(p, label){ return p.loc.confirm_url ? ' <span class="muted">· ' + CP.safeLink(p.loc.confirm_url, label || "their page confirms this") + '</span>' : ""; }
+  function ownPage(p, label){ return p.loc.confirm_url ? ' <span class="muted">· ' + CP.safeLink(p.loc.confirm_url, label || (p.pickup ? "Pickup info" : "More info")) + '</span>' : ""; }
 
   // Plain answers to "can I show up?" and "how do I get it?"
   // Two separate answers: can I just show up, and can I pick up an order at the farm?
@@ -47,6 +47,7 @@
     if(r.dropin === false && r.farmPickup === false)      // one plain message, not three
       return { tone:"no", compact:true, html:vrow(false, "", "<strong>No drop-in visits or farm pickup.</strong>", "") };
     if(r.dropin === true) return { tone:"ok", none:true, html:"" };   // a visit is just a way to get it; see "How to get it"
+    if(r.dropin == null && r.channels.length === 0) return { tone:"unknown", none:true, html:"" };   // nothing confirmed: "How to get it" says so
     var site = raw.website ? CP.safeLink(raw.website) : "";
     // We looked where they would list drop-in visits (their site and social pages) and found how they sell, but no drop-in visits.
     var researched = r.dropin == null && r.channels.length > 0;
@@ -58,7 +59,6 @@
     // Farm pickup only when there is an online order to pick up; otherwise it just repeats the farm visit.
     if(r.farmPickup === true && r.channels.indexOf("online") !== -1) html += vrow(true, "<strong>Farm pickup.</strong> You can pick up an order at the farm, by arrangement." + fromListing("pickup"), "", "");
     else if(r.farmPickup === false) html += vrow(false, "", "<strong>No farm pickup.</strong> Use one of the ways to buy below.", "");
-    if(r.visitNote) html += '<div class="vnote">'+esc(r.visitNote)+'</div>';
     return { tone:(r.dropin === true ? "ok" : (r.dropin === false || researched ? "no" : "unknown")), html:html };
   }
   function ways(r){
@@ -86,7 +86,6 @@
     if(ch.indexOf("csa") !== -1) add("Join their CSA", "A weekly share of the harvest. " + (site ? "Sign up on " + site + "." : "Contact them to sign up."));
     if(ch.indexOf("farmers_market") !== -1 || markets.length) add("At the farmers market", markets.length ? '<ul class="plain">' + markets.map(function(p){ return '<li>' + line(p) + '</li>'; }).join("") + '</ul>' : "They sell at local farmers markets. Check their page for dates.");
     if(ch.indexOf("pickup") !== -1 || pickups.length) add("Pick up an order", (ch.indexOf("online") !== -1 ? "Order first, then pick it up at one of these places:" : "Pick up at one of these places:") + (pickups.length ? '<ul class="plain">' + pickups.map(function(p){ return '<li>' + line(p) + '</li>'; }).join("") + '</ul>' : " Ask them where."));
-    if(ch.indexOf("delivery") !== -1) add("Delivery", "They deliver. Ask them where and when." + (raw.phone ? " " + phone(raw.phone) : ""));
     if(ch.indexOf("online") !== -1) add("Order online", site ? "Order at " + site + "." : "Ask them how to order.");
     if(ch.indexOf("retail_partners") !== -1) add("In local stores", "You can find their products in some local stores.");
     if(ch.indexOf("wholesale") !== -1) add("Wholesale", ch.length === 1 ? "They sell to restaurants and stores, not to the public." : "They also sell wholesale to restaurants and stores.");
@@ -104,7 +103,7 @@
       + (addr(p) ? esc(addr(p)) : (hidden ? esc((p.loc.city || "Chaffee County") + " (exact address not shared)") : ""))
       + (p.hours ? '<br>'+esc(p.hours) : '')
       + (p.unconfirmed && p.pin ? '<div class="faint">We haven\'t confirmed that they sell here yet.</div>' : '')
-      + (p.loc.confirm_url ? '<div class="faint">' + CP.safeLink(p.loc.confirm_url, "Their page confirms they sell here") + '</div>' : '')
+      + (p.loc.confirm_url ? '<div class="faint">' + CP.safeLink(p.loc.confirm_url, (p.pickup ? "Pickup info" : "More info")) + '</div>' : '')
       + (p.pin ? '<div style="margin-top:6px"><a href="'+CP.directions(p)+'" target="_blank" rel="noopener">Directions</a></div>' : '')
       + '</li>';
   }
