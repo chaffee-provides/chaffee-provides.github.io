@@ -36,6 +36,13 @@ Producer map, producer directory (cards, category filters, name and address sear
 and the list-your-business form. Not included: Spotlight blog (dropped), food assistance schedule
 (possible later), restaurants (off for now).
 
+## Ideas for later
+
+- **Season tags.** A small tag on a way to buy ("Closing for the season soon", "Opens for the season soon")
+  that appears by itself for about a month before a place's season ends or starts. The export already has
+  `season_start` / `season_end` on each location but they are empty today, so this needs those dates filled in
+  during the monthly review first. Not built yet.
+
 ## Run locally
 
 ```bash

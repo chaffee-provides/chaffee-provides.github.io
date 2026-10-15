@@ -126,10 +126,11 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
   function popup(p){
     var r = p.rec;
     var where = CP.placeLabel(p);
+    var dropinHere = p.role === "home_base" && r.dropin === true;   // the visit flag and the farm's hours read as one block
     var title = p.title !== p.loc.address && p.title !== p.loc.city && p.title !== r.name ? p.title : "";
     var addr = p.loc.address ? esc(p.loc.address) + (p.loc.city && p.loc.address.toLowerCase().indexOf(p.loc.city.toLowerCase()) === -1 ? ", " + esc(p.loc.city) : "") : (p.loc.city ? esc(p.loc.city) : "");
-    return '<h4>'+esc(r.name)+'</h4><div style="margin:2px 0 6px"><a href="'+CP.recUrl(r)+'">Details and how to buy →</a></div><div style="margin-bottom:6px">'+catTag(r)+CP.visitBadge(r)+'</div>'
-      + '<div style="font-size:.9rem"><strong>'+esc(where)+(title ? ": "+esc(title) : "")+'</strong>'+(addr ? '<br>'+addr : '')+(p.hours ? '<br>'+esc(p.hours) : '')+'</div>'
+    return '<h4>'+esc(r.name)+'</h4><div style="margin:2px 0 6px"><a href="'+CP.recUrl(r)+'">Details and how to buy →</a>'+(r.raw.website ? '<br>Website: '+CP.safeLink(r.raw.website) : '')+'</div><div style="margin-bottom:6px">'+catTag(r)+'</div>'
+      + '<div style="font-size:.9rem"><strong>'+(dropinHere ? 'Drop-in visits welcome at the farm' : esc(where)+(title ? ": "+esc(title) : ""))+'</strong>'+(addr ? '<br>'+addr : '')+(p.hours ? '<br>'+esc(p.hours) : '')+'</div>'
       + (r.productText.length ? '<div class="muted" style="font-size:.85rem;margin-top:6px">'+esc(r.productText.join(" · "))+'</div>' : '')
       + (p.unconfirmed ? '<div class="muted" style="font-size:.84rem;margin-top:6px">Not confirmed yet that they sell here.</div>' : '')
       + (r.raw.phone ? '<div style="margin-top:6px;font-size:.9rem"><a href="tel:'+esc(r.raw.phone.replace(/[^0-9+]/g,""))+'">'+esc(r.raw.phone)+'</a></div>' : '')
