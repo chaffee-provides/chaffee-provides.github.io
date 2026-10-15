@@ -115,9 +115,14 @@
         title:placeTitle(l), hours:l.hours_text || (group === "farm" ? "" : raw.hours_text) || "", days:l.days || [],
         pin:!!l.pin && l.lat != null, unconfirmed:l.pin_basis === "unconfirmed", lat:l.lat, lng:l.lon });
     });
+    // A farm that welcomes neither drop-in visits nor pickup at the farm is not somewhere to find them: keep the town, drop the place.
+    var homeCity = ((places.filter(function(p){ return p.role === "home_base"; })[0] || { loc:{} }).loc.city || "");
+    if(group === "farm" && raw.farm_pickup !== true && raw.dropin_visits !== true && (raw.dropin_visits === false || raw.farm_pickup === false))
+      places = places.filter(function(p){ return p.role !== "home_base"; });
     var towns = [];
     places.forEach(function(p){ if(p.pin && p.loc.city && towns.indexOf(p.loc.city) === -1) towns.push(p.loc.city); });
     if(!towns.length) places.forEach(function(p){ if(p.loc.city && towns.indexOf(p.loc.city) === -1) towns.push(p.loc.city); });
+    if(!towns.length && homeCity) towns.push(homeCity);
     var channels = (raw.sales_channels || []);
     var groups = raw.product_groups || [];
     var rec = { id:raw.id, slug:raw.slug, name:raw.name, group:group, cat:cat, raw:raw, productGroups:groups,
@@ -125,7 +130,7 @@
       dropin:(group === "farm" ? (raw.dropin_visits == null ? null : raw.dropin_visits) : true),
       farmPickup:(raw.farm_pickup == null ? null : raw.farm_pickup), visitNote:raw.visit_note || "", places:places, towns:towns,
       town:towns[0] || "", channels:channels, channelText:channels.map(function(c){ return channelLabels[c] || c; }),
-      homeTown:((places.filter(function(p){ return p.role === "home_base"; })[0] || { loc:{} }).loc.city || ""),
+      homeTown:homeCity,
       photo:photos[raw.slug] || null,
       hours:raw.hours_text || "", products:(raw.products || []).join(", "), categories:raw.categories || [] };
     places.forEach(function(p){ p.rec = rec; });

@@ -143,8 +143,8 @@
       +   '<h2 style="font-size:1.25rem;margin-top:22px">How to get it</h2>'
       +   '<ul class="ways">'+wl.join("")+'</ul>'
       +   (prodChips || r.products ? '<h2 style="font-size:1.25rem;margin-top:24px">What they offer</h2>' + (prodChips ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+prodChips+'</div>' : '') + (r.products ? '<p>'+esc(r.products)+'</p>' : '') : '')
-      +   '<h2 style="font-size:1.25rem;margin-top:24px">'+(r.group === "farm" ? "All the places to find them" : "Location")+'</h2>'
-      +   '<ul class="places">'+r.places.map(placeItem).join("")+'</ul>'
+      +   (r.places.length ? '<h2 style="font-size:1.25rem;margin-top:24px">'+(r.group === "farm" ? "All the places to find them" : "Location")+'</h2>'
+      +   '<ul class="places">'+r.places.map(placeItem).join("")+'</ul>' : '')
       +   vendorsHtml
       +   '<div class="facts">'+facts+'</div>'
       +   '<p style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-ghost" href="'+CP.suggestUrl(r, "Listing update")+'">Suggest an update</a>'
