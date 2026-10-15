@@ -282,3 +282,5 @@ ul.plain{ margin:4px 0 0; padding-left:18px; }
 .visit .vrow.yes .vmark{ background:var(--green); }
 .visit .vrow.no .vmark{ background:var(--rust); }
 .visit .vnote{ margin-top:6px; color:var(--muted); font-size:.92rem; }
+
+.visit .vhours{ margin-top:2px; font-size:.95rem; }

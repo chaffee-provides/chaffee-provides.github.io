@@ -40,10 +40,13 @@
   }
   function visit(r){
     if(r.group !== "farm") return { tone:"ok", html:'<div class="vrow yes"><span class="vmark" aria-hidden="true">✔</span><span><strong>Open to everyone.</strong> Come at the times shown below.</span></div>' };
-    var raw = r.raw, html = vrow(r.dropin, "<strong>Drop-in visits welcome.</strong> You can just show up.",
+    var raw = r.raw, basis = raw.visit_basis || {};
+    var fromListing = function(k){ return basis[k] === "listing" ? ' <span class="muted">(from their listing)</span>' : ""; };
+    var html = vrow(r.dropin, "<strong>Drop-in visits welcome.</strong> You can just show up." + fromListing("dropin")
+      + (raw.dropin_hours ? '<div class="vhours">Drop-in hours: ' + esc(raw.dropin_hours) + '</div>' : ""),
       "<strong>No drop-in visits.</strong> Please don't show up unannounced.",
       "<strong>Drop-in visits not confirmed.</strong> Please call first." + (raw.phone ? " " + phone(raw.phone) : ""));
-    if(r.farmPickup === true) html += vrow(true, "<strong>Farm pickup.</strong> You can pick up an order at the farm, by arrangement.", "", "");
+    if(r.farmPickup === true) html += vrow(true, "<strong>Farm pickup.</strong> You can pick up an order at the farm, by arrangement." + fromListing("pickup"), "", "");
     else if(r.farmPickup === false) html += vrow(false, "", "<strong>No farm pickup.</strong> Use one of the ways to buy below.", "");
     if(r.visitNote) html += '<div class="vnote">'+esc(r.visitNote)+'</div>';
     return { tone:(r.dropin === true ? "ok" : (r.dropin === false ? "no" : "unknown")), html:html };
