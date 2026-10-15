@@ -76,14 +76,6 @@
   }
 
   // "Phone, hours: confirmed by Guidestone Colorado, October 13, 2026" / "Products: from the business's Facebook page"
-  function confirmedHtml(list){
-    return (list || []).filter(function(c){ return c.fields.length; }).map(function(c){
-      var fields = c.fields.join(", "); fields = fields.charAt(0).toUpperCase() + fields.slice(1);
-      var by = c.url ? '<a href="'+esc(c.url)+'" target="_blank" rel="noopener">'+esc(c.by)+'</a>' : esc(c.by);
-      var partner = c.by === "Guidestone Colorado";
-      return '<li>'+esc(fields)+': '+(partner ? 'confirmed by ' : 'from ')+by+(c.date ? ', '+esc(CP.fmtDate(c.date)) : '')+'</li>';
-    }).join("");
-  }
 
   function placeItem(p){
     var role = p.pickup ? "Pickup point" : (CP.ROLE_LABEL[p.role] || "");
@@ -131,10 +123,6 @@
       if(vs.length) vendorsHtml = '<h2 style="font-size:1.25rem;margin-top:24px">Vendors at this market ('+vs.length+')</h2><ul class="plain vendors">'
         + vs.map(function(x){ return '<li><a href="'+CP.recUrl(x)+'">'+esc(x.name)+'</a> <span class="muted">· '+esc([x.homeTown ? "based in " + x.homeTown : "", x.productText.slice(0,3).join(", ")].filter(Boolean).join(" · "))+'</span></li>'; }).join("") + '</ul>';
     }
-    var related = M.recs.filter(function(x){
-      return x !== r && x.cat === r.cat && x.towns.some(function(t){ return r.towns.indexOf(t) !== -1; });
-    }).slice(0, 4);
-
     main.innerHTML =
       '<nav class="crumbs" aria-label="Breadcrumb"><a href="find-food.html">Map</a> › <a href="directory.html">Directory</a> › '+esc(r.name)+'</nav>'
       + '<div class="provider"><div>'
@@ -153,12 +141,6 @@
       +   '<div class="facts">'+facts+'</div>'
       +   '<p style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-ghost" href="'+CP.suggestUrl(r, "Listing update")+'">Suggest an update</a>'
       +   '<a class="btn btn-ghost" href="'+CP.suggestUrl(r, "Remove my listing")+'">Remove this listing</a></p>'
-      + '</div><div>'
-      +   (confirmedHtml(raw.confirmed_by) ? '<h2 style="font-size:1.1rem;margin-top:22px">What has been confirmed</h2><ul class="sources">'+confirmedHtml(raw.confirmed_by)+'</ul>' : '') + '<h2 style="font-size:1.1rem;margin-top:22px">Where this information comes from</h2><ul class="sources">'
-      +   (raw.sources || []).map(function(s){ return '<li>'+(s.url ? '<a href="'+esc(s.url)+'" target="_blank" rel="noopener">'+esc(s.label)+'</a>' : esc(s.label))+'</li>'; }).join("")
-      +   '</ul>'
-      +   (related.length ? '<h2 style="font-size:1.1rem;margin-top:22px">Nearby</h2><ul class="sources">'
-            + related.map(function(x){ return '<li><a href="'+CP.recUrl(x)+'">'+esc(x.name)+'</a> <span class="muted">· '+esc(x.town)+'</span></li>'; }).join("") + '</ul>' : '')
       + '</div></div>';
 
     if(pins.length){

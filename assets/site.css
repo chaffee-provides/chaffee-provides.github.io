@@ -190,7 +190,7 @@ section.block.alt{ background:var(--bg-2); }
 /* Provider page */
 .crumbs{ font-size:.9rem; color:var(--muted); margin:22px 0 8px; }
 .crumbs a{ color:var(--muted); }
-.provider{ display:grid; grid-template-columns:1.4fr 1fr; gap:28px; padding-bottom:56px; }
+.provider{ max-width:760px; padding-bottom:56px; }
 @media (max-width:860px){ .provider{ grid-template-columns:1fr; } }
 .facts{ display:grid; gap:12px; margin:18px 0; }
 .fact{ display:grid; grid-template-columns:84px 1fr; gap:12px; align-items:baseline; border-top:1px solid var(--line); padding-top:10px; }
