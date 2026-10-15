@@ -284,6 +284,6 @@ ul.plain{ margin:4px 0 0; padding-left:18px; }
 .visit .vnote{ margin-top:6px; color:var(--muted); font-size:.92rem; }
 
 .visit .vhours{ margin-top:2px; font-size:.95rem; }
-.visit.compact{ padding:4px 10px; margin:6px 0 8px; font-size:.9rem; }
-.visit.compact .vrow{ margin:2px 0; gap:8px; align-items:center; }
-.visit.compact .vmark{ flex:0 0 16px; height:16px; line-height:16px; font-size:.7rem; }
+.visit.compact{ display:inline-block; padding:0; margin:6px 0 4px; background:none; border:0; font-size:.85rem; color:var(--muted); }
+.visit.compact .vrow{ margin:0; gap:6px; align-items:center; }
+.visit.compact .vmark{ flex:0 0 14px; height:14px; line-height:14px; font-size:.62rem; }

@@ -143,8 +143,8 @@
       +   (r.photo ? CP.photoHtml(r, "hero-photo") : "")
       +   (v.compact ? '' : '<div class="visit '+v.tone+'" role="note">'+v.html+'</div>')
       +   '<h2 style="font-size:1.25rem;margin-top:22px">How to get it</h2>'
-      +   (v.compact ? '<div class="visit compact '+v.tone+'" role="note">'+v.html+'</div>' : '')
       +   '<ul class="ways">'+wl.join("")+'</ul>'
+      +   (v.compact ? '<div class="visit compact '+v.tone+'" role="note">'+v.html+'</div>' : '')
       +   (prodChips || r.products ? '<h2 style="font-size:1.25rem;margin-top:24px">What they offer</h2>' + (prodChips ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+prodChips+'</div>' : '') + (r.products ? '<p>'+esc(r.products)+'</p>' : '') : '')
       +   (r.places.length ? '<h2 style="font-size:1.25rem;margin-top:24px">'+(r.group === "farm" ? "All the places to find them" : "Location")+'</h2>'
       +   (pins.length ? '<div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '')
