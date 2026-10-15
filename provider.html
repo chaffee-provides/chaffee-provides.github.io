@@ -136,7 +136,7 @@
     main.innerHTML =
       '<nav class="crumbs" aria-label="Breadcrumb"><a href="find-food.html">Map</a> › <a href="directory.html">Directory</a> › '+esc(r.name)+'</nav>'
       + '<div class="provider"><div>'
-      +   '<h1>'+esc(r.name)+'</h1><div>'+tag+'</div>'
+      +   '<h1>'+esc(r.name)+'</h1><div>'+tag+(r.group === "farm" && r.homeTown ? ' <span class="muted">· Based in '+esc(r.homeTown)+'</span>' : '')+'</div>'
       +   '<div style="margin-top:12px">'+verified+'</div>'+notes
       +   (r.photo ? CP.photoHtml(r, "hero-photo") : "")
       +   '<div class="visit '+v.tone+'" role="note">'+v.html+'</div>'
@@ -144,13 +144,13 @@
       +   '<ul class="ways">'+wl.join("")+'</ul>'
       +   (prodChips || r.products ? '<h2 style="font-size:1.25rem;margin-top:24px">What they offer</h2>' + (prodChips ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+prodChips+'</div>' : '') + (r.products ? '<p>'+esc(r.products)+'</p>' : '') : '')
       +   (r.places.length ? '<h2 style="font-size:1.25rem;margin-top:24px">'+(r.group === "farm" ? "All the places to find them" : "Location")+'</h2>'
+      +   (pins.length ? '<div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '')
       +   '<ul class="places">'+r.places.map(placeItem).join("")+'</ul>' : '')
       +   vendorsHtml
       +   '<div class="facts">'+facts+'</div>'
       +   '<p style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-ghost" href="'+CP.suggestUrl(r, "Listing update")+'">Suggest an update</a>'
       +   '<a class="btn btn-ghost" href="'+CP.suggestUrl(r, "Remove my listing")+'">Remove this listing</a></p>'
       + '</div><div>'
-      +   (pins.length ? '<div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '<div class="callout">No map location to show for this listing.</div>')
       +   (confirmedHtml(raw.confirmed_by) ? '<h2 style="font-size:1.1rem;margin-top:22px">What has been confirmed</h2><ul class="sources">'+confirmedHtml(raw.confirmed_by)+'</ul>' : '') + '<h2 style="font-size:1.1rem;margin-top:22px">Where this information comes from</h2><ul class="sources">'
       +   (raw.sources || []).map(function(s){ return '<li>'+(s.url ? '<a href="'+esc(s.url)+'" target="_blank" rel="noopener">'+esc(s.label)+'</a>' : esc(s.label))+'</li>'; }).join("")
       +   '</ul>'

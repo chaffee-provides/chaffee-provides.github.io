@@ -197,7 +197,7 @@ section.block.alt{ background:var(--bg-2); }
 .fact .ic{ font-size:.72rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
 .fact .src{ display:block; font-size:.78rem; color:var(--muted); }
 .fact .src a{ color:var(--muted); }
-.mini-map{ height:300px; border-radius:var(--radius); border:1px solid var(--line); }
+.mini-map{ height:300px; margin:10px 0 14px; border-radius:var(--radius); border:1px solid var(--line); }
 .sources{ font-size:.9rem; }
 .sources li{ margin-bottom:4px; }
 .notice-box{ border-left:4px solid var(--wheat); background:var(--card); padding:12px 16px; border-radius:0; margin:14px 0; }
