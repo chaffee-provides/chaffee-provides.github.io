@@ -222,11 +222,10 @@
     return '<img class="'+cls+'" src="'+url(rec.photo.file)+'" alt="'+esc(rec.photo.alt)+'" loading="lazy" width="'+rec.photo.width+'" height="'+rec.photo.height+'">';
   }
 
-  // Small flag for lists and popups. Only a confirmed yes or no is shown; unknown says nothing.
+  // Small flag for lists and popups. Only a confirmed yes is shown; a no or unknown says nothing (the producer page still says it).
   function visitBadge(r){
     if(r.group !== "farm") return "";
     if(r.dropin === true) return ' <span class="vflag yes">Drop-in visits welcome</span>';
-    if(r.dropin === false) return ' <span class="vflag no">No drop-in visits</span>';
     return "";
   }
 

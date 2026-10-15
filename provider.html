@@ -109,7 +109,7 @@
     var notes = /^not open to the public/i.test(raw.hours_text || "") ? '<div class="notice-box"><strong>Not open to the public.</strong> Please don\'t visit in person; use the website to order.</div>' : "";
     var pins = r.places.filter(function(p){ return p.pin; });
     var verified = raw.last_verified ? '<span class="pill ok">Checked '+esc(CP.fmtDate(raw.last_verified))+'</span>'
-      : '<span class="pill warn">Not yet confirmed with the business</span>';
+      : '';
 
     var facts = "";
     facts += fact("Phone", phone(raw.phone) + (raw.call_first ? ' <em>(call first)</em>' : ''));
@@ -153,7 +153,7 @@
       +   (pins.length ? '<div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '<div class="callout">No map location to show for this listing.</div>')
       +   (confirmedHtml(raw.confirmed_by) ? '<h2 style="font-size:1.1rem;margin-top:22px">What has been confirmed</h2><ul class="sources">'+confirmedHtml(raw.confirmed_by)+'</ul>' : '') + '<h2 style="font-size:1.1rem;margin-top:22px">Where this information comes from</h2><ul class="sources">'
       +   (raw.sources || []).map(function(s){ return '<li>'+(s.url ? '<a href="'+esc(s.url)+'" target="_blank" rel="noopener">'+esc(s.label)+'</a>' : esc(s.label))+'</li>'; }).join("")
-      +   '</ul><p class="muted" style="font-size:.88rem">When sources disagree, what Guidestone and the business have confirmed wins, then the business\'s own website, then public directories.</p>'
+      +   '</ul>'
       +   (related.length ? '<h2 style="font-size:1.1rem;margin-top:22px">Nearby</h2><ul class="sources">'
             + related.map(function(x){ return '<li><a href="'+CP.recUrl(x)+'">'+esc(x.name)+'</a> <span class="muted">· '+esc(x.town)+'</span></li>'; }).join("") + '</ul>' : '')
       + '</div></div>';
