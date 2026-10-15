@@ -42,6 +42,8 @@
     if(r.group !== "farm") return { tone:"ok", html:'<div class="vrow yes"><span class="vmark" aria-hidden="true">✔</span><span><strong>Open to everyone.</strong> Come at the times shown below.</span></div>' };
     var raw = r.raw, basis = raw.visit_basis || {};
     var fromListing = function(k){ return basis[k] === "listing" ? ' <span class="muted">(from their listing)</span>' : ""; };
+    if(r.dropin === false && r.farmPickup === false)      // one plain message, not three
+      return { tone:"no", html:vrow(false, "", "<strong>Not open to visitors.</strong> " + (r.visitNote ? esc(r.visitNote) : "No drop-in visits or farm pickup."), "") };
     var html = vrow(r.dropin, "<strong>Drop-in visits welcome.</strong> You can just show up." + fromListing("dropin")
       + (raw.dropin_hours ? '<div class="vhours">Drop-in hours: ' + esc(raw.dropin_hours) + '</div>' : ""),
       "<strong>No drop-in visits.</strong> Please don't show up unannounced.",
@@ -106,7 +108,7 @@
       return '<a class="chip" href="directory.html?product='+encodeURIComponent(g)+'">'+esc(r.productText[i])+'</a>';
     }).join(" ");
     var v = visit(r), wl = ways(r);
-    var notes = /^not open to the public/i.test(raw.hours_text || "") ? '<div class="notice-box"><strong>Not open to the public.</strong> Please don\'t visit in person; use the website to order.</div>' : "";
+    var notes = /^not open to the public/i.test(raw.hours_text || "") && !(r.dropin === false && r.farmPickup === false) ? '<div class="notice-box"><strong>Not open to the public.</strong> Please don\'t visit in person; use the website to order.</div>' : "";
     var pins = r.places.filter(function(p){ return p.pin; });
     var verified = raw.last_verified ? '<span class="pill ok">Checked '+esc(CP.fmtDate(raw.last_verified))+'</span>'
       : '';
