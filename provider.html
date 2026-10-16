@@ -91,8 +91,10 @@
     if(ch.indexOf("retail_partners") !== -1) add("In local stores", "You can find their products in some local stores.");
     if(ch.indexOf("wholesale") !== -1) add("Wholesale", ch.length === 1 ? "They sell to restaurants and stores, not to the public." : "They also sell wholesale to restaurants and stores.");
     if(r.group === "outlet"){
-      var shop = r.places.filter(function(p){ return p.pin; })[0];
-      add("Visit the shop", (shop ? line(shop, "Shop info") : "Ask them for the address and hours.") + (raw.phone ? ' <span class="muted">· ' + phone(raw.phone) + '</span>' : "") + (site ? '<div class="muted">' + site + '</div>' : ""));
+      var shop = r.places[0];
+      add("Visit the shop", (shop ? line(shop, "Shop info") : "Ask them for the address and hours.")
+        + (raw.phone ? '<div>' + phone(raw.phone) + '</div>' : "") + (site ? '<div>' + site + '</div>' : "")
+        + (shop && shop.pin ? '<div style="margin-top:6px">' + mapLinks(shop) + '</div>' : ""));
     }
     if(!out.length && r.group === "farm") add("How to buy", "We haven't confirmed how to buy from them yet. " + (raw.phone ? "Call " + phone(raw.phone) + ". " : "") + (site ? "Or see " + site + "." : ""));
     return out;
@@ -100,6 +102,10 @@
 
   // "Phone, hours: confirmed by Guidestone Colorado, October 13, 2026" / "Products: from the business's Facebook page"
 
+  function mapLinks(p){
+    var g = p.role === "outlet_site" ? ' · <a href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent([p.rec.name, p.loc.address, p.loc.city, "CO"].filter(Boolean).join(", "))+'" target="_blank" rel="noopener">Google Maps listing</a>' : '';
+    return '<a href="'+CP.directions(p)+'" target="_blank" rel="noopener">Directions</a>' + g;
+  }
   function placeItem(p){
     var role = CP.placeLabel(p);
     var hidden = p.loc.precision === "town";
@@ -109,9 +115,7 @@
       + (p.hours ? '<br>'+esc(p.hours) : '')
       + (p.unconfirmed && p.pin ? '<div class="faint">We haven\'t confirmed that they sell here yet.</div>' : '')
       + (p.loc.confirm_url ? '<div class="faint">' + CP.safeLink(p.loc.confirm_url, (p.pickup ? "Pickup info" : "More info")) + '</div>' : '')
-      + (p.pin ? '<div style="margin-top:6px"><a href="'+CP.directions(p)+'" target="_blank" rel="noopener">Directions</a>'
-        + (p.role === "outlet_site" ? ' · <a href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent([p.rec.name, p.loc.address, p.loc.city, "CO"].filter(Boolean).join(", "))+'" target="_blank" rel="noopener">Google Maps listing</a>' : '')
-        + '</div>' : '')
+      + (p.pin ? '<div style="margin-top:6px">'+mapLinks(p)+'</div>' : '')
       + '</li>';
   }
 
@@ -161,9 +165,11 @@
       +   '<ul class="ways">'+wl.join("")+'</ul>'
       +   (v.compact ? '<div class="visit compact '+v.tone+'" role="note">'+v.html+'</div>' : '')
       +   (prodChips || r.products ? '<h2 style="font-size:1.25rem;margin-top:24px">What they offer</h2>' + (prodChips ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+prodChips+'</div>' : '') + (r.products ? '<p>'+esc(r.products)+'</p>' : '') : '')
-      +   (r.places.length ? '<h2 style="font-size:1.25rem;margin-top:24px">'+(r.group === "farm" ? "All the places to find them" : "Location")+'</h2>'
+      +   (r.group === "outlet"
+            ? (pins.length ? '<h2 style="font-size:1.25rem;margin-top:24px">Map</h2><div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '')
+            : (r.places.length ? '<h2 style="font-size:1.25rem;margin-top:24px">'+(r.group === "farm" ? "All the places to find them" : "Location")+'</h2>'
       +   (pins.length ? '<div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '')
-      +   '<ul class="places">'+r.places.map(placeItem).join("")+'</ul>' : '')
+      +   '<ul class="places">'+r.places.map(placeItem).join("")+'</ul>' : ''))
       +   vendorsHtml
       +   '<div class="facts">'+facts+'</div>'
       +   '<p style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-ghost" href="'+CP.suggestUrl(r, "Listing update")+'">Suggest an update</a>'
