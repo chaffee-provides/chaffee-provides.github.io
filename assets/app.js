@@ -142,6 +142,8 @@
     var groups = raw.product_groups || [];
     var rec = { id:raw.id, slug:raw.slug, name:raw.name, group:group, cat:cat, raw:raw, productGroups:groups,
       productText:groups.map(function(g){ return productLabels[g] || g; }),
+      visits:(group === "farm" ? (raw.visits || []) : []),
+      canVisit:(group === "farm" ? (raw.visits || []).length > 0 : true),   // farms: only if there is a named way to visit
       dropin:(group === "farm" ? (raw.dropin_visits == null ? null : raw.dropin_visits) : true),
       farmPickup:(raw.farm_pickup == null ? null : raw.farm_pickup), visitNote:raw.visit_note || "", places:places, towns:towns,
       town:towns[0] || "", channels:channels, channelText:channels.map(function(c){ return channelLabels[c] || c; }),
@@ -247,7 +249,7 @@
   // Small flag for lists and popups. Only a confirmed yes is shown; a no or unknown says nothing (the producer page still says it).
   function visitBadge(r){
     if(r.group !== "farm") return "";
-    if(r.dropin === true) return ' <span class="vflag yes">Drop-in visits welcome</span>';
+    if(r.visits && r.visits.length) return ' <span class="vflag yes">' + r.visits.map(function(v){ return esc(v.label); }).join(" · ") + '</span>';
     return "";
   }
 

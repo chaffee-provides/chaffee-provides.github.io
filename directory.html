@@ -27,7 +27,7 @@
       <label class="sr-only" for="town">Town</label>
       <select id="town" style="max-width:260px"><option value="">All towns</option></select>
       <label><input type="checkbox" id="snap"> Accepts SNAP</label>
-      <label><input type="checkbox" id="dropin"> Open for drop-in visits</label>
+      <label><input type="checkbox" id="dropin"> Has a place to visit</label>
       <span class="muted" id="count" aria-live="polite"></span>
       <button id="reset" class="chip" type="button">Reset</button>
     </div>
@@ -78,7 +78,7 @@
     if(state.product && r.productGroups.indexOf(state.product) === -1) return false;
     if(state.town && r.towns.indexOf(state.town) === -1) return false;
     if(state.snap && r.raw.accepts_snap !== true) return false;
-    if(state.dropin && r.dropin !== true) return false;
+    if(state.dropin && r.canVisit !== true) return false;
     if(state.q){
       var words = state.q.toLowerCase().split(/\s+/).filter(Boolean);
       for(var i=0;i<words.length;i++) if(r.search.indexOf(words[i]) === -1) return false;

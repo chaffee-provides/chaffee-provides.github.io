@@ -31,10 +31,10 @@
   }
   function isMarket(p){ return /market/i.test(p.title || "") || /market/i.test(p.loc.name || ""); }
   var used = {};   // places a "way" already shows, so the list under the map does not repeat them
-  function line(p, label){
+  function line(p, label, noHours){
     used[p.id] = true;
     var named = p.title && p.title !== p.loc.address && p.title !== p.loc.city;
-    return esc(named ? p.title + (addr(p) ? ", " + addr(p) : "") : addr(p)) + (p.hours ? ' <span class="muted">· ' + esc(p.hours) + '</span>' : "") + ownPage(p, label)
+    return esc(named ? p.title + (addr(p) ? ", " + addr(p) : "") : addr(p)) + (p.hours && !noHours ? ' <span class="muted">· ' + esc(p.hours) + '</span>' : "") + ownPage(p, label)
       + (p.pin ? ' <span class="muted">·</span> ' + mapLinks(p) : "")
       + (p.unconfirmed && p.pin ? '<div class="faint">We haven\'t confirmed that they sell here yet.</div>' : "");
   }
@@ -50,24 +50,16 @@
   function visit(r){
     if(r.group === "outlet") return { none:true };   // a shop: no "open to everyone" banner, and no hours to point to
     if(r.group !== "farm") return { tone:"ok", html:'<div class="vrow yes"><span class="vmark" aria-hidden="true">✔</span><span><strong>Open to everyone.</strong> Come at the times shown below.</span></div>' };
-    var raw = r.raw, basis = raw.visit_basis || {};
-    var fromListing = function(k){ return basis[k] === "listing" ? ' <span class="muted">(from their listing)</span>' : ""; };
+    var raw = r.raw, site = raw.website ? CP.safeLink(raw.website) : "";
+    // A named way to visit (farm stand, tours...) is shown under "Places to find them". This note is only for a farm that is not open to visitors.
     if(r.dropin === false && r.farmPickup === false)      // one plain message, not three
-      return { tone:"no", compact:true, html:vrow(false, "", "<strong>No drop-in visits or farm pickup.</strong>", "") };
-    if(r.dropin === true) return { tone:"ok", none:true, html:"" };   // a visit is just a way to get it; see "How to get it"
-    if(r.dropin == null && r.channels.length === 0) return { tone:"unknown", none:true, html:"" };   // nothing confirmed: "How to get it" says so
-    var site = raw.website ? CP.safeLink(raw.website) : "";
-    // We looked where they would list drop-in visits (their site and social pages) and found how they sell, but no drop-in visits.
-    var researched = r.dropin == null && r.channels.length > 0;
-    var html = vrow(researched ? false : r.dropin, "<strong>Drop-in visits welcome.</strong> You can just show up." + fromListing("dropin")
-      + (raw.dropin_hours ? '<div class="vhours">Drop-in hours: ' + esc(raw.dropin_hours) + '</div>' : ""),
-      researched ? "<strong>Drop-in visits are not offered at this time.</strong> See the ways to buy above." + (site ? " Their website has the details: " + site : "")
-                 : "<strong>No drop-in visits.</strong> Please don't show up unannounced.",
-      "<strong>We haven't confirmed how to buy from them yet.</strong>" + (site ? " Their website: " + site : ""));
-    // Farm pickup only when there is an online order to pick up; otherwise it just repeats the farm visit.
-    if(r.farmPickup === true && r.channels.indexOf("online") !== -1) html += vrow(true, "<strong>Farm pickup.</strong> You can pick up an order at the farm, by arrangement." + fromListing("pickup"), "", "");
-    else if(r.farmPickup === false) html += vrow(false, "", "<strong>No farm pickup.</strong> Use one of the ways to buy above.", "");
-    return { tone:(r.dropin === true ? "ok" : (r.dropin === false || researched ? "no" : "unknown")), html:html };
+      return { tone:"no", compact:true, html:vrow(false, "", "<strong>Not open for visits, and no farm pickup.</strong>", "") };
+    if(r.visits.length) return { tone:"ok", none:true, html:"" };
+    if(r.dropin == null && r.channels.length === 0) return { tone:"unknown", none:true, html:"" };   // nothing confirmed: the ways list says so
+    var researched = r.dropin == null && r.channels.length > 0;     // we looked at their site and social pages and found how they sell, but nothing to visit
+    if(researched || r.dropin === false)
+      return { tone:"no", html:vrow(false, "", "<strong>Not open for visits at this time.</strong> See the ways to buy above." + (researched && site ? " Their website has the details: " + site : ""), "") };
+    return { tone:"unknown", none:true, html:"" };
   }
   function ways(r){
     var raw = r.raw, ch = r.channels, out = [];
@@ -83,14 +75,13 @@
     var markets = r.places.filter(function(p){ return p.pickup && isMarket(p); });
     var pickups = r.places.filter(function(p){ return p.pickup && !isMarket(p) && p.pin; });
     var site = raw.website ? CP.safeLink(raw.website) : "";
-    if(ch.indexOf("farm_stand") !== -1){
-      var s = r.places.filter(function(p){ return p.pin && (p.role === "home_base" || p.role === "farm_stand"); })[0];
-      add("Visit the farm stand", (s ? line(s, "Farm stand info") : "Ask them for the address and hours.") + visitExtra(s && s.hours));
-    } else if(r.group === "farm" && r.dropin === true){
-      var h = r.places.filter(function(p){ return p.pin && p.role === "home_base"; })[0];
-      add("Visit the farm", (h ? line(h, "Farm info") : "Ask them for the address.") + (raw.dropin_hours && !(h && h.hours) ? ' <span class="muted">· ' + esc(raw.dropin_hours.replace(/\s*\((season ending soon|closing for the season soon)\)/i, "")) + '</span>' : "") + visitExtra(h && h.hours));
+    // Each way to visit, titled, with its own hours; the address and links appear once, on the first.
+    if(r.group === "farm" && r.visits.length){
+      var vp = r.places.filter(function(p){ return p.pin && (p.role === "home_base" || p.role === "farm_stand"); })[0];
+      r.visits.forEach(function(v, k){
+        add(v.label, (v.detail ? esc(v.detail) : "") + (k === 0 && vp ? '<div>' + line(vp, "More info", true) + '</div>' : "") + (k === 0 ? visitExtra(false) : ""));
+      });
     }
-    if(ch.indexOf("u_pick") !== -1) add("Pick your own", esc(raw.hours_text || "Ask them when you can come pick.") + (/appointment/i.test(raw.hours_text || "") ? "" : ""));
     if(ch.indexOf("csa") !== -1) add("Join their CSA", "A weekly share of the harvest. " + (site ? "Sign up on " + site + "." : "Contact them to sign up."));
     if(ch.indexOf("farmers_market") !== -1 || markets.length) add("At the farmers market", markets.length ? '<ul class="plain">' + markets.map(function(p){ return '<li>' + line(p) + '</li>'; }).join("") + '</ul>' : "They sell at local farmers markets. Check their page for dates.");
     if(ch.indexOf("pickup") !== -1 || pickups.length) add("Pick up an order", (ch.indexOf("online") !== -1 ? "Order first, then pick it up at one of these places:" : "Pick up at one of these places:") + (pickups.length ? '<ul class="plain">' + pickups.map(function(p){ return '<li>' + line(p) + '</li>'; }).join("") + '</ul>' : " Ask them where."));

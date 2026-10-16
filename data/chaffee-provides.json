@@ -13,10 +13,10 @@
    "producers": 31,
    "markets": 2,
    "access_points": 2,
-   "market_links": 36,
+   "market_links": 35,
    "outlets": 3,
    "outlet_pins": 3,
-   "pins": 33
+   "pins": 34
   }
  },
  "vocab": {
@@ -51,7 +51,17 @@
    "orchard": "Orchards",
    "bakery": "Bakeries",
    "maker": "Food makers",
+   "agritourism": "Agritourism",
+   "education": "Agricultural education",
    "winery": "Wineries"
+  },
+  "visit_types": {
+   "farm_stand": "Farm stand",
+   "shop": "Shop",
+   "u_pick": "Pick your own",
+   "tour": "Farm tours",
+   "volunteer": "Volunteer days",
+   "by_appointment": "Visits by appointment"
   },
   "product_groups": {
    "veggies": "Veggies",
@@ -96,6 +106,7 @@
    "product_groups": [
     "mushrooms"
    ],
+   "visits": [],
    "dropin_visits": false,
    "dropin_hours": null,
    "farm_pickup": false,
@@ -214,6 +225,7 @@
    "product_groups": [
     "beef-meat"
    ],
+   "visits": [],
    "dropin_visits": null,
    "dropin_hours": null,
    "farm_pickup": true,
@@ -316,6 +328,7 @@
     "beef-meat",
     "poultry-eggs"
    ],
+   "visits": [],
    "dropin_visits": false,
    "dropin_hours": null,
    "farm_pickup": true,
@@ -521,6 +534,18 @@
     "poultry-eggs",
     "dairy"
    ],
+   "visits": [
+    {
+     "type": "farm_stand",
+     "label": "Farm stand",
+     "detail": "Self-serve farm general store"
+    },
+    {
+     "type": "tour",
+     "label": "Farm tours",
+     "detail": "By booking"
+    }
+   ],
    "dropin_visits": true,
    "dropin_hours": null,
    "farm_pickup": true,
@@ -528,7 +553,7 @@
     "dropin": "set",
     "pickup": "listing"
    },
-   "visit_note": "Self-serve farm general store; farm tours by booking",
+   "visit_note": null,
    "months_open": [],
    "hours_text": null,
    "hours": [],
@@ -678,6 +703,7 @@
    "product_groups": [
     "veggies"
    ],
+   "visits": [],
    "dropin_visits": null,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -771,6 +797,7 @@
     "flowers",
     "garlic-herbs"
    ],
+   "visits": [],
    "dropin_visits": false,
    "dropin_hours": null,
    "farm_pickup": false,
@@ -863,6 +890,7 @@
    "product_groups": [
     "mushrooms"
    ],
+   "visits": [],
    "dropin_visits": null,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -968,6 +996,7 @@
    "product_groups": [
     "beef-meat"
    ],
+   "visits": [],
    "dropin_visits": null,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -1052,6 +1081,7 @@
    "product_groups": [
     "flowers"
    ],
+   "visits": [],
    "dropin_visits": null,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -1160,6 +1190,7 @@
     "honey",
     "drinks"
    ],
+   "visits": [],
    "dropin_visits": null,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -1415,6 +1446,7 @@
     "garlic-herbs",
     "mushrooms"
    ],
+   "visits": [],
    "dropin_visits": null,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -1518,6 +1550,13 @@
    ],
    "products": [],
    "product_groups": [],
+   "visits": [
+    {
+     "type": "farm_stand",
+     "label": "Farm stand",
+     "detail": "Tue 4:00pm - 6:00pm"
+    }
+   ],
    "dropin_visits": true,
    "dropin_hours": "Tue: 4:00pm - 6:00pm (closing for the season soon)",
    "farm_pickup": true,
@@ -1525,7 +1564,7 @@
     "dropin": "set",
     "pickup": "listing"
    },
-   "visit_note": "Farm stand every Tuesday 4-6 (season ending soon)",
+   "visit_note": "Season ending soon",
    "months_open": [],
    "hours_text": "Tue: 4:00pm - 6:00pm",
    "hours": [
@@ -1602,6 +1641,7 @@
    "product_groups": [
     "veggies"
    ],
+   "visits": [],
    "dropin_visits": null,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -1736,11 +1776,109 @@
    ]
   },
   {
+   "id": "co-p-001243",
+   "slug": "hutchinson-homestead-and-learning-center",
+   "name": "Hutchinson Homestead & Learning Center",
+   "kind": "education",
+   "categories": [
+    "Agricultural Education"
+   ],
+   "products": [
+    "Beef"
+   ],
+   "product_groups": [
+    "beef-meat"
+   ],
+   "visits": [
+    {
+     "type": "tour",
+     "label": "Farm tours",
+     "detail": "Sat-Sun 1:00pm - 4:00pm, June - September"
+    },
+    {
+     "type": "by_appointment",
+     "label": "Visits by appointment",
+     "detail": "Call or email to schedule"
+    }
+   ],
+   "dropin_visits": true,
+   "dropin_hours": "Sat-Sun 1:00pm - 4:00pm (June - September)",
+   "farm_pickup": true,
+   "visit_basis": {
+    "dropin": "set",
+    "pickup": "listing"
+   },
+   "visit_note": "Beef from Hutchinson Ranch is sometimes sold here. Ask first",
+   "months_open": [],
+   "hours_text": "Sat-Sun: 1:00pm - 4:00pm (June-September; by appointment)",
+   "hours": [
+    {
+     "day": "sat",
+     "opens": "13:00",
+     "closes": "16:00"
+    },
+    {
+     "day": "sun",
+     "opens": "13:00",
+     "closes": "16:00"
+    }
+   ],
+   "hours_status": "parsed",
+   "website": "https://www.hutchinsonhomestead.org/",
+   "phone": "(719) 239-0955",
+   "email": "info@hutchinsonhomestead.org",
+   "facebook": "https://www.facebook.com/hutchinsonhomesteadranch",
+   "instagram": null,
+   "sales_channels": [],
+   "sells_at": [],
+   "certified_organic": null,
+   "accepts_snap": null,
+   "ada_accessible": null,
+   "call_first": null,
+   "status": "unverified",
+   "claimed": false,
+   "last_verified": null,
+   "locations": [
+    {
+     "id": "co-loc-001516",
+     "role": "home_base",
+     "name": null,
+     "address": "8913 W Hwy 50",
+     "city": "Salida",
+     "zip": "81201",
+     "county_fips": "08015",
+     "lat": 38.52092,
+     "lon": -106.035675,
+     "precision": "exact",
+     "pin": true,
+     "pin_basis": "unconfirmed",
+     "days": [
+      "sat",
+      "sun"
+     ],
+     "hours_text": "Sat-Sun: 1:00pm - 4:00pm (June-September; by appointment)",
+     "season_start": null,
+     "season_end": null,
+     "status": "listed",
+     "confirm_url": null
+    }
+   ],
+   "sources": [
+    {
+     "source": "curated",
+     "label": "Farmers market vendor lists, checked by hand",
+     "url": null
+    }
+   ],
+   "confirmed_by": []
+  },
+  {
    "id": "co-p-000013",
    "slug": "hutchinson-ranch",
    "name": "Hutchinson Ranch",
-   "kind": "ranch",
+   "kind": "agritourism",
    "categories": [
+    "Agritourism",
     "On-Farm / Ranch Sales"
    ],
    "products": [
@@ -1749,14 +1887,15 @@
    "product_groups": [
     "beef-meat"
    ],
+   "visits": [],
    "dropin_visits": null,
    "dropin_hours": null,
-   "farm_pickup": null,
+   "farm_pickup": true,
    "visit_basis": {
     "dropin": null,
-    "pickup": null
+    "pickup": "listing"
    },
-   "visit_note": "Sells beef directly; none available right now. Ask by email or phone",
+   "visit_note": "Sells beef directly; none available right now. Ask by email or phone. Also a wedding and events venue with on-site lodging",
    "months_open": [],
    "hours_text": null,
    "hours": [],
@@ -1837,6 +1976,7 @@
    "product_groups": [
     "beef-meat"
    ],
+   "visits": [],
    "dropin_visits": null,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -1917,6 +2057,7 @@
     "garlic-herbs",
     "mushrooms"
    ],
+   "visits": [],
    "dropin_visits": null,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -2060,6 +2201,7 @@
    "product_groups": [
     "seeds-plants"
    ],
+   "visits": [],
    "dropin_visits": null,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -2178,6 +2320,7 @@
    "product_groups": [
     "mushrooms"
    ],
+   "visits": [],
    "dropin_visits": false,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -2185,7 +2328,7 @@
     "dropin": "set",
     "pickup": null
    },
-   "visit_note": "No farm stand; farm tours by request",
+   "visit_note": null,
    "months_open": [],
    "hours_text": null,
    "hours": [],
@@ -2280,6 +2423,18 @@
    "product_groups": [
     "fruit",
     "drinks"
+   ],
+   "visits": [
+    {
+     "type": "farm_stand",
+     "label": "Farm stand",
+     "detail": null
+    },
+    {
+     "type": "u_pick",
+     "label": "Pick your own",
+     "detail": null
+    }
    ],
    "dropin_visits": true,
    "dropin_hours": "U-pick orchard tours in summer season",
@@ -2444,6 +2599,7 @@
    "product_groups": [
     "flowers"
    ],
+   "visits": [],
    "dropin_visits": false,
    "dropin_hours": null,
    "farm_pickup": true,
@@ -2451,7 +2607,7 @@
     "dropin": "set",
     "pickup": "set"
    },
-   "visit_note": "Not open to the public; visits by appointment. Order online or by phone, or buy bouquets at Salida Garden Supply",
+   "visit_note": "Not open to the public. Order online or by phone, or buy bouquets at Salida Garden Supply",
    "months_open": [],
    "hours_text": "By appointment",
    "hours": [],
@@ -2538,6 +2694,7 @@
     "veggies",
     "flowers"
    ],
+   "visits": [],
    "dropin_visits": false,
    "dropin_hours": null,
    "farm_pickup": true,
@@ -2545,7 +2702,7 @@
     "dropin": "set",
     "pickup": "set"
    },
-   "visit_note": "On-farm pickup by arrangement; visits by appointment; also delivers in Salida and Poncha Springs",
+   "visit_note": "On-farm pickup by arrangement; also delivers in Salida and Poncha Springs",
    "months_open": [],
    "hours_text": "By appointment",
    "hours": [],
@@ -2634,6 +2791,13 @@
     "veggies",
     "garlic-herbs"
    ],
+   "visits": [
+    {
+     "type": "farm_stand",
+     "label": "Farm stand",
+     "detail": "Mon-Sat 8:00am - 6:00pm, May-Nov (self-serve)"
+    }
+   ],
    "dropin_visits": true,
    "dropin_hours": "Mon-Sat: 8 am - 6 pm",
    "farm_pickup": true,
@@ -2641,7 +2805,7 @@
     "dropin": "set",
     "pickup": "listing"
    },
-   "visit_note": "Self-serve honor-system farm stand, Mon-Sat 8-6, May-Nov",
+   "visit_note": null,
    "months_open": [
     "May",
     "June",
@@ -2809,6 +2973,13 @@
     "beef-meat",
     "poultry-eggs"
    ],
+   "visits": [
+    {
+     "type": "shop",
+     "label": "Shop",
+     "detail": "Mon-Sat 8:30am - 5:00pm"
+    }
+   ],
    "dropin_visits": true,
    "dropin_hours": "Mon-Sat 8:30am - 5:00pm",
    "farm_pickup": true,
@@ -2816,7 +2987,7 @@
     "dropin": "set",
     "pickup": "listing"
    },
-   "visit_note": "Retail meat shop at the plant, open Mon-Sat (hours from a business directory)",
+   "visit_note": "Hours are from a business directory",
    "months_open": [],
    "hours_text": null,
    "hours": [],
@@ -2885,94 +3056,6 @@
    ]
   },
   {
-   "id": "co-p-001031",
-   "slug": "sweet-pea-farms",
-   "name": "Sweet Pea Farms",
-   "kind": "farm",
-   "categories": [
-    "On-Farm / Ranch Sales"
-   ],
-   "products": [
-    "Honey",
-    "eggs",
-    "pork",
-    "produce",
-    "beeswax balms and candles"
-   ],
-   "product_groups": [
-    "veggies",
-    "beef-meat",
-    "poultry-eggs",
-    "honey"
-   ],
-   "dropin_visits": null,
-   "dropin_hours": null,
-   "farm_pickup": null,
-   "visit_basis": {
-    "dropin": null,
-    "pickup": null
-   },
-   "visit_note": null,
-   "months_open": [],
-   "hours_text": null,
-   "hours": [],
-   "hours_status": "none",
-   "website": null,
-   "phone": null,
-   "email": null,
-   "facebook": null,
-   "instagram": null,
-   "sales_channels": [],
-   "sells_at": [
-    {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
-    }
-   ],
-   "certified_organic": null,
-   "accepts_snap": null,
-   "ada_accessible": null,
-   "call_first": null,
-   "status": "unverified",
-   "claimed": false,
-   "last_verified": null,
-   "locations": [
-    {
-     "id": "co-loc-001263",
-     "role": "home_base",
-     "name": null,
-     "address": null,
-     "city": "Salida",
-     "zip": null,
-     "county_fips": "08015",
-     "lat": null,
-     "lon": null,
-     "precision": "none",
-     "pin": false,
-     "pin_basis": "unconfirmed",
-     "days": [],
-     "hours_text": null,
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
-    }
-   ],
-   "sources": [
-    {
-     "source": "curated",
-     "label": "Farmers market vendor lists, checked by hand",
-     "url": null
-    }
-   ],
-   "confirmed_by": []
-  },
-  {
    "id": "co-p-000024",
    "slug": "sweet-pea-farms-wildflower-honey",
    "name": "Sweet Pea Farm’s Wildflower Honey",
@@ -2990,6 +3073,13 @@
     "beef-meat",
     "poultry-eggs",
     "honey"
+   ],
+   "visits": [
+    {
+     "type": "farm_stand",
+     "label": "Farm stand",
+     "detail": null
+    }
    ],
    "dropin_visits": true,
    "dropin_hours": null,
@@ -3051,6 +3141,11 @@
      "source": "chaffee_provides",
      "label": "Chaffee Provides",
      "url": null
+    },
+    {
+     "source": "curated",
+     "label": "Farmers market vendor lists, checked by hand",
+     "url": null
     }
    ],
    "confirmed_by": [
@@ -3096,6 +3191,13 @@
     "honey",
     "flowers",
     "baked-goods"
+   ],
+   "visits": [
+    {
+     "type": "farm_stand",
+     "label": "Farm stand",
+     "detail": null
+    }
    ],
    "dropin_visits": true,
    "dropin_hours": null,
@@ -3183,6 +3285,18 @@
     "garlic-herbs",
     "seeds-plants"
    ],
+   "visits": [
+    {
+     "type": "shop",
+     "label": "Shop",
+     "detail": null
+    },
+    {
+     "type": "u_pick",
+     "label": "Pick your own",
+     "detail": "By appointment, June-October"
+    }
+   ],
    "dropin_visits": true,
    "dropin_hours": null,
    "farm_pickup": true,
@@ -3190,7 +3304,7 @@
     "dropin": "set",
     "pickup": "listing"
    },
-   "visit_note": "On-farm store; pick-your-own flowers by appointment, June-October",
+   "visit_note": null,
    "months_open": [],
    "hours_text": "Pick-your-own flowers by appointment, June–October",
    "hours": [],
@@ -3269,6 +3383,7 @@
     "veggies",
     "flowers"
    ],
+   "visits": [],
    "dropin_visits": null,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -3366,6 +3481,7 @@
     "poultry-eggs",
     "dairy"
    ],
+   "visits": [],
    "dropin_visits": false,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -3458,6 +3574,7 @@
    "product_groups": [
     "honey"
    ],
+   "visits": [],
    "dropin_visits": null,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -3571,6 +3688,13 @@
     "beef-meat",
     "poultry-eggs"
    ],
+   "visits": [
+    {
+     "type": "farm_stand",
+     "label": "Farm stand",
+     "detail": "Tue-Sun 8:00am - 6:00pm"
+    }
+   ],
    "dropin_visits": true,
    "dropin_hours": "Tue-Sun: 8:00am - 6:00pm",
    "farm_pickup": true,
@@ -3578,7 +3702,7 @@
     "dropin": "set",
     "pickup": "listing"
    },
-   "visit_note": "Farm stand, Tue-Sun",
+   "visit_note": null,
    "months_open": [],
    "hours_text": "Tue-Sun: 8:00am - 6:00pm",
    "hours": [
@@ -3754,7 +3878,6 @@
     "co-p-000021",
     "co-p-000026",
     "co-p-000792",
-    "co-p-001031",
     "co-p-001232",
     "co-p-001233",
     "co-p-001234",
