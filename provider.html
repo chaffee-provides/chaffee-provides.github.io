@@ -109,7 +109,9 @@
       + (p.hours ? '<br>'+esc(p.hours) : '')
       + (p.unconfirmed && p.pin ? '<div class="faint">We haven\'t confirmed that they sell here yet.</div>' : '')
       + (p.loc.confirm_url ? '<div class="faint">' + CP.safeLink(p.loc.confirm_url, (p.pickup ? "Pickup info" : "More info")) + '</div>' : '')
-      + (p.pin ? '<div style="margin-top:6px"><a href="'+CP.directions(p)+'" target="_blank" rel="noopener">Directions</a></div>' : '')
+      + (p.pin ? '<div style="margin-top:6px"><a href="'+CP.directions(p)+'" target="_blank" rel="noopener">Directions</a>'
+        + (p.role === "outlet_site" ? ' · <a href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent([p.rec.name, p.loc.address, p.loc.city, "CO"].filter(Boolean).join(", "))+'" target="_blank" rel="noopener">Google Maps listing</a>' : '')
+        + '</div>' : '')
       + '</li>';
   }
 
