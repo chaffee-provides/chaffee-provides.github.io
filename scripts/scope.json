@@ -1,0 +1,40 @@
+{
+  "_comment": "What the Chaffee Provides site shows. The Food Web publishes every record statewide and scripts/sync_data.py applies this scope when it syncs; these are choices about the site, not about the facts. county_fips: the counties the site covers. include_sources: a record that one of these sources lists is kept even if the Food Web has no county for it. include_categories is an allowlist (a record with categories stays only if one is listed). exclude_categories drops a record whose categories are all listed. exclude_slugs drops a record. hide_pin_slugs keeps a record in the list but off the map. show_unconfirmed_home_pins gives a home-base pin to records whose sales channels are not confirmed. include_outlet_kinds is the shop kinds shown.",
+  "county_fips": [
+    "08015"
+  ],
+  "include_sources": [
+    "chaffee_provides"
+  ],
+  "show_unconfirmed_home_pins": true,
+  "exclude_slugs": {
+    "cottonwood-spirit-ranch": "Not applicable for now: mostly a vacation rental that sells beef to guests (Alycen Quattrocchi, Oct 13 2026)"
+  },
+  "exclude_categories": {
+    "Agritourism": "Guidestone does not want agritourism on the Chaffee Provides site (user, 2026-10-15)",
+    "Bakery": "Bakeries are not part of the Chaffee Provides set (user, 2026-10-15)",
+    "Restaurant": "Restaurants are not part of the Chaffee Provides set (JP provider, 2026-10-15)",
+    "Caterer": "Caterers are not part of the Chaffee Provides set (JP provider, 2026-10-15)"
+  },
+  "hide_pin_slugs": {
+    "everett-ranch-beef": "Social media only; listed so people can message them, but not shown on the map (user, 2026-10-15)"
+  },
+  "include_outlet_kinds": [
+    "apothecary",
+    "farm_store",
+    "garden_center",
+    "grocery"
+  ],
+  "include_categories": {
+    "On-Farm / Ranch Sales": "Part of the Chaffee Provides set",
+    "Roadside Market": "Part of the Chaffee Provides set",
+    "U-Pick": "Part of the Chaffee Provides set",
+    "CSA Farm": "Part of the Chaffee Provides set",
+    "Farm Products (online)": "Part of the Chaffee Provides set",
+    "Food Maker": "Part of the Chaffee Provides set",
+    "Agricultural Education": "Part of the Chaffee Provides set: Guidestone's Hutchinson Homestead & Learning Center (user, 2026-10-15)",
+    "Meat Producer & Packer": "Part of the Chaffee Provides set",
+    "Winery": "Part of the Chaffee Provides set",
+    "Market Vendor": "Part of the Chaffee Provides set: growers and makers who sell at the Salida Farmers Market"
+  }
+}
