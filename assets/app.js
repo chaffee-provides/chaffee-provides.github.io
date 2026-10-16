@@ -166,7 +166,7 @@
         d.markets.forEach(function(x){ recs.push(makeRec(x, "market", photos, labels, plabels)); });
         d.access_points.forEach(function(x){ recs.push(makeRec(x, "access", photos, labels, plabels)); });
         (d.outlets || []).forEach(function(x){ recs.push(makeRec(x, "outlet", photos, labels, plabels)); });   // shops and grocers; absent in older exports
-        recs.forEach(function(x){ x.description = descs[x.slug] || ""; });   // text each business submitted to the old site (data/descriptions.json)
+        recs.forEach(function(x){ x.description = descs[x.slug] || descs[x.slug.replace(/-outlet$/, "")] || ""; });   // text each business submitted to the old site (data/descriptions.json)
         return { meta:d.export, vocab:d.vocab, recs:recs, bySlug:recs.reduce(function(o, x){ o[x.slug] = x; return o; }, {}) };
       });
     }
@@ -251,7 +251,10 @@
     return "";
   }
 
-  function placeLabel(p){ return p.market ? "Sells at the farmers market" : (p.pickup ? "Pickup point" : (ROLE_LABEL[p.role] || "")); }
+  // "Visit the farm" for a farm, "Visit the shop" for an apothecary or store, and so on, by what kind of business it is.
+  var VISIT_WORD = { bakery:"bakery", winery:"winery", apothecary:"shop", shop:"shop", store:"shop", grocer:"shop", market:"market" };
+  function visitWord(r){ return VISIT_WORD[r && r.raw && r.raw.kind] || "farm"; }
+  function placeLabel(p){ return p.market ? "Sells at the farmers market" : (p.pickup ? "Pickup point" : (p.role === "home_base" && p.rec ? "At the " + visitWord(p.rec) : (ROLE_LABEL[p.role] || ""))); }
 
   // The list a visitor was last browsing (directory or map results), so a listing page can step to the next one.
   var browse = {
@@ -259,7 +262,7 @@
     get: function(){ try{ return JSON.parse(sessionStorage.getItem("cp-browse") || "null"); }catch(e){ return null; } }
   };
 
-  window.CP = { browse:browse, placeLabel:placeLabel, visitBadge:visitBadge, esc:esc, url:url, load:load, loadModel:loadModel, CONFIG:CONFIG, GROUPS:GROUPS, catLabel:catLabel, ROLE_LABEL:ROLE_LABEL, MONTHS:MONTHS,
+  window.CP = { visitWord:visitWord, browse:browse, placeLabel:placeLabel, visitBadge:visitBadge, esc:esc, url:url, load:load, loadModel:loadModel, CONFIG:CONFIG, GROUPS:GROUPS, catLabel:catLabel, ROLE_LABEL:ROLE_LABEL, MONTHS:MONTHS,
     fanOut:fanOut, thisMonth:thisMonth, typeStyle:typeStyle, pinIcon:pinIcon, basemap:basemap, countyOutline:countyOutline,
     fmtDate:fmtDate, directions:directions, recUrl:recUrl, safeLink:safeLink, photoHtml:photoHtml, mailto:mailto, suggestUrl:suggestUrl };
 
