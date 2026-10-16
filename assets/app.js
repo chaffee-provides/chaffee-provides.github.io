@@ -150,8 +150,9 @@
       photo:photos[raw.slug] || null,
       hours:raw.hours_text || "", products:(raw.products || []).join(", "), categories:raw.categories || [] };
     places.forEach(function(p){ p.rec = rec; });
-    rec.search = [raw.name, towns.join(" "), rec.products, rec.productText.join(" "), GROUPS[cat].label,
-      places.map(function(p){ return [p.title, p.loc.address].join(" "); }).join(" ")].join(" ").toLowerCase();
+    rec.baseSearch = [raw.name, towns.join(" "), rec.products, rec.productText.join(" "), GROUPS[cat].label].join(" ").toLowerCase();
+    places.forEach(function(p){ p.search = [p.title, p.loc.address].join(" ").toLowerCase(); });
+    rec.search = rec.baseSearch + " " + places.map(function(p){ return p.search; }).join(" ");
     return rec;
   }
   // The whole site runs on this model: every producer, market and free-food site, each with its places.

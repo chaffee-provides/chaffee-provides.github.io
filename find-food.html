@@ -117,6 +117,11 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
     if(state.q){
       var words = state.q.toLowerCase().split(/\s+/).filter(Boolean);
       for(var i=0;i<words.length;i++) if(r.search.indexOf(words[i]) === -1) return [];
+      // If the words only match through a place (a shop the farm sells at), keep the listing but pin just those places.
+      var onlyPlaces = words.some(function(w){ return r.baseSearch.indexOf(w) === -1; });
+      if(onlyPlaces) return r.places.filter(function(p){
+        return (!state.town || p.loc.city === state.town) && words.every(function(w){ return (r.baseSearch + " " + p.search).indexOf(w) !== -1; });
+      });
     }
     return r.places.filter(function(p){ return !state.town || p.loc.city === state.town; });
   }
