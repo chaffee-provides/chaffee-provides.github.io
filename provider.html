@@ -40,6 +40,8 @@
   // A farm that doesn't take visitors isn't "a place to find them": only list its home if it has a pin or welcomes drop-ins.
   // We know they don't take visitors: they said so, or we looked for drop-in visits and found only other ways to buy.
   function noVisits(r){ return r.group === "farm" && r.dropin !== true && (r.dropin === false || (r.dropin == null && r.channels.length > 0)); }
+  // Says outright that it doesn't sell to the public (a donation farm, say): their own note takes the place of "how to buy".
+  function noPublicSales(r){ return r.group === "farm" && r.dropin === false && r.channels.length === 0 && !!r.raw.visit_note; }
   function isVisitable(p){ return p.role !== "home_base" || p.rec.dropin === true || (!noVisits(p.rec) && p.pin); }
   function isMarket(p){ return /market/i.test(p.title || "") || /market/i.test(p.loc.name || ""); }
   var used = {};   // places a "way" already shows, so the list under the map does not repeat them
@@ -51,7 +53,7 @@
       + (p.unconfirmed && p.pin ? '<div class="faint">We haven\'t confirmed that they sell here yet.</div>' : "");
   }
   // The business's own page that says it sells here, so a visitor can check it for themselves.
-  function ownPage(p, label){ return p.loc.confirm_url ? ' <span class="muted">· ' + CP.safeLink(p.loc.confirm_url, label || (p.pickup ? "Pickup info" : "More info")) + '</span>' : ""; }
+  function ownPage(p, label){ return p.loc.confirm_url && label !== null ? ' <span class="muted">· ' + CP.safeLink(p.loc.confirm_url, label || (p.pickup ? "Pickup info" : "More info")) + '</span>' : ""; }
 
   // Plain answers to "can I show up?" and "how do I get it?"
   // Two separate answers: can I just show up, and can I pick up an order at the farm?
@@ -63,11 +65,8 @@
     if(r.group === "outlet") return { none:true };   // a shop: no "open to everyone" banner, and no hours to point to
     if(r.group !== "farm") return { tone:"ok", html:'<div class="vrow yes"><span class="vmark" aria-hidden="true">✔</span><span><strong>Open to everyone.</strong> Come at the times shown below.</span></div>' };
     // A farm that isn't open to visitors gets one plain note under "All the places to find them", never a banner up top.
-    var site = r.raw.website ? CP.safeLink(r.raw.website) : "";
-    if(!noVisits(r)) return { none:true, html:"" };
-    return { tone:"no", compact:true, html:'<div class="vrow no"><span class="vmark" aria-hidden="true">✖</span><span><strong>' + (r.dropin === false ? "No drop-in visits." : "Drop-in visits are not offered at this time.") + '</strong>'
-      + (r.dropin === false ? " Please don't show up unannounced." : "") + (site ? " Their website has the details: " + site : "") + '</span></div>'
-      + (r.farmPickup === true && r.channels.indexOf("online") !== -1 ? '<div class="vrow yes"><span class="vmark" aria-hidden="true">✔</span><span><strong>Farm pickup.</strong> You can pick up an order at the farm, by arrangement.</span></div>' : "") };
+    if(!noVisits(r) || noPublicSales(r)) return { none:true, html:"" };
+    return { tone:"no", compact:true, html:'<div class="vrow no"><span class="vmark" aria-hidden="true">✖</span><span><strong>' + "Drop-in visits are not offered." + '</strong></span></div>' };
   }
   function ways(r){
     var raw = r.raw, ch = r.channels, out = [];
@@ -93,13 +92,27 @@
     if(ch.indexOf("u_pick") !== -1) add("Pick your own", esc(raw.hours_text || "Ask them when you can come pick.") + (/appointment/i.test(raw.hours_text || "") ? "" : ""));
     if(ch.indexOf("csa") !== -1) add("Join their CSA", "A weekly share of the harvest. " + (site ? "Sign up on " + site + "." : "Contact them to sign up."));
     if(ch.indexOf("farmers_market") !== -1 || markets.length) add("At the farmers market", markets.length ? '<ul class="plain">' + markets.map(function(p){ return '<li>' + line(p) + '</li>'; }).join("") + '</ul>' : "They sell at local farmers markets. Check their page for dates.");
-    var pickupList = pickups.length ? '<ul class="plain">' + pickups.map(function(p){ return '<li>' + line(p) + '</li>'; }).join("") + '</ul>' : "";
-    var orderOnline = ch.indexOf("online") !== -1, canPickUp = ch.indexOf("pickup") !== -1 || pickups.length;
-    if(orderOnline && canPickUp) add("Order online", (site ? "Order at " + site : "Order online") + ", then pick it up at one of these places:" + (pickupList || " ask them where."));   // one entry: order first, then pick up
-    else if(canPickUp) add("Pick up an order", "Pick up at one of these places:" + (pickupList || " Ask them where."));
-    if(orderOnline && !canPickUp) add("Order online", site ? "Order at " + site + "." : "Ask them how to order.");
+    var orderOnline = ch.indexOf("online") !== -1;
+    var farmHome = r.group === "farm" && r.farmPickup === true ? r.places.filter(function(p){ return p.role === "home_base" && p.loc.address; })[0] : null;
+    // Only when their own note says where they deliver ("delivery within Chaffee County only"); otherwise "Order online" covers it.
+    var deliveryNote = ((raw.visit_note || "").split(/;\s*/).filter(function(t){ return /^deliver/i.test(t); })[0] || "").replace(/^./, function(c){ return c.toUpperCase(); });
+    var delivers = ch.indexOf("delivery") !== -1 && !!deliveryNote;
+    var canPickUp = ch.indexOf("pickup") !== -1 || pickups.length || farmHome;
+    var pickupLis = pickups.map(function(p){ return '<li>' + line(p) + '</li>'; }).join("");
+    if(orderOnline && (delivers || farmHome)){
+      // Several ways to receive an order: one entry, order first, then the choices.
+      add("Order online", (site ? "Order at " + site : "Order online") + ", then choose:" + '<ul class="plain">'
+        + (farmHome ? '<li>Pick up at the ' + CP.visitWord(r) + ', by arrangement: ' + line(farmHome) + '</li>' : "")
+        + pickups.map(function(p){ return '<li>Pick up at ' + line(p) + '</li>'; }).join("")
+        + (delivers ? '<li>' + esc(deliveryNote) + '</li>' : "") + '</ul>');
+    } else if(orderOnline && canPickUp) add("Order online", (site ? "Order at " + site : "Order online") + ", then pick it up at one of these places:" + (pickupLis ? '<ul class="plain">' + pickupLis + '</ul>' : " ask them where."));   // one entry: order first, then pick up
+    else if(canPickUp) add("Pick up an order", "Pick up at one of these places:" + (pickupLis ? '<ul class="plain">' + pickupLis + '</ul>' : " Ask them where."));
+    if(orderOnline && !canPickUp && !delivers) add("Order online", site ? "Order at " + site + "." : "Ask them how to order.");
     var stores = r.places.filter(function(p){ return p.role === "store"; });
-    if(stores.length) add("In local stores", '<ul class="plain">' + stores.map(function(p){ return '<li>' + line(p, "Their store list") + '</li>'; }).join("") + '</ul>');
+    if(stores.length){   // one link to their own store list at the top, not one per store
+      var listUrl = (stores.filter(function(p){ return p.loc.confirm_url; })[0] || { loc:{} }).loc.confirm_url;
+      add("In local stores", (listUrl ? '<div>' + CP.safeLink(listUrl, "Their store list") + '</div>' : "") + '<ul class="plain">' + stores.map(function(p){ return '<li>' + line(p, null) + '</li>'; }).join("") + '</ul>');
+    }
     else if(ch.indexOf("retail_partners") !== -1) add("In local stores", "You can find their products in some local stores.");
     if(ch.indexOf("wholesale") !== -1) add("Wholesale", ch.length === 1 ? "They sell to restaurants and stores, not to the public." : "They also sell wholesale to restaurants and stores.");
     if(r.group === "outlet"){
@@ -108,7 +121,8 @@
         + (raw.phone ? '<div>' + phone(raw.phone) + '</div>' : "") + (site ? '<div>' + site + '</div>' : "")
         );
     }
-    if(!out.length && r.group === "farm") add("How to buy", "We haven't confirmed how to buy from them yet. " + (raw.phone ? "Call " + phone(raw.phone) + ". " : "") + (site ? "Or see " + site + "." : ""));
+    if(!out.length && noPublicSales(r)) add("How to buy", esc(raw.visit_note) + ".");
+    else if(!out.length && r.group === "farm") add("How to buy", "We haven't confirmed how to buy from them yet. " + (raw.phone ? "Call " + phone(raw.phone) + ". " : "") + (site ? "Or see " + site + "." : ""));
     return out;
   }
 
