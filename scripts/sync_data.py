@@ -32,6 +32,14 @@ real = {"producers": len(d["producers"]), "markets": len(d["markets"]), "access_
 for k, v in real.items():
     if counts.get(k) != v:
         fail("counts say %s=%r but the file has %r" % (k, counts.get(k), v))
+# Outlets (shops and grocers) are optional; when present their counts and addresses are checked too.
+if "outlets" in d:
+    for k, v in (("outlets", len(d["outlets"])), ("outlet_pins", sum(o["location"]["pin"] for o in d["outlets"]))):
+        if counts.get(k) != v:
+            fail("counts say %s=%r but the file has %r" % (k, counts.get(k), v))
+    for o in d["outlets"]:
+        if o["location"]["precision"] == "town" and (o["location"]["address"] or o["location"]["zip"]):
+            fail("%s has a hidden location with an address" % o["name"])
 if not d["producers"]:
     fail("no producers in the export")
 # Public-safety check: a hidden address must never carry a street address or an exact pin.

@@ -42,10 +42,10 @@
 <script src="assets/app.js"></script>
 <script>
 CP.loadModel().then(function(M){
-  var by = { farm:0, market:0, access:0 }; M.recs.forEach(function(r){ by[r.group]++; });
-  var pins = M.meta.counts.pins;
+  var by = { farm:0, market:0, access:0, outlet:0 }; M.recs.forEach(function(r){ by[r.group]++; });
+  var pins = M.meta.counts.pins + (M.meta.counts.outlet_pins || 0);
   document.getElementById("stats").innerHTML = "<strong>The directory today:</strong> " + M.recs.length + " listings ("
-    + by.farm + " farms and ranches, " + by.market + " farmers markets, " + by.access + " free-food sites) and " + pins
+    + by.farm + " farms and ranches, " + by.market + " farmers markets, " + by.access + " free-food sites" + (by.outlet ? ", " + by.outlet + " shops and grocers" : "") + ") and " + pins
     + " places on the map. Data release " + CP.esc(M.meta.release) + ", built " + CP.esc(CP.fmtDate(M.meta.generated)) + ".<br>"
     + '<span class="muted" style="font-size:.9rem">' + CP.esc(M.meta.attribution) + "</span>";
 }).catch(function(e){ document.getElementById("stats").textContent = "Directory numbers are unavailable (" + e.message + ")."; });

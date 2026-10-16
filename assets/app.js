@@ -23,10 +23,21 @@
     maker:   { label:"Food makers", single:"Food maker",     emoji:"🍞", color:"var(--t-dining)",     hex:"#5b6b8c" },
     winery:  { label:"Wineries", single:"Winery",        emoji:"🍷", color:"var(--t-dining)",     hex:"#5b6b8c" },
     market:  { label:"Farmers markets", single:"Farmers market", emoji:"🧺", color:"var(--t-market)",     hex:"#a8761d" },
-    access:  { label:"Free food", single:"Free food",       emoji:"🥫", color:"var(--t-assistance)", hex:"#a94f28" }
+    agritourism: { label:"Agritourism", single:"Agritourism",       emoji:"🐴", color:"var(--t-ranch)",      hex:"#8a5a3c" },
+    education:   { label:"Agricultural education", single:"Agricultural education", emoji:"🎓", color:"var(--t-community)", hex:"#3f7f9c" },
+    access:  { label:"Free food", single:"Free food",       emoji:"🥫", color:"var(--t-assistance)", hex:"#a94f28" },
+    // Shops and grocers come from the Food Web's outlets (export "outlets"); the key is the outlet kind.
+    apothecary:    { label:"Apothecaries", single:"Apothecary",   shop:true, emoji:"🌿", color:"var(--t-shop)", hex:"#7a4f8f" },
+    farm_store:    { label:"Farm stores",  single:"Farm store",   shop:true, emoji:"🏪", color:"var(--t-shop)", hex:"#7a4f8f" },
+    grocery:       { label:"Grocers",      single:"Grocer",       shop:true, emoji:"🛒", color:"var(--t-shop)", hex:"#7a4f8f" },
+    garden_center: { label:"Garden centers", single:"Garden center", shop:true, emoji:"🪴", color:"var(--t-shop)", hex:"#7a4f8f" },
+    other_retail:  { label:"Other shops",  single:"Shop",         shop:true, emoji:"🏪", color:"var(--t-shop)", hex:"#7a4f8f" }
   };
+  var SHOPS_LABEL = "Shops & Grocers";
+  // "Shops & Grocers · Apothecary" for a shop, the plain label for everything else.
+  function catLabel(cat){ var g = GROUPS[cat] || GROUPS.farm; return g.shop ? SHOPS_LABEL + " · " + g.single : g.single; }
   var ROLE_LABEL = { home_base:"At the farm", farm_stand:"Farm stand", pickup:"Pickup point", csa_dropoff:"CSA pickup",
-    market_site:"Market", access_site:"Free food" };
+    market_site:"Market", access_site:"Free food", outlet_site:"Shop", store:"Sold here" };
   var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
   var NAV = [ ["find-food.html","Map"], ["directory.html","Directory"], ["list-your-business.html","List Your Business"], ["about.html","About"] ];
@@ -104,13 +115,16 @@
   function placeTitle(l){
     return l.name || l.address || l.city || "Location";
   }
-  function catOf(raw, group){ return group === "farm" ? (GROUPS[raw.kind] ? raw.kind : "farm") : group; }
+  function catOf(raw, group){
+    if(group === "outlet") return GROUPS[raw.kind] && GROUPS[raw.kind].shop ? raw.kind : "other_retail";
+    return group === "farm" ? (GROUPS[raw.kind] ? raw.kind : "farm") : group;
+  }
   function makeRec(raw, group, photos, channelLabels, productLabels){
     var cat = catOf(raw, group), places = [];
     var locs = group === "farm" ? raw.locations : [raw.location];
     locs.forEach(function(l){
       if(!l) return;
-      var role = group === "farm" ? l.role : (group === "market" ? "market_site" : "access_site");
+      var role = group === "farm" ? l.role : (group === "market" ? "market_site" : (group === "outlet" ? "outlet_site" : "access_site"));
       places.push({ id:raw.id + ":" + l.id, rec:null, loc:l, role:role, kind:cat, pickup:(role === "pickup" || role === "csa_dropoff"),
         market:(role === "pickup" && /market/i.test(l.name || "")),   // a stand at a farmers market, not a pickup point
         title:placeTitle(l), hours:l.hours_text || (group === "farm" ? "" : raw.hours_text) || "", days:l.days || [],
@@ -151,7 +165,8 @@
         d.producers.forEach(function(x){ recs.push(makeRec(x, "farm", photos, labels, plabels)); });
         d.markets.forEach(function(x){ recs.push(makeRec(x, "market", photos, labels, plabels)); });
         d.access_points.forEach(function(x){ recs.push(makeRec(x, "access", photos, labels, plabels)); });
-        recs.forEach(function(x){ x.description = descs[x.slug] || ""; });   // text each business submitted to the old site (data/descriptions.json)
+        (d.outlets || []).forEach(function(x){ recs.push(makeRec(x, "outlet", photos, labels, plabels)); });   // shops and grocers; absent in older exports
+        recs.forEach(function(x){ x.description = descs[x.slug] || descs[x.slug.replace(/-outlet$/, "")] || ""; });   // text each business submitted to the old site (data/descriptions.json)
         return { meta:d.export, vocab:d.vocab, recs:recs, bySlug:recs.reduce(function(o, x){ o[x.slug] = x; return o; }, {}) };
       });
     }
@@ -224,7 +239,7 @@
   }
   // Full photo on a listing page; a small square thumbnail on cards (cls "photo" with thumb true).
   function photoHtml(rec, cls, thumb){
-    if(!rec.photo) return '<div class="'+cls+' ph" aria-hidden="true"><span>'+typeStyle(rec.group).emoji+'</span></div>';
+    if(!rec.photo) return '<div class="'+cls+' ph" aria-hidden="true"><span>'+typeStyle(rec.group === "outlet" ? rec.cat : rec.group).emoji+'</span></div>';
     if(thumb && rec.photo.thumb) return '<img class="'+cls+'" src="'+url(rec.photo.thumb)+'" alt="" loading="lazy" width="160" height="160">';
     return '<img class="'+cls+'" src="'+url(rec.photo.file)+'" alt="'+esc(rec.photo.alt)+'" loading="lazy" width="'+rec.photo.width+'" height="'+rec.photo.height+'">';
   }
@@ -241,7 +256,13 @@
   function visitWord(r){ return VISIT_WORD[r && r.raw && r.raw.kind] || "farm"; }
   function placeLabel(p){ return p.market ? "Sells at the farmers market" : (p.pickup ? "Pickup point" : (p.role === "home_base" && p.rec ? "At the " + visitWord(p.rec) : (ROLE_LABEL[p.role] || ""))); }
 
-  window.CP = { visitWord:visitWord, placeLabel:placeLabel, visitBadge:visitBadge, esc:esc, url:url, load:load, loadModel:loadModel, CONFIG:CONFIG, GROUPS:GROUPS, ROLE_LABEL:ROLE_LABEL, MONTHS:MONTHS,
+  // The list a visitor was last browsing (directory or map results), so a listing page can step to the next one.
+  var browse = {
+    save: function(slugs){ try{ sessionStorage.setItem("cp-browse", JSON.stringify(slugs)); }catch(e){} },
+    get: function(){ try{ return JSON.parse(sessionStorage.getItem("cp-browse") || "null"); }catch(e){ return null; } }
+  };
+
+  window.CP = { visitWord:visitWord, browse:browse, placeLabel:placeLabel, visitBadge:visitBadge, esc:esc, url:url, load:load, loadModel:loadModel, CONFIG:CONFIG, GROUPS:GROUPS, catLabel:catLabel, ROLE_LABEL:ROLE_LABEL, MONTHS:MONTHS,
     fanOut:fanOut, thisMonth:thisMonth, typeStyle:typeStyle, pinIcon:pinIcon, basemap:basemap, countyOutline:countyOutline,
     fmtDate:fmtDate, directions:directions, recUrl:recUrl, safeLink:safeLink, photoHtml:photoHtml, mailto:mailto, suggestUrl:suggestUrl };
 

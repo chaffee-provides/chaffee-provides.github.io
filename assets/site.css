@@ -4,7 +4,7 @@
   --line:#e2e0d9; --chip:#f0efea; --shadow:none;
   --green:#2f5d3a; --green-2:#3f7a4c; --on-green:#ffffff; --wheat:#b8862f; --rust:#a94f28;
   --sky:#4d82a3; --slate:#5b6b8c; --focus:#c8963e;
-  --t-farm:#2f6b3c; --t-ranch:#8a5a3c; --t-market:#a8761d; --t-assistance:#a94f28; --t-dining:#5b6b8c; --t-community:#3f7f9c;
+  --t-farm:#2f6b3c; --t-ranch:#8a5a3c; --t-market:#a8761d; --t-assistance:#a94f28; --t-dining:#5b6b8c; --t-community:#3f7f9c; --t-shop:#7a4f8f;
   --radius:3px; --max:1180px;
   --serif:"Playfair Display", Georgia, "Times New Roman", serif;
   --sans:"Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -16,7 +16,7 @@
     --line:#2c3529; --chip:#252e23; --shadow:none;
     --green:#7fb88a; --green-2:#94c79e; --on-green:#0f1410; --wheat:#d9ad5c; --rust:#e08a62;
     --sky:#7fb3d1; --slate:#9aa8c6;
-    --t-farm:#7fb88a; --t-ranch:#d09a72; --t-market:#d9ad5c; --t-assistance:#e08a62; --t-dining:#9aa8c6; --t-community:#7fb3d1;
+    --t-farm:#7fb88a; --t-ranch:#d09a72; --t-market:#d9ad5c; --t-assistance:#e08a62; --t-dining:#9aa8c6; --t-community:#7fb3d1; --t-shop:#b995cc;
   }
 }
 *{ box-sizing:border-box; }
@@ -257,6 +257,11 @@ tr:last-child td{ border-bottom:0; }
 .hero-photo{ width:100%; max-height:300px; object-fit:cover; display:block; border-radius:var(--radius); margin:14px 0; }
 .places{ display:grid; gap:10px; margin:10px 0 20px; padding:0; list-style:none; }
 .places li{ border:1px solid var(--line); border-left:4px solid var(--green); background:var(--card); padding:10px 14px; border-radius:2px; }
+.pager{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin:0 0 14px; font-size:.95rem; }
+.pager a, .pager .off{ flex:1 1 0; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.pager a:last-child, .pager .off:last-child{ text-align:right; }
+.pager .pos{ flex:0 0 auto; color:var(--muted, #6b6b62); }
+.pager .off{ visibility:hidden; }
 .places li.pickup{ border-left-color:var(--t-community); }
 .places .role{ font-size:.72rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
 .places .faint{ font-size:.84rem; color:var(--muted); }

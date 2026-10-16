@@ -89,7 +89,7 @@
     var st = CP.typeStyle(r.cat);
     var line = r.group === "access" ? (r.hours || "") : "";
     return '<a class="biz" href="'+CP.recUrl(r)+'">'+CP.photoHtml(r, "photo", true)
-      + '<div class="body"><span class="tag" style="color:'+st.color+'">'+esc(CP.GROUPS[r.cat].single)+'</span>'+CP.visitBadge(r)
+      + '<div class="body"><span class="tag" style="color:'+st.color+'">'+esc(CP.catLabel(r.cat))+'</span>'+CP.visitBadge(r)
       + '<h3>'+esc(r.name)+'</h3>'
       + '<div class="meta">'+esc(r.towns.slice(0,3).join(", "))+'</div>'
       + (r.productText.length ? '<div class="chipline">'+r.productText.map(function(c){ return '<span class="mini-chip">'+esc(c)+'</span>'; }).join("")+'</div>' : '')
@@ -99,6 +99,7 @@
   function apply(){
     writeUrl();
     var shown = ALL.filter(passes);
+    CP.browse.save(shown.map(function(r){ return r.slug; }));
     els.cards.innerHTML = shown.map(card).join("") || '<p class="muted">Nothing matches those filters.</p>';
     els.count.textContent = shown.length + " of " + ALL.length + " listings";
   }

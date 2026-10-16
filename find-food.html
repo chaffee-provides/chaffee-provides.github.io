@@ -25,7 +25,6 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
       <input type="search" id="q" placeholder="Search honey, beef, eggs, a farm or a town…" autocomplete="off" list="suggest">
       <datalist id="suggest"></datalist>
       <div class="chips" id="products" role="group" aria-label="What are you looking for?"></div>
-      <div class="chips" id="cats" role="group" aria-label="Kind of place"></div>
       <div class="row">
         <label for="town" class="sr-only">Town</label>
         <select id="town" style="flex:1"><option value="">All towns</option></select>
@@ -49,7 +48,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
   "use strict";
   var esc = CP.esc;
   var state = { q:"", cat:"", product:"", town:"", snap:false, dropin:false };
-  var els = { q:document.getElementById("q"), products:document.getElementById("products"), cats:document.getElementById("cats"),
+  var els = { q:document.getElementById("q"), products:document.getElementById("products"),
     town:document.getElementById("town"), snap:document.getElementById("snap"), dropin:document.getElementById("dropin"), list:document.getElementById("list"),
     count:document.getElementById("count"), suggest:document.getElementById("suggest") };
 
@@ -103,7 +102,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
   }
   function sync(){
     els.q.value = state.q; els.town.value = state.town; els.snap.checked = state.snap; els.dropin.checked = state.dropin;
-    [["cat",els.cats],["product",els.products]].forEach(function(g){
+    [["product",els.products]].forEach(function(g){
       g[1].querySelectorAll(".chip").forEach(function(c){ c.setAttribute("aria-pressed", c.dataset.key === state[g[0]] ? "true" : "false"); });
     });
     document.querySelectorAll(".map-legend button").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.key === state.cat ? "true" : "false"); });
@@ -122,18 +121,19 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
     return r.places.filter(function(p){ return !state.town || p.loc.city === state.town; });
   }
 
-  function catTag(r){ var st = CP.typeStyle(r.cat); return '<span class="tag" style="color:'+st.color+'">'+esc(CP.GROUPS[r.cat].single)+'</span>'; }
+  function catTag(r){ var st = CP.typeStyle(r.cat); return '<span class="tag" style="color:'+st.color+'">'+esc(CP.catLabel(r.cat))+'</span>'; }
   function popup(p){
     var r = p.rec;
     var where = CP.placeLabel(p);
     var dropinHere = p.role === "home_base" && r.dropin === true;   // the visit flag and the farm's hours read as one block
     var title = p.title !== p.loc.address && p.title !== p.loc.city && p.title !== r.name ? p.title : "";
     var addr = p.loc.address ? esc(p.loc.address) + (p.loc.city && p.loc.address.toLowerCase().indexOf(p.loc.city.toLowerCase()) === -1 ? ", " + esc(p.loc.city) : "") : (p.loc.city ? esc(p.loc.city) : "");
-    return '<h4>'+esc(r.name)+'</h4><div style="margin:2px 0 6px"><a href="'+CP.recUrl(r)+'">Details and how to buy →</a>'+'</div><div style="margin-bottom:6px">'+catTag(r)+'</div>'
+    return '<h4>'+esc(r.name)+'</h4><div style="margin:2px 0 6px"><a href="'+CP.recUrl(r)+'">Details →</a></div><div style="margin-bottom:6px">'+catTag(r)+'</div>'
       + '<div style="font-size:.9rem"><strong>'+(dropinHere ? 'Drop-in visits welcome at the farm' : esc(where)+(title ? ": "+esc(title) : ""))+'</strong>'+(addr ? '<br>'+addr : '')+(p.hours ? '<br>'+esc(p.hours) : '')+'</div>'
       + (r.productText.length ? '<div class="muted" style="font-size:.85rem;margin-top:6px">'+esc(r.productText.join(" · "))+'</div>' : '')
       + (p.unconfirmed ? '<div class="muted" style="font-size:.84rem;margin-top:6px">Not confirmed yet that they sell here.</div>' : '')
-      + ((r.raw.phone || r.raw.website) ? '<div style="margin-top:6px;font-size:.9rem">'+[r.raw.phone ? '<a href="tel:'+esc(r.raw.phone.replace(/[^0-9+]/g,""))+'">'+esc(r.raw.phone)+'</a>' : '', r.raw.website ? CP.safeLink(r.raw.website, "Website") : ''].filter(Boolean).join(' · ')+'</div>' : '')
+      + (r.raw.phone || r.raw.website ? '<div style="margin-top:6px;font-size:.9rem">'
+        + [r.raw.phone ? '<a href="tel:'+esc(r.raw.phone.replace(/[^0-9+]/g,""))+'">'+esc(r.raw.phone)+'</a>' : "", r.raw.website ? CP.safeLink(r.raw.website, "Website") : ""].filter(Boolean).join(' · ') + '</div>' : '')
       + '<div style="margin-top:8px"><a href="'+CP.directions(p)+'" target="_blank" rel="noopener">Directions</a></div>';
   }
 
@@ -157,6 +157,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
     writeUrl();
     var stamp = apply.n = (apply.n || 0) + 1;
     var rows = ALL.map(function(r){ return { r:r, ps:shownPlaces(r) }; }).filter(function(x){ return x.ps.length; });
+    CP.browse.save(rows.map(function(x){ return x.r.slug; }));
     layer.clearLayers();
     els.list.innerHTML = rows.map(function(x){
       var r = x.r, pins = x.ps.filter(function(p){ return p.pin; }).length;
@@ -223,9 +224,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
     Object.keys(MODEL.vocab.product_groups).filter(function(k){ return usedP[k]; }).forEach(function(k){
       els.products.appendChild(chip("product", k, MODEL.vocab.product_groups[k]));
     });
-    Object.keys(CP.GROUPS).filter(function(k){ return ALL.some(function(x){ return x.cat === k; }); }).forEach(function(k){
-      els.cats.appendChild(chip("cat", k, CP.GROUPS[k].label, CP.typeStyle(k).hex));
-    });
+    // Kinds of place are not quick filters here: the map key (bottom left) already lists them and filters by them.
     var towns = {}; ALL.forEach(function(x){ x.places.forEach(function(p){ if(p.pin && p.loc.city) towns[p.loc.city] = (towns[p.loc.city]||0) + 1; }); });
     Object.keys(towns).sort().forEach(function(t){
       var o = document.createElement("option"); o.value = t; o.textContent = t + " ("+towns[t]+")"; els.town.appendChild(o);
