@@ -7,15 +7,18 @@ GitHub Pages in place of the old WordPress site. It holds no scraping or data pi
 ## Where the data comes from
 
 The producer data lives in [colorado-open-food-web](https://github.com/open-food-web/colorado-open-food-web).
-It builds one export for this site (`exports/chaffee-provides.json`, format described in its
-`docs/EXPORTS.md`). This site keeps a copy in `data/chaffee-provides.json` and nothing else from the Food Web.
+The Food Web publishes one statewide file per release (`open-food-web.json`, format described in its
+`docs/EXPORTS.md`), not a file per site. This site pins a release and applies its own scope when it syncs:
+`scripts/scope.json` holds the county, the categories and shop kinds shown, and the per-producer choices.
+The site keeps the result in `data/chaffee-provides.json` and nothing else from the Food Web.
 
 ```bash
-python scripts/sync_data.py ../colorado-open-food-web/exports/chaffee-provides.json
+python scripts/sync_data.py ../colorado-open-food-web/release/open-food-web.json
+python scripts/sync_data.py https://github.com/open-food-web/colorado-open-food-web/releases/download/<tag>/open-food-web.json <sha256 from MANIFEST.json>
 ```
 
 The sync script refuses an export it doesn't understand (wrong format version, counts that don't match,
-a hidden address that carries a street address), so a bad release never reaches the published site.
+a hidden address that carries a street address, a file that is not the statewide one, a wrong sha256), so a bad release never reaches the published site.
 Do not edit `data/chaffee-provides.json` by hand. Monthly updates and Guidestone's review happen in the
 Food Web repo, not here. `data/photos.json`, `assets/photos/` and `data/descriptions.json` are this site's own: photos and business
 descriptions reused from the old site with Guidestone's permission (thumbnails in `assets/photos/thumb/`). None of
