@@ -21,6 +21,14 @@
   "use strict";
   var esc = CP.esc, main = document.getElementById("main");
   var slug = new URLSearchParams(location.search).get("slug");
+  var MODEL = null;
+  // The farmers market's own page, for the market stops in "places to find them".
+  function marketPage(p){
+    if(!MODEL || !isMarket(p)) return null;
+    for(var i=0;i<MODEL.recs.length;i++){ var x = MODEL.recs[i]; if(x.group === "market" && x.places.some(function(q){ return q.loc.id === p.loc.id; })) return x; }
+    return null;
+  }
+  function titleHtml(p){ var m = marketPage(p), t = esc(p.title); return m ? '<a href="'+CP.recUrl(m)+'">'+t+'</a>' : t; }
 
   function fact(label, html){ return html ? '<div class="fact"><span class="ic">'+label+'</span><div>'+html+'</div></div>' : ""; }
   function phone(p){ return p ? '<a href="tel:'+esc(p.replace(/[^0-9+]/g,""))+'">'+esc(p)+'</a>' : ""; }
@@ -30,9 +38,11 @@
     return a || c || "";
   }
   // A farm that doesn't take visitors isn't "a place to find them": only list its home if it has a pin or welcomes drop-ins.
-  function isVisitable(p){ return p.role !== "home_base" || p.pin || p.rec.dropin === true; }
+  // We know they don't take visitors: they said so, or we looked for drop-in visits and found only other ways to buy.
+  function noVisits(r){ return r.group === "farm" && r.dropin !== true && (r.dropin === false || (r.dropin == null && r.channels.length > 0)); }
+  function isVisitable(p){ return p.role !== "home_base" || p.rec.dropin === true || (!noVisits(p.rec) && p.pin); }
   function isMarket(p){ return /market/i.test(p.title || "") || /market/i.test(p.loc.name || ""); }
-  function line(p, label){ var named = p.title && p.title !== p.loc.address && p.title !== p.loc.city; return esc(named ? p.title + (addr(p) ? ", " + addr(p) : "") : addr(p)) + (p.hours ? ' <span class="muted">· ' + esc(p.hours) + '</span>' : "") + ownPage(p, label); }
+  function line(p, label){ var named = p.title && p.title !== p.loc.address && p.title !== p.loc.city; return (named ? titleHtml(p) + (addr(p) ? ", " + esc(addr(p)) : "") : esc(addr(p))) + (p.hours ? ' <span class="muted">· ' + esc(p.hours) + '</span>' : "") + ownPage(p, label); }
   // The business's own page that says it sells here, so a visitor can check it for themselves.
   function ownPage(p, label){ return p.loc.confirm_url ? ' <span class="muted">· ' + CP.safeLink(p.loc.confirm_url, label || (p.pickup ? "Pickup info" : "More info")) + '</span>' : ""; }
 
@@ -44,24 +54,12 @@
   }
   function visit(r){
     if(r.group !== "farm") return { tone:"ok", html:'<div class="vrow yes"><span class="vmark" aria-hidden="true">✔</span><span><strong>Open to everyone.</strong> Come at the times shown below.</span></div>' };
-    var raw = r.raw, basis = raw.visit_basis || {};
-    var fromListing = function(k){ return basis[k] === "listing" ? ' <span class="muted">(from their listing)</span>' : ""; };
-    if(r.dropin === false && r.farmPickup === false)      // one plain message, not three
-      return { tone:"no", compact:true, html:vrow(false, "", "<strong>No drop-in visits or farm pickup.</strong>", "") };
-    if(r.dropin === true) return { tone:"ok", none:true, html:"" };   // a visit is just a way to get it; see "How to get it"
-    if(r.dropin == null && r.channels.length === 0) return { tone:"unknown", none:true, html:"" };   // nothing confirmed: "How to get it" says so
-    var site = raw.website ? CP.safeLink(raw.website) : "";
-    // We looked where they would list drop-in visits (their site and social pages) and found how they sell, but no drop-in visits.
-    var researched = r.dropin == null && r.channels.length > 0;
-    var html = vrow(researched ? false : r.dropin, "<strong>Drop-in visits welcome.</strong> You can just show up." + fromListing("dropin")
-      + (raw.dropin_hours ? '<div class="vhours">Drop-in hours: ' + esc(raw.dropin_hours) + '</div>' : ""),
-      researched ? "<strong>Drop-in visits are not offered at this time.</strong>" + (site ? " Their website has the details: " + site : "")
-                 : "<strong>No drop-in visits.</strong> Please don't show up unannounced.",
-      "<strong>We haven't confirmed how to buy from them yet.</strong>" + (site ? " Their website: " + site : ""));
-    // Farm pickup only when there is an online order to pick up; otherwise it just repeats the farm visit.
-    if(r.farmPickup === true && r.channels.indexOf("online") !== -1) html += vrow(true, "<strong>Farm pickup.</strong> You can pick up an order at the farm, by arrangement." + fromListing("pickup"), "", "");
-    else if(r.farmPickup === false) html += vrow(false, "", "<strong>No farm pickup.</strong> Use one of the ways to buy below.", "");
-    return { tone:(r.dropin === true ? "ok" : (r.dropin === false || researched ? "no" : "unknown")), compact:researched, html:html };   // not-a-place-to-visit sits small under How to get it
+    // A farm that isn't open to visitors gets one plain note under "All the places to find them", never a banner up top.
+    var site = r.raw.website ? CP.safeLink(r.raw.website) : "";
+    if(!noVisits(r)) return { none:true, html:"" };
+    return { tone:"no", compact:true, html:'<div class="vrow no"><span class="vmark" aria-hidden="true">✖</span><span><strong>' + (r.dropin === false ? "No drop-in visits." : "Drop-in visits are not offered at this time.") + '</strong>'
+      + (r.dropin === false ? " Please don't show up unannounced." : "") + (site ? " Their website has the details: " + site : "") + '</span></div>'
+      + (r.farmPickup === true && r.channels.indexOf("online") !== -1 ? '<div class="vrow yes"><span class="vmark" aria-hidden="true">✔</span><span><strong>Farm pickup.</strong> You can pick up an order at the farm, by arrangement.</span></div>' : "") };
   }
   function ways(r){
     var raw = r.raw, ch = r.channels, out = [];
@@ -75,7 +73,7 @@
       return bits.length ? '<div class="muted">' + bits.join(" ") + '</div>' : "";
     }
     var markets = r.places.filter(function(p){ return p.pickup && isMarket(p); });
-    var pickups = r.places.filter(function(p){ return p.pickup && !isMarket(p) && p.pin; });
+    var pickups = r.places.filter(function(p){ return p.pickup && !isMarket(p) && (p.pin || addr(p)); });
     var site = raw.website ? CP.safeLink(raw.website) : "";
     if(ch.indexOf("farm_stand") !== -1){
       var s = r.places.filter(function(p){ return p.pin && (p.role === "home_base" || p.role === "farm_stand"); })[0];
@@ -87,8 +85,11 @@
     if(ch.indexOf("u_pick") !== -1) add("Pick your own", esc(raw.hours_text || "Ask them when you can come pick.") + (/appointment/i.test(raw.hours_text || "") ? "" : ""));
     if(ch.indexOf("csa") !== -1) add("Join their CSA", "A weekly share of the harvest. " + (site ? "Sign up on " + site + "." : "Contact them to sign up."));
     if(ch.indexOf("farmers_market") !== -1 || markets.length) add("At the farmers market", markets.length ? '<ul class="plain">' + markets.map(function(p){ return '<li>' + line(p) + '</li>'; }).join("") + '</ul>' : "They sell at local farmers markets. Check their page for dates.");
-    if(ch.indexOf("pickup") !== -1 || pickups.length) add("Pick up an order", (ch.indexOf("online") !== -1 ? "Order first, then pick it up at one of these places:" : "Pick up at one of these places:") + (pickups.length ? '<ul class="plain">' + pickups.map(function(p){ return '<li>' + line(p) + '</li>'; }).join("") + '</ul>' : " Ask them where."));
-    if(ch.indexOf("online") !== -1) add("Order online", site ? "Order at " + site + "." : "Ask them how to order.");
+    var pickupList = pickups.length ? '<ul class="plain">' + pickups.map(function(p){ return '<li>' + line(p) + '</li>'; }).join("") + '</ul>' : "";
+    var orderOnline = ch.indexOf("online") !== -1, canPickUp = ch.indexOf("pickup") !== -1 || pickups.length;
+    if(orderOnline && canPickUp) add("Order online", (site ? "Order at " + site : "Order online") + ", then pick it up at one of these places:" + (pickupList || " ask them where."));   // one entry: order first, then pick up
+    else if(canPickUp) add("Pick up an order", "Pick up at one of these places:" + (pickupList || " Ask them where."));
+    if(orderOnline && !canPickUp) add("Order online", site ? "Order at " + site + "." : "Ask them how to order.");
     if(ch.indexOf("retail_partners") !== -1) add("In local stores", "You can find their products in some local stores.");
     if(ch.indexOf("wholesale") !== -1) add("Wholesale", ch.length === 1 ? "They sell to restaurants and stores, not to the public." : "They also sell wholesale to restaurants and stores.");
     if(!out.length && r.group === "farm") add("How to buy", "We haven't confirmed how to buy from them yet. " + (raw.phone ? "Call " + phone(raw.phone) + ". " : "") + (site ? "Or see " + site + "." : ""));
@@ -101,7 +102,7 @@
     var role = CP.placeLabel(p);
     var hidden = p.loc.precision === "town";
     return '<li class="'+(p.pickup ? "pickup" : "")+'"><div class="role">'+esc(role)+'</div>'
-      + (p.title && p.title !== p.loc.address && p.title !== p.loc.city ? '<strong>'+esc(p.title)+'</strong><br>' : '')
+      + (p.title && p.title !== p.loc.address && p.title !== p.loc.city ? '<strong>'+titleHtml(p)+'</strong><br>' : '')
       + (addr(p) ? esc(addr(p)) : (hidden ? esc((p.loc.city || "Chaffee County") + " (exact address not shared)") : ""))
       + (p.hours ? '<br>'+esc(p.hours) : '')
       + (p.unconfirmed && p.pin ? '<div class="faint">We haven\'t confirmed that they sell here yet.</div>' : '')
@@ -111,6 +112,7 @@
   }
 
   CP.loadModel().then(function(M){
+    MODEL = M;
     var r = M.bySlug[slug];
     if(!r){ main.innerHTML = '<p style="padding:40px 0">We couldn\'t find that listing. <a href="directory.html">Browse the directory →</a></p>'; return; }
     var raw = r.raw, st = CP.typeStyle(r.cat);
@@ -151,14 +153,14 @@
       +   '<div style="margin-top:12px">'+verified+'</div>'+notes
       +   (r.photo ? CP.photoHtml(r, "hero-photo") : "")
       +   (r.description ? '<div class="about">' + r.description.split("\n").map(function(t){ return '<p>' + esc(t) + '</p>'; }).join("") + '</div>' : "")
-      +   (v.compact || v.none ? '' : '<div class="visit '+v.tone+'" role="note">'+v.html+'</div>')
+      +   (v.none || v.compact ? '' : '<div class="visit '+v.tone+'" role="note">'+v.html+'</div>')
       +   '<h2 style="font-size:1.25rem;margin-top:22px">How to get it</h2>'
       +   '<ul class="ways">'+wl.join("")+'</ul>'
-      +   (v.compact ? '<div class="visit compact '+v.tone+'" role="note">'+v.html+'</div>' : '')
       +   (prodChips || r.products ? '<h2 style="font-size:1.25rem;margin-top:24px">What they offer</h2>' + (prodChips ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+prodChips+'</div>' : '') + (r.products ? '<p>'+esc(r.products)+'</p>' : '') : '')
       +   (r.places.filter(isVisitable).length ? '<h2 style="font-size:1.25rem;margin-top:24px">'+(r.group === "farm" ? "All the places to find them" : "Location")+'</h2>'
       +   (pins.length ? '<div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '')
       +   '<ul class="places">'+r.places.filter(isVisitable).map(placeItem).join("")+'</ul>' : '')
+      +   (v.compact ? '<div class="visit compact '+v.tone+'" role="note">'+v.html+'</div>' : '')
       +   vendorsHtml
       +   '<div class="facts">'+facts+'</div>'
       +   '<p style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-ghost" href="'+CP.suggestUrl(r, "Listing update")+'">Suggest an update</a>'
