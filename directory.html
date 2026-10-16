@@ -99,6 +99,7 @@
   function apply(){
     writeUrl();
     var shown = ALL.filter(passes);
+    CP.browse.save(shown.map(function(r){ return r.slug; }));
     els.cards.innerHTML = shown.map(card).join("") || '<p class="muted">Nothing matches those filters.</p>';
     els.count.textContent = shown.length + " of " + ALL.length + " listings";
   }

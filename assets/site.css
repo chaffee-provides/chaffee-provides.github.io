@@ -257,6 +257,11 @@ tr:last-child td{ border-bottom:0; }
 .hero-photo{ width:100%; max-height:300px; object-fit:cover; display:block; border-radius:var(--radius); margin:14px 0; }
 .places{ display:grid; gap:10px; margin:10px 0 20px; padding:0; list-style:none; }
 .places li{ border:1px solid var(--line); border-left:4px solid var(--green); background:var(--card); padding:10px 14px; border-radius:2px; }
+.pager{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin:0 0 14px; font-size:.95rem; }
+.pager a, .pager .off{ flex:1 1 0; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.pager a:last-child, .pager .off:last-child{ text-align:right; }
+.pager .pos{ flex:0 0 auto; color:var(--muted, #6b6b62); }
+.pager .off{ visibility:hidden; }
 .places li.pickup{ border-left-color:var(--t-community); }
 .places .role{ font-size:.72rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
 .places .faint{ font-size:.84rem; color:var(--muted); }

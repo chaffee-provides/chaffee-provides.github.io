@@ -30,7 +30,14 @@
     return a || c || "";
   }
   function isMarket(p){ return /market/i.test(p.title || "") || /market/i.test(p.loc.name || ""); }
-  function line(p, label){ var named = p.title && p.title !== p.loc.address && p.title !== p.loc.city; return esc(named ? p.title + (addr(p) ? ", " + addr(p) : "") : addr(p)) + (p.hours ? ' <span class="muted">· ' + esc(p.hours) + '</span>' : "") + ownPage(p, label); }
+  var used = {};   // places a "way" already shows, so the list under the map does not repeat them
+  function line(p, label){
+    used[p.id] = true;
+    var named = p.title && p.title !== p.loc.address && p.title !== p.loc.city;
+    return esc(named ? p.title + (addr(p) ? ", " + addr(p) : "") : addr(p)) + (p.hours ? ' <span class="muted">· ' + esc(p.hours) + '</span>' : "") + ownPage(p, label)
+      + (p.pin ? ' <span class="muted">·</span> ' + mapLinks(p) : "")
+      + (p.unconfirmed && p.pin ? '<div class="faint">We haven\'t confirmed that they sell here yet.</div>' : "");
+  }
   // The business's own page that says it sells here, so a visitor can check it for themselves.
   function ownPage(p, label){ return p.loc.confirm_url ? ' <span class="muted">· ' + CP.safeLink(p.loc.confirm_url, label || (p.pickup ? "Pickup info" : "More info")) + '</span>' : ""; }
 
@@ -94,7 +101,7 @@
       var shop = r.places[0];
       add("Visit the shop", (shop ? line(shop, "Shop info") : "Ask them for the address and hours.")
         + (raw.phone ? '<div>' + phone(raw.phone) + '</div>' : "") + (site ? '<div>' + site + '</div>' : "")
-        + (shop && shop.pin ? '<div style="margin-top:6px">' + mapLinks(shop) + '</div>' : ""));
+        );
     }
     if(!out.length && r.group === "farm") add("How to buy", "We haven't confirmed how to buy from them yet. " + (raw.phone ? "Call " + phone(raw.phone) + ". " : "") + (site ? "Or see " + site + "." : ""));
     return out;
@@ -153,23 +160,37 @@
       if(vs.length) vendorsHtml = '<h2 style="font-size:1.25rem;margin-top:24px">Vendors at this market ('+vs.length+')</h2><ul class="plain vendors">'
         + vs.map(function(x){ return '<li><a href="'+CP.recUrl(x)+'">'+esc(x.name)+'</a> <span class="muted">· '+esc([x.homeTown ? "based in " + x.homeTown : "", x.productText.slice(0,3).join(", ")].filter(Boolean).join(" · "))+'</span></li>'; }).join("") + '</ul>';
     }
+    // Farms and shops: one section. The map comes first, then each way to get it with its address and links, then any
+    // other place that has not been shown yet. Markets and free-food sites keep a plain Location section.
+    var unified = r.group === "farm" || r.group === "outlet";
+    var rest = r.places.filter(function(p){ return !used[p.id]; });
+    var placesSection = '<h2 style="font-size:1.25rem;margin-top:22px">Places to find them</h2>'
+      + (pins.length ? '<div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '')
+      + '<ul class="ways">'+wl.join("")+'</ul>'
+      + (rest.length ? '<ul class="places">'+rest.map(placeItem).join("")+'</ul>' : '');
+    // Previous / next: the list the visitor was browsing (directory or map results) when this listing is in it, else everything A to Z.
+    var order = (CP.browse.get() || []).filter(function(s){ return M.bySlug[s]; });
+    if(order.indexOf(slug) === -1) order = M.recs.map(function(x){ return x.slug; }).sort(function(a, b){ return M.bySlug[a].name.localeCompare(M.bySlug[b].name); });
+    var at = order.indexOf(slug), prevR = M.bySlug[order[at - 1]], nextR = M.bySlug[order[at + 1]];
+    var pager = '<nav class="pager" aria-label="Browse listings">'
+      + (prevR ? '<a rel="prev" href="'+CP.recUrl(prevR)+'" aria-label="Previous listing: '+esc(prevR.name)+'">← '+esc(prevR.name)+'</a>' : '<span class="off"></span>')
+      + '<span class="pos">'+(at + 1)+' of '+order.length+'</span>'
+      + (nextR ? '<a rel="next" href="'+CP.recUrl(nextR)+'" aria-label="Next listing: '+esc(nextR.name)+'">'+esc(nextR.name)+' →</a>' : '<span class="off"></span>')
+      + '</nav>';
     main.innerHTML =
-      '<nav class="crumbs" aria-label="Breadcrumb"><a href="find-food.html">Map</a> › <a href="directory.html">Directory</a> › '+esc(r.name)+'</nav>'
+      '<nav class="crumbs" aria-label="Breadcrumb"><a href="find-food.html">Map</a> › <a href="directory.html">Directory</a> › '+esc(r.name)+'</nav>' + pager
       + '<div class="provider"><div>'
       +   '<h1>'+esc(r.name)+'</h1><div>'+tag+(r.group === "farm" && r.homeTown ? ' <span class="muted">· Based in '+esc(r.homeTown)+'</span>' : '')+'</div>'
       +   '<div style="margin-top:12px">'+verified+'</div>'+notes
       +   (r.photo ? CP.photoHtml(r, "hero-photo") : "")
       +   (r.description ? '<div class="about">' + r.description.split("\n").map(function(t){ return '<p>' + esc(t) + '</p>'; }).join("") + '</div>' : "")
       +   (v.compact || v.none ? '' : '<div class="visit '+v.tone+'" role="note">'+v.html+'</div>')
-      +   '<h2 style="font-size:1.25rem;margin-top:22px">How to get it</h2>'
-      +   '<ul class="ways">'+wl.join("")+'</ul>'
+      +   (unified ? placesSection : (wl.length ? '<h2 style="font-size:1.25rem;margin-top:22px">How to get it</h2><ul class="ways">'+wl.join("")+'</ul>' : ''))
       +   (v.compact ? '<div class="visit compact '+v.tone+'" role="note">'+v.html+'</div>' : '')
       +   (prodChips || r.products ? '<h2 style="font-size:1.25rem;margin-top:24px">What they offer</h2>' + (prodChips ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+prodChips+'</div>' : '') + (r.products ? '<p>'+esc(r.products)+'</p>' : '') : '')
-      +   (r.group === "outlet"
-            ? (pins.length ? '<h2 style="font-size:1.25rem;margin-top:24px">Map</h2><div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '')
-            : (r.places.length ? '<h2 style="font-size:1.25rem;margin-top:24px">'+(r.group === "farm" ? "All the places to find them" : "Location")+'</h2>'
+      +   (!unified && r.places.length ? '<h2 style="font-size:1.25rem;margin-top:24px">Location</h2>'
       +   (pins.length ? '<div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '')
-      +   '<ul class="places">'+r.places.map(placeItem).join("")+'</ul>' : ''))
+      +   '<ul class="places">'+r.places.map(placeItem).join("")+'</ul>' : '')
       +   vendorsHtml
       +   '<div class="facts">'+facts+'</div>'
       +   '<p style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-ghost" href="'+CP.suggestUrl(r, "Listing update")+'">Suggest an update</a>'

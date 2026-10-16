@@ -251,7 +251,13 @@
 
   function placeLabel(p){ return p.market ? "Sells at the farmers market" : (p.pickup ? "Pickup point" : (ROLE_LABEL[p.role] || "")); }
 
-  window.CP = { placeLabel:placeLabel, visitBadge:visitBadge, esc:esc, url:url, load:load, loadModel:loadModel, CONFIG:CONFIG, GROUPS:GROUPS, catLabel:catLabel, ROLE_LABEL:ROLE_LABEL, MONTHS:MONTHS,
+  // The list a visitor was last browsing (directory or map results), so a listing page can step to the next one.
+  var browse = {
+    save: function(slugs){ try{ sessionStorage.setItem("cp-browse", JSON.stringify(slugs)); }catch(e){} },
+    get: function(){ try{ return JSON.parse(sessionStorage.getItem("cp-browse") || "null"); }catch(e){ return null; } }
+  };
+
+  window.CP = { browse:browse, placeLabel:placeLabel, visitBadge:visitBadge, esc:esc, url:url, load:load, loadModel:loadModel, CONFIG:CONFIG, GROUPS:GROUPS, catLabel:catLabel, ROLE_LABEL:ROLE_LABEL, MONTHS:MONTHS,
     fanOut:fanOut, thisMonth:thisMonth, typeStyle:typeStyle, pinIcon:pinIcon, basemap:basemap, countyOutline:countyOutline,
     fmtDate:fmtDate, directions:directions, recUrl:recUrl, safeLink:safeLink, photoHtml:photoHtml, mailto:mailto, suggestUrl:suggestUrl };
 

@@ -157,6 +157,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
     writeUrl();
     var stamp = apply.n = (apply.n || 0) + 1;
     var rows = ALL.map(function(r){ return { r:r, ps:shownPlaces(r) }; }).filter(function(x){ return x.ps.length; });
+    CP.browse.save(rows.map(function(x){ return x.r.slug; }));
     layer.clearLayers();
     els.list.innerHTML = rows.map(function(x){
       var r = x.r, pins = x.ps.filter(function(p){ return p.pin; }).length;
