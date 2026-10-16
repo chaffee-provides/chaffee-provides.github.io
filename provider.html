@@ -41,6 +41,7 @@
     return '<div class="vrow '+cls+'"><span class="vmark" aria-hidden="true">'+mark+'</span><span>'+(v === true ? yes : (v === false ? no : unknown))+'</span></div>';
   }
   function visit(r){
+    if(r.group === "outlet") return { none:true };   // a shop: no "open to everyone" banner, and no hours to point to
     if(r.group !== "farm") return { tone:"ok", html:'<div class="vrow yes"><span class="vmark" aria-hidden="true">✔</span><span><strong>Open to everyone.</strong> Come at the times shown below.</span></div>' };
     var raw = r.raw, basis = raw.visit_basis || {};
     var fromListing = function(k){ return basis[k] === "listing" ? ' <span class="muted">(from their listing)</span>' : ""; };
