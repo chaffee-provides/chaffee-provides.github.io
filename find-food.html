@@ -109,21 +109,29 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
   }
 
   // Which of a record's places are shown under the current filters (the record shows if any are).
+  // null = the listing doesn't match the filters; [] = it matches but has no place to show (still listed, just not pinned).
   function shownPlaces(r){
-    if(state.cat && r.cat !== state.cat) return [];
-    if(state.product && r.productGroups.indexOf(state.product) === -1) return [];
-    if(state.snap && r.raw.accepts_snap !== true) return [];
-    if(state.dropin && r.dropin !== true) return [];
+    if(state.cat && r.cat !== state.cat) return null;
+    if(state.product && r.productGroups.indexOf(state.product) === -1) return null;
+    if(state.snap && r.raw.accepts_snap !== true) return null;
+    if(state.dropin && r.dropin !== true) return null;
+    var inTown = function(p){ return !state.town || p.loc.city === state.town; };
+    var placeless = !r.places.length;
     if(state.q){
       var words = state.q.toLowerCase().split(/\s+/).filter(Boolean);
-      for(var i=0;i<words.length;i++) if(r.search.indexOf(words[i]) === -1) return [];
+      for(var i=0;i<words.length;i++) if(r.search.indexOf(words[i]) === -1) return null;
       // If the words only match through a place (a shop the farm sells at), keep the listing but pin just those places.
       var onlyPlaces = words.some(function(w){ return r.baseSearch.indexOf(w) === -1; });
-      if(onlyPlaces) return r.places.filter(function(p){
-        return (!state.town || p.loc.city === state.town) && words.every(function(w){ return (r.baseSearch + " " + p.search).indexOf(w) !== -1; });
-      });
+      if(onlyPlaces){
+        var hit = r.places.filter(function(p){
+          return inTown(p) && words.every(function(w){ return (r.baseSearch + " " + p.search).indexOf(w) !== -1; });
+        });
+        return hit.length ? hit : null;
+      }
     }
-    return r.places.filter(function(p){ return !state.town || p.loc.city === state.town; });
+    var ps = r.places.filter(inTown);
+    if(!ps.length && !(placeless && (!state.town || r.towns.indexOf(state.town) !== -1))) return null;
+    return ps;
   }
 
   function catTag(r){ var st = CP.typeStyle(r.cat); return '<span class="tag" style="color:'+st.color+'">'+esc(CP.catLabel(r.cat))+'</span>'; }
@@ -161,7 +169,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
   function apply(){
     writeUrl();
     var stamp = apply.n = (apply.n || 0) + 1;
-    var rows = ALL.map(function(r){ return { r:r, ps:shownPlaces(r) }; }).filter(function(x){ return x.ps.length; });
+    var rows = ALL.map(function(r){ return { r:r, ps:shownPlaces(r) }; }).filter(function(x){ return x.ps; });
     CP.browse.save(rows.map(function(x){ return x.r.slug; }));
     layer.clearLayers();
     els.list.innerHTML = rows.map(function(x){
