@@ -16,7 +16,7 @@
    "market_links": 37,
    "outlets": 3,
    "outlet_pins": 3,
-   "pins": 34,
+   "pins": 35,
    "excluded_no_county": {
     "producers": 27,
     "markets": 1,
@@ -44,7 +44,8 @@
    "delivery": "Delivery",
    "online": "Online orders",
    "wholesale": "Wholesale",
-   "retail_partners": "Sold in stores"
+   "retail_partners": "Sold in stores",
+   "none": "No public sales"
   },
   "months": [
    "January",
@@ -138,7 +139,9 @@
    "email": null,
    "facebook": "https://www.facebook.com/p/Alpenglow-Hive-Honey-61586258981365/",
    "instagram": null,
-   "sales_channels": [],
+   "sales_channels": [
+    "retail_partners"
+   ],
    "sells_at": [],
    "certified_organic": null,
    "accepts_snap": null,
@@ -161,6 +164,26 @@
      "precision": "none",
      "pin": false,
      "pin_basis": "unconfirmed",
+     "days": [],
+     "hours_text": null,
+     "season_start": null,
+     "season_end": null,
+     "status": "listed",
+     "confirm_url": null
+    },
+    {
+     "id": "co-loc-001518",
+     "role": "store",
+     "name": "The Farmstand",
+     "address": "County Road 306",
+     "city": "Buena Vista",
+     "zip": "81211",
+     "county_fips": "08015",
+     "lat": 38.81435,
+     "lon": -106.276176,
+     "precision": "exact",
+     "pin": true,
+     "pin_basis": "confirmed",
      "days": [],
      "hours_text": null,
      "season_start": null,
@@ -628,12 +651,12 @@
     {
      "type": "farm_stand",
      "label": "Farm stand",
-     "detail": "Self-serve farm general store"
+     "detail": "Self-serve farm general store - current hours on Google Maps"
     },
     {
      "type": "tour",
      "label": "Farm tours",
-     "detail": "By booking"
+     "detail": "Book at buckandbloomcheese.com/tour"
     }
    ],
    "dropin_visits": true,
@@ -811,7 +834,9 @@
    "email": "info@coloradofarmtotable.org",
    "facebook": "https://www.facebook.com/nonprofitfarm/",
    "instagram": "https://www.instagram.com/colorado_farm_to_table/",
-   "sales_channels": [],
+   "sales_channels": [
+    "none"
+   ],
    "sells_at": [],
    "certified_organic": null,
    "accepts_snap": null,
@@ -832,7 +857,7 @@
      "lat": 38.553956,
      "lon": -106.019829,
      "precision": "exact",
-     "pin": true,
+     "pin": false,
      "pin_basis": "unconfirmed",
      "days": [],
      "hours_text": null,
@@ -1061,6 +1086,26 @@
      "season_end": null,
      "status": "listed",
      "confirm_url": null
+    },
+    {
+     "id": "co-loc-001517",
+     "role": "store",
+     "name": "Howl Mercantile",
+     "address": "130 W 1st St",
+     "city": "Salida",
+     "zip": "81201",
+     "county_fips": "08015",
+     "lat": null,
+     "lon": null,
+     "precision": "none",
+     "pin": false,
+     "pin_basis": "confirmed",
+     "days": [],
+     "hours_text": null,
+     "season_start": null,
+     "season_end": null,
+     "status": "listed",
+     "confirm_url": "https://www.dramapothecary.com/about/"
     }
    ],
    "sources": [
@@ -1101,9 +1146,9 @@
    "hours_status": "none",
    "website": null,
    "phone": "(719) 530-1597",
-   "email": null,
+   "email": "everettranchbeef@gmail.com",
    "facebook": "https://www.facebook.com/everettranchbeef/",
-   "instagram": null,
+   "instagram": "https://www.instagram.com/everettranchbeef/",
    "sales_channels": [],
    "sells_at": [],
    "certified_organic": null,
@@ -1112,7 +1157,7 @@
    "call_first": null,
    "status": "unverified",
    "claimed": false,
-   "last_verified": "2026-10-13",
+   "last_verified": "2026-10-16",
    "locations": [
     {
      "id": "co-loc-000012",
@@ -1155,6 +1200,14 @@
      ],
      "url": null,
      "date": "2026-10-13"
+    },
+    {
+     "by": "the business's Instagram page",
+     "fields": [
+      "email"
+     ],
+     "url": "https://www.instagram.com/everettranchbeef/",
+     "date": "2026-10-16"
     }
    ]
   },
@@ -1805,6 +1858,86 @@
      "confirm_url": null
     },
     {
+     "id": "co-loc-001520",
+     "role": "pickup",
+     "name": "Headwater Farms (Buena Vista)",
+     "address": null,
+     "city": "Buena Vista",
+     "zip": null,
+     "county_fips": "08015",
+     "lat": null,
+     "lon": null,
+     "precision": "none",
+     "pin": false,
+     "pin_basis": "confirmed",
+     "days": [],
+     "hours_text": "Pickup for online orders and CSA shares; address not published (ask the farm)",
+     "season_start": null,
+     "season_end": null,
+     "status": "listed",
+     "confirm_url": "https://www.headwaterfarmco.com/purchase"
+    },
+    {
+     "id": "co-loc-001521",
+     "role": "pickup",
+     "name": "Headwater Farms greenhouse (Nathrop)",
+     "address": null,
+     "city": "Nathrop",
+     "zip": null,
+     "county_fips": "08015",
+     "lat": null,
+     "lon": null,
+     "precision": "none",
+     "pin": false,
+     "pin_basis": "confirmed",
+     "days": [],
+     "hours_text": "Pickup for online orders and CSA shares; address not published (ask the farm)",
+     "season_start": null,
+     "season_end": null,
+     "status": "listed",
+     "confirm_url": "https://www.headwaterfarmco.com/purchase"
+    },
+    {
+     "id": "co-loc-001522",
+     "role": "pickup",
+     "name": "Salida pick-up location",
+     "address": null,
+     "city": "Salida",
+     "zip": null,
+     "county_fips": "08015",
+     "lat": null,
+     "lon": null,
+     "precision": "none",
+     "pin": false,
+     "pin_basis": "confirmed",
+     "days": [],
+     "hours_text": "Pickup for online orders and CSA shares; address not published (ask the farm)",
+     "season_start": null,
+     "season_end": null,
+     "status": "listed",
+     "confirm_url": "https://www.headwaterfarmco.com/purchase"
+    },
+    {
+     "id": "co-loc-001523",
+     "role": "store",
+     "name": "The Lettucehead Food Company",
+     "address": "545 US Highway 24 N",
+     "city": "Buena Vista",
+     "zip": null,
+     "county_fips": "08015",
+     "lat": 38.846739,
+     "lon": -106.135068,
+     "precision": "exact",
+     "pin": true,
+     "pin_basis": "confirmed",
+     "days": [],
+     "hours_text": null,
+     "season_start": null,
+     "season_end": null,
+     "status": "listed",
+     "confirm_url": "https://www.headwaterfarmco.com/purchase"
+    },
+    {
      "id": "co-loc-000026",
      "role": "pickup",
      "name": "Salida Farmers Market",
@@ -2428,7 +2561,13 @@
    "product_groups": [
     "mushrooms"
    ],
-   "visits": [],
+   "visits": [
+    {
+     "type": "tour",
+     "label": "Farm tours",
+     "detail": "By request"
+    }
+   ],
    "dropin_visits": false,
    "dropin_hours": null,
    "farm_pickup": null,
@@ -2459,7 +2598,7 @@
    "call_first": null,
    "status": "unverified",
    "claimed": false,
-   "last_verified": null,
+   "last_verified": "2026-10-16",
    "locations": [
     {
      "id": "co-loc-000021",
@@ -2498,7 +2637,8 @@
     {
      "by": "the business's own website",
      "fields": [
-      "products"
+      "products",
+      "town"
      ],
      "url": "http://www.mushroomloveco.com",
      "date": null
@@ -2535,14 +2675,9 @@
    ],
    "visits": [
     {
-     "type": "farm_stand",
-     "label": "Farm stand",
-     "detail": null
-    },
-    {
      "type": "u_pick",
      "label": "Pick your own",
-     "detail": null
+     "detail": "Tours 9:00am - 5:00pm, no tours 12:00pm - 1:00pm, mid-June to mid-September"
     }
    ],
    "dropin_visits": true,
@@ -2709,7 +2844,13 @@
    "product_groups": [
     "flowers"
    ],
-   "visits": [],
+   "visits": [
+    {
+     "type": "by_appointment",
+     "label": "Visits by appointment",
+     "detail": "By appointment"
+    }
+   ],
    "dropin_visits": false,
    "dropin_hours": null,
    "farm_pickup": true,
@@ -2740,14 +2881,14 @@
    "call_first": null,
    "status": "unverified",
    "claimed": false,
-   "last_verified": null,
+   "last_verified": "2026-10-16",
    "locations": [
     {
      "id": "co-loc-000022",
      "role": "home_base",
      "name": null,
      "address": null,
-     "city": "Poncha Springs",
+     "city": "Salida",
      "zip": null,
      "county_fips": "08015",
      "lat": 38.5136,
@@ -2761,6 +2902,26 @@
      "season_end": null,
      "status": "listed",
      "confirm_url": null
+    },
+    {
+     "id": "co-loc-001519",
+     "role": "store",
+     "name": "Salida Garden Supply",
+     "address": "1242 C Street",
+     "city": "Salida",
+     "zip": "81201",
+     "county_fips": "08015",
+     "lat": null,
+     "lon": null,
+     "precision": "none",
+     "pin": false,
+     "pin_basis": "confirmed",
+     "days": [],
+     "hours_text": null,
+     "season_start": null,
+     "season_end": null,
+     "status": "listed",
+     "confirm_url": "https://www.phytologyflowers.com/buy-flowers/"
     }
    ],
    "sources": [
@@ -2780,7 +2941,8 @@
      "by": "the business's own website",
      "fields": [
       "hours",
-      "products"
+      "products",
+      "town"
      ],
      "url": "https://www.phytologyflowers.com",
      "date": null
@@ -2804,7 +2966,13 @@
     "veggies",
     "flowers"
    ],
-   "visits": [],
+   "visits": [
+    {
+     "type": "by_appointment",
+     "label": "Visits by appointment",
+     "detail": "By appointment"
+    }
+   ],
    "dropin_visits": false,
    "dropin_hours": null,
    "farm_pickup": true,
@@ -3399,12 +3567,12 @@
     {
      "type": "shop",
      "label": "Shop",
-     "detail": null
+     "detail": "On-farm store opens in June"
     },
     {
      "type": "u_pick",
      "label": "Pick your own",
-     "detail": "By appointment, June-October"
+     "detail": "From July, limited hours, by reservation"
     }
    ],
    "dropin_visits": true,
@@ -3622,16 +3790,16 @@
    "call_first": null,
    "status": "unverified",
    "claimed": false,
-   "last_verified": null,
+   "last_verified": "2026-10-16",
    "locations": [
     {
      "id": "co-loc-000034",
      "role": "home_base",
      "name": null,
      "address": "5401 Terry Street, Mosca, CO 81146",
-     "city": null,
-     "zip": null,
-     "county_fips": null,
+     "city": "Mosca",
+     "zip": "81146",
+     "county_fips": "08003",
      "lat": null,
      "lon": null,
      "precision": "none",
@@ -3661,9 +3829,11 @@
     {
      "by": "the business's own website",
      "fields": [
+      "ZIP",
       "address",
       "phone",
-      "products"
+      "products",
+      "town"
      ],
      "url": "https://www.valleyrootsfoodhub.com/",
      "date": null
@@ -4256,7 +4426,7 @@
    "phone": null,
    "facebook": "https://www.facebook.com/pages/category/Farm/The-Triangle-Oasis-219919395410862",
    "instagram": "https://www.instagram.com/thetriangleoasisproject",
-   "status": "unverified",
+   "status": "seasonal_closed",
    "last_verified": null,
    "location": {
     "id": "co-loc-000017",
