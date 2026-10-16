@@ -35,7 +35,7 @@
   // "Shops & Grocers · Apothecary" for a shop, the plain label for everything else.
   function catLabel(cat){ var g = GROUPS[cat] || GROUPS.farm; return g.shop ? SHOPS_LABEL + " · " + g.single : g.single; }
   var ROLE_LABEL = { home_base:"At the farm", farm_stand:"Farm stand", pickup:"Pickup point", csa_dropoff:"CSA pickup",
-    market_site:"Market", access_site:"Free food", outlet_site:"Shop" };
+    market_site:"Market", access_site:"Free food", outlet_site:"Shop", store:"Sold here" };
   var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
   var NAV = [ ["find-food.html","Map"], ["directory.html","Directory"], ["list-your-business.html","List Your Business"], ["about.html","About"] ];

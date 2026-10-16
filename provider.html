@@ -61,12 +61,12 @@
     var researched = r.dropin == null && r.channels.length > 0;
     var html = vrow(researched ? false : r.dropin, "<strong>Drop-in visits welcome.</strong> You can just show up." + fromListing("dropin")
       + (raw.dropin_hours ? '<div class="vhours">Drop-in hours: ' + esc(raw.dropin_hours) + '</div>' : ""),
-      researched ? "<strong>Drop-in visits are not offered at this time.</strong> See the ways to buy below." + (site ? " Their website has the details: " + site : "")
+      researched ? "<strong>Drop-in visits are not offered at this time.</strong> See the ways to buy above." + (site ? " Their website has the details: " + site : "")
                  : "<strong>No drop-in visits.</strong> Please don't show up unannounced.",
       "<strong>We haven't confirmed how to buy from them yet.</strong>" + (site ? " Their website: " + site : ""));
     // Farm pickup only when there is an online order to pick up; otherwise it just repeats the farm visit.
     if(r.farmPickup === true && r.channels.indexOf("online") !== -1) html += vrow(true, "<strong>Farm pickup.</strong> You can pick up an order at the farm, by arrangement." + fromListing("pickup"), "", "");
-    else if(r.farmPickup === false) html += vrow(false, "", "<strong>No farm pickup.</strong> Use one of the ways to buy below.", "");
+    else if(r.farmPickup === false) html += vrow(false, "", "<strong>No farm pickup.</strong> Use one of the ways to buy above.", "");
     return { tone:(r.dropin === true ? "ok" : (r.dropin === false || researched ? "no" : "unknown")), html:html };
   }
   function ways(r){
@@ -95,7 +95,9 @@
     if(ch.indexOf("farmers_market") !== -1 || markets.length) add("At the farmers market", markets.length ? '<ul class="plain">' + markets.map(function(p){ return '<li>' + line(p) + '</li>'; }).join("") + '</ul>' : "They sell at local farmers markets. Check their page for dates.");
     if(ch.indexOf("pickup") !== -1 || pickups.length) add("Pick up an order", (ch.indexOf("online") !== -1 ? "Order first, then pick it up at one of these places:" : "Pick up at one of these places:") + (pickups.length ? '<ul class="plain">' + pickups.map(function(p){ return '<li>' + line(p) + '</li>'; }).join("") + '</ul>' : " Ask them where."));
     if(ch.indexOf("online") !== -1) add("Order online", site ? "Order at " + site + "." : "Ask them how to order.");
-    if(ch.indexOf("retail_partners") !== -1) add("In local stores", "You can find their products in some local stores.");
+    var stores = r.places.filter(function(p){ return p.role === "store"; });
+    if(stores.length) add("In local stores", '<ul class="plain">' + stores.map(function(p){ return '<li>' + line(p, "Their store list") + '</li>'; }).join("") + '</ul>');
+    else if(ch.indexOf("retail_partners") !== -1) add("In local stores", "You can find their products in some local stores.");
     if(ch.indexOf("wholesale") !== -1) add("Wholesale", ch.length === 1 ? "They sell to restaurants and stores, not to the public." : "They also sell wholesale to restaurants and stores.");
     if(r.group === "outlet"){
       var shop = r.places[0];
@@ -163,11 +165,14 @@
     // Farms and shops: one section. The map comes first, then each way to get it with its address and links, then any
     // other place that has not been shown yet. Markets and free-food sites keep a plain Location section.
     var unified = r.group === "farm" || r.group === "outlet";
-    var rest = r.places.filter(function(p){ return !used[p.id]; });
+    // A home base with no pin is not somewhere to go (the business has not published it): do not list it as a place.
+    var rest = r.places.filter(function(p){ return !used[p.id] && !(p.role === "home_base" && !p.pin); });
+    var visitHtml = v.none ? "" : '<div class="visit'+(v.compact ? ' compact ' : ' ')+v.tone+'" role="note">'+v.html+'</div>';
     var placesSection = '<h2 style="font-size:1.25rem;margin-top:22px">Places to find them</h2>'
       + (pins.length ? '<div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '')
       + '<ul class="ways">'+wl.join("")+'</ul>'
-      + (rest.length ? '<ul class="places">'+rest.map(placeItem).join("")+'</ul>' : '');
+      + (rest.length ? '<ul class="places">'+rest.map(placeItem).join("")+'</ul>' : '')
+      + visitHtml;      // the drop-in note comes last, at the bottom of this section
     // Previous / next: the list the visitor was browsing (directory or map results) when this listing is in it, else everything A to Z.
     var order = (CP.browse.get() || []).filter(function(s){ return M.bySlug[s]; });
     if(order.indexOf(slug) === -1) order = M.recs.map(function(x){ return x.slug; }).sort(function(a, b){ return M.bySlug[a].name.localeCompare(M.bySlug[b].name); });
@@ -184,9 +189,9 @@
       +   '<div style="margin-top:12px">'+verified+'</div>'+notes
       +   (r.photo ? CP.photoHtml(r, "hero-photo") : "")
       +   (r.description ? '<div class="about">' + r.description.split("\n").map(function(t){ return '<p>' + esc(t) + '</p>'; }).join("") + '</div>' : "")
-      +   (v.compact || v.none ? '' : '<div class="visit '+v.tone+'" role="note">'+v.html+'</div>')
+      +   (unified || v.compact || v.none ? '' : '<div class="visit '+v.tone+'" role="note">'+v.html+'</div>')
       +   (unified ? placesSection : (wl.length ? '<h2 style="font-size:1.25rem;margin-top:22px">How to get it</h2><ul class="ways">'+wl.join("")+'</ul>' : ''))
-      +   (v.compact ? '<div class="visit compact '+v.tone+'" role="note">'+v.html+'</div>' : '')
+      +   (!unified && v.compact ? '<div class="visit compact '+v.tone+'" role="note">'+v.html+'</div>' : '')
       +   (prodChips || r.products ? '<h2 style="font-size:1.25rem;margin-top:24px">What they offer</h2>' + (prodChips ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+prodChips+'</div>' : '') + (r.products ? '<p>'+esc(r.products)+'</p>' : '') : '')
       +   (!unified && r.places.length ? '<h2 style="font-size:1.25rem;margin-top:24px">Location</h2>'
       +   (pins.length ? '<div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '')
