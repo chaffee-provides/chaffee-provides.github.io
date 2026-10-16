@@ -23,6 +23,8 @@
     maker:   { label:"Food makers", single:"Food maker",     emoji:"🍞", color:"var(--t-dining)",     hex:"#5b6b8c" },
     winery:  { label:"Wineries", single:"Winery",        emoji:"🍷", color:"var(--t-dining)",     hex:"#5b6b8c" },
     market:  { label:"Farmers markets", single:"Farmers market", emoji:"🧺", color:"var(--t-market)",     hex:"#a8761d" },
+    agritourism: { label:"Agritourism", single:"Agritourism",       emoji:"🐴", color:"var(--t-ranch)",      hex:"#8a5a3c" },
+    education:   { label:"Agricultural education", single:"Agricultural education", emoji:"🎓", color:"var(--t-community)", hex:"#3f7f9c" },
     access:  { label:"Free food", single:"Free food",       emoji:"🥫", color:"var(--t-assistance)", hex:"#a94f28" },
     // Shops and grocers come from the Food Web's outlets (export "outlets"); the key is the outlet kind.
     apothecary:    { label:"Apothecaries", single:"Apothecary",   shop:true, emoji:"🌿", color:"var(--t-shop)", hex:"#7a4f8f" },
