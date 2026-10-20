@@ -14,41 +14,31 @@
 <div id="site-header"></div>
 <main id="main">
   <article class="article">
-    <h1>Connecting you to Chaffee County's agricultural community</h1>
-    <p style="font-size:1.15rem">Chaffee Provides helps people in the Upper Arkansas Valley find food grown and raised here: beef and lamb, eggs and dairy, vegetables, garlic, flowers and honey. It also lists the markets, restaurants and food programs that bring that food to the table.</p>
-    <p>Buying local does more than fill the fridge. It keeps working farms and ranches working, which protects open land, wildlife habitat and water quality in a fast-growing valley, and keeps more of every food dollar in the community.</p>
+    <h1>About Chaffee Provides</h1>
+    <p style="font-size:1.15rem">This website connects local consumers with our community's food providers. It's simply a local food guide that's convenient and easy to use.</p>
+    <p>But that is only part of the story. Supporting agriculture, even with the smallest purchase, helps keep Chaffee and surrounding counties intact. Productive land provides our stunning views, water quality and wildlife habitat, and protects our valuable lands from over-development. The agricultural sector is Chaffee County's fifth-largest economic driver. It exists and endures because of our neighbors who work these lands.</p>
 
-    <h2>Who we are</h2>
-    <p>Chaffee Provides is a project of <a href="https://guidestonecolorado.org/">Guidestone Colorado</a>, a Salida nonprofit building a strong agricultural future through education and partnerships, with <a href="https://envisionchaffeecounty.org/">Envision Chaffee County</a>. The site launched in 2021, when pandemic supply-chain gaps showed how much the valley could feed itself.</p>
-    <p>Funded in part by the <a href="https://www.chaffeecommunity.org/">Chaffee County Community Foundation</a>'s Food Access Cohort and <a href="https://chaffeecommonground.org/">Chaffee Common Ground</a>.</p>
+    <h2>Chaffee Provides is about food security</h2>
+    <p>The program was conceived during the COVID-19 pandemic, as vulnerabilities in our nation's food system became apparent. Grocery store shelves looked bare for a time because of bottlenecks in labor, transportation and international imports. Perhaps you remember feeling anxious about food security.</p>
+    <p>At the same time, a beloved food market closed in Salida and a large family farm operation announced its closure in Buena Vista. Restaurants had to shut their doors or drastically change operations for unknown periods of time. Under all of this uncertainty, the community's desire to know about local food and how to get it has become more important than ever. To address the need, the Chaffee County Community Foundation started a group-based grant program called the Food Access Cohort, where grantees work together to increase coordination and ensure all Chaffee families and individuals have access to nutritious food. This website is a part of that program.</p>
 
-    <h2>How we keep listings current</h2>
-    <p>Directories go stale: markets move parks, farm stands change days, phone numbers change hands. The listings here come from the <a href="https://github.com/open-food-web/colorado-open-food-web">Colorado Open Food Web</a>, an open dataset that is updated once a month:</p>
-    <ul>
-      <li><strong>Many sources, one listing.</strong> It combines Guidestone Colorado's own review, <a href="https://coloradoproud.com/">Colorado Proud</a>, the <a href="https://www.cofarmersmarkets.org/">Colorado Farmers Market Association</a>, the <a href="https://www.usdalocalfoodportal.com/">USDA Local Food Portal</a> and each business's own website.</li>
-      <li><strong>Automatic checks every month.</strong> Each business's website is checked for changes in hours, contact details and where to buy.</li>
-      <li><strong>Guidestone has the last word.</strong> Details that Guidestone or the business has confirmed are never overwritten by an automatic check. A monthly report shows exactly what changed.</li>
-      <li><strong>Nothing is guessed.</strong> A detail only appears if a source states it. Where we haven't confirmed that a business sells at a spot, its pin is shown faded.</li>
-      <li><strong>You can fix it.</strong> Every listing has "Suggest an update" and "Remove this listing" buttons. Removal requests are honored first.</li>
-    </ul>
-    <div class="callout" id="stats">Loading directory stats…</div>
+    <h2>Local agriculture provides a bounty of food</h2>
+    <figure class="about-fig">
+      <img src="assets/photos/about-community-farm.jpg" alt="Two people crouched in a green field of vegetables, tending the crop, with mountains behind" width="300" height="200">
+    </figure>
+    <p>There are thousands of cows and hundreds of rows of fresh lettuce and other crisp, ripe vegetables criss-crossing our valley. There are fresh eggs, cheese, milk, honey and lamb, poultry and pork in addition to beef.</p>
+    <p>Chaffee Provides is an easy, convenient way to expand your access to locally raised and grown, fresh and healthy food. Farm stands, brick-and-mortar retail outlets, farmers markets, and food banks are all promoted here, along with information that will directly connect you with ranchers and farmers that have food to share and sell.</p>
 
-    <h2>Contact</h2>
-    <p>Email <a href="mailto:info@guidestonecolorado.org">info@guidestonecolorado.org</a>, or write to Chaffee Provides, c/o Guidestone Colorado, P.O. Box 1056, Salida, CO 81201. Follow along on <a href="https://www.facebook.com/ChaffeeProvides">Facebook</a>.</p>
-    <p>Farmers and food businesses: <a href="list-your-business.html">list your business for free</a>.</p>
+    <h2>Keep working land working</h2>
+    <figure class="about-fig">
+      <img src="assets/photos/about-ranch-cattle.jpg" alt="A brown cow trotting across a pasture with a dog running behind it" width="300" height="110">
+    </figure>
+    <p>Chaffee Provides hails from the vision of a future with continued beautiful rural landscapes through sustained agriculture and focused new development. The initiative's strategy is to support the agricultural bounty we already have for the benefit of everyone.</p>
+    <p>Envision partnered with Guidestone Colorado to create this site. Guidestone's mission is to grow a vibrant agricultural future through education, community building, and partnerships. The organization's strategies are founded on the belief that meaningful exposure and experiences on local farms and ranches raises awareness and appreciation, and leads to choices that support and increase food system capacity. The result of these choices will be resilient local food systems, healthier communities, and a vibrant future for local agriculture.</p>
+    <p>Funding support is provided by the Chaffee County Community Foundation Food Access Cohort program and the Chaffee Common Ground fund.</p>
   </article>
 </main>
 <div id="site-footer"></div>
 <script src="assets/app.js"></script>
-<script>
-CP.loadModel().then(function(M){
-  var by = { farm:0, market:0, access:0, outlet:0 }; M.recs.forEach(function(r){ by[r.group]++; });
-  var pins = M.meta.counts.pins + (M.meta.counts.outlet_pins || 0);
-  document.getElementById("stats").innerHTML = "<strong>The directory today:</strong> " + M.recs.length + " listings ("
-    + by.farm + " farms and ranches, " + by.market + " farmers markets, " + by.access + " free-food sites" + (by.outlet ? ", " + by.outlet + " shops and grocers" : "") + ") and " + pins
-    + " places on the map. Data release " + CP.esc(M.meta.release) + ", built " + CP.esc(CP.fmtDate(M.meta.generated)) + ".<br>"
-    + '<span class="muted" style="font-size:.9rem">' + CP.esc(M.meta.attribution) + "</span>";
-}).catch(function(e){ document.getElementById("stats").textContent = "Directory numbers are unavailable (" + e.message + ")."; });
-</script>
 </body>
 </html>
