@@ -40,7 +40,7 @@
     market_site:"Market", access_site:"Free food", outlet_site:"Shop", store:"Sold here" };
   var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-  var NAV = [ ["index.html","Home"], ["find-food.html","Map"], ["directory.html","Directory"], ["list-your-business.html","List Your Business"], ["about.html","About"] ];
+  var NAV = [ ["find-food.html","Map"], ["directory.html","Directory"], ["list-your-business.html","List Your Business"], ["about.html","About"] ];
 
   function esc(s){
     return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
