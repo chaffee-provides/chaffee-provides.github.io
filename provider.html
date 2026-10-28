@@ -87,6 +87,8 @@
     if(ch.indexOf("farm_stand") !== -1){
       var s = r.places.filter(function(p){ return p.pin && (p.role === "home_base" || p.role === "farm_stand"); })[0];
       add("Visit the farm stand", (s ? line(s, "Farm stand info") : "Ask them for the address and hours.") + visitExtra(s && s.hours));
+      // A home base that is only a town, next to a farm stand with its own address, is the same place: do not list it again.
+      if(s && s.role === "farm_stand") r.places.forEach(function(p){ if(p.role === "home_base" && !p.pin && !p.loc.address) used[p.id] = true; });
     } else if(r.group === "farm" && r.dropin === true){
       var h = r.places.filter(function(p){ return p.pin && p.role === "home_base"; })[0];
       add("Visit the " + CP.visitWord(r), (h ? line(h, "Farm info") : "Ask them for the address.") + (raw.dropin_hours && !(h && h.hours) ? ' <span class="muted">· ' + esc(raw.dropin_hours.replace(/\s*\((season ending soon|closing for the season soon)\)/i, "")) + '</span>' : "") + visitExtra(h && h.hours));
