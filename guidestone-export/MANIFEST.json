@@ -1,0 +1,150 @@
+{
+ "name": "Chaffee Provides data snapshot for Guidestone Colorado",
+ "food_web_release": "v2026.10.8",
+ "generated": "2026-10-28",
+ "format_version": 2,
+ "county_fips": [
+  "08015"
+ ],
+ "license": "Food Web data: CC BY 4.0. Descriptions and photos: used with Guidestone's permission, see README.",
+ "attribution": "Colorado Open Food Web, CC BY 4.0. Partner data from Guidestone Colorado.",
+ "counts": {
+  "producers": 27,
+  "markets": 3,
+  "access_points": 2,
+  "market_links": 37,
+  "outlets": 4,
+  "outlet_pins": 4,
+  "pins": 38,
+  "excluded_outside_area": {
+   "producers": 1017,
+   "markets": 150,
+   "access_points": 0,
+   "outlets": 79
+  }
+ },
+ "files": {
+  "README.md": {
+   "sha256": "a1d0636bd56905003817757b1baeea3636bd2611c4801301042caeb610427953"
+  },
+  "chaffee-provides.json": {
+   "sha256": "3d1f94b1cd725ea3ec8e086754ce4c45b2c283437efe33871905b618a435ce19"
+  },
+  "csv/free_food_sites.csv": {
+   "sha256": "cec5f66669f241d526be83e72d5defbb5b460ba4ab67759c124beda11ed9f40c",
+   "rows": 2
+  },
+  "csv/markets.csv": {
+   "sha256": "fec35f3d899dcf8ade84bf85d06bfe1295b6790512f1aeb3c432d7ab9c12d4c2",
+   "rows": 3
+  },
+  "csv/producer_locations.csv": {
+   "sha256": "46a94a1d645765c2e15537f039ce86f418c43691bcaeab377a59015296f9b57e",
+   "rows": 57
+  },
+  "csv/producers.csv": {
+   "sha256": "9f4e3cdb59324f836af58be3936f16b1a592f0f498f5437e02b24ad6ec76122a",
+   "rows": 27
+  },
+  "csv/shops.csv": {
+   "sha256": "9f621d76604dfc411bd388712d2ee86d16a6bab7f7a3cfe711d77a3c80dad601",
+   "rows": 4
+  },
+  "site-content/descriptions.json": {
+   "sha256": "1ec043a2126abd7ac5b6003b4cb638a6f35d01594ddd96410e0f0beedf90c85f"
+  },
+  "site-content/photos.json": {
+   "sha256": "e5c40e705eb46fb42c7d43fb5dc3daca8ba2753ddee88ddb482e40dc3631f963"
+  },
+  "(site) assets/photos/arrowpoint-cattle-company.jpg": {
+   "sha256": "d17c65c273a6ee3df8e5a6d3b77270115adcc5cdb242f9f78d90d94c5ff5d782"
+  },
+  "(site) assets/photos/badger-creek-ranch.jpg": {
+   "sha256": "9ed65522cb5750a65bb1cdd21c3058b78649f5d01de1282b09ad6bf5a2648ff5"
+  },
+  "(site) assets/photos/colorado-farm-to-table.jpg": {
+   "sha256": "5982fde5d61ab2bb16745e5bd11cc8cff39bc2f28f30f3d820dc332ee2e4bf4d"
+  },
+  "(site) assets/photos/colorado-mountain-lavender.jpg": {
+   "sha256": "53a8ba29321891dedda6678f8771803f163e82bb538c596bacf8552853d22070"
+  },
+  "(site) assets/photos/copper-kettle-apothecary.jpg": {
+   "sha256": "0b555b5654808db8e32f074f328a367522f008fd4ba9f64f7de7689c81e3fa38"
+  },
+  "(site) assets/photos/everett-ranch-beef.jpg": {
+   "sha256": "3a2278c060eea5257c95d3ab1f21a98963b57789d78e22b09be1a62d474024b0"
+  },
+  "(site) assets/photos/headwater-farms.jpg": {
+   "sha256": "8eb4f2c511b8e6e3466b4a61c22910cc5bf67889afa17d62c87813b6054c198d"
+  },
+  "(site) assets/photos/hutchinson-ranch.jpg": {
+   "sha256": "05feaad3cf11af4c8f460075c504bf61b75f2bd46507c33523a5460e73281f67"
+  },
+  "(site) assets/photos/lewis-lazy-l-ranch.jpg": {
+   "sha256": "d8ad21e9232fcdd1f8face7ad481dc3e66843b759f4dc28eb9765e28dbe56c67"
+  },
+  "(site) assets/photos/mushroom-love-co.jpg": {
+   "sha256": "502fa5b2343270855071bcaae88134249d930af0bac6eb619f56524b6d55f510"
+  },
+  "(site) assets/photos/phytology-flowers-farm.jpg": {
+   "sha256": "344a2d76d52e99362f61c70b1ceccfb1fdb20a4031d6a2c06e19b41d95dae41b"
+  },
+  "(site) assets/photos/rocky-mountain-garlic.jpg": {
+   "sha256": "c51827d972d87bbb9909cc03e7354b3a34608289edabaf664954c779fb71ce21"
+  },
+  "(site) assets/photos/scanga-meat-company.jpg": {
+   "sha256": "607aac96502a83a8a416773c8126805aec18015b9398945032f0e3c8bffc3ec3"
+  },
+  "(site) assets/photos/sweet-pea-farms-wildflower-honey.jpg": {
+   "sha256": "31b098f5c668662ca2e586f6b78bd42863e6431fa3b3091f0d830091a4d08da7"
+  },
+  "(site) assets/photos/thumb/arrowpoint-cattle-company.jpg": {
+   "sha256": "3bcf50850bd57d08963258ff67be2db46f5bb36792d33599c409e797e7e57444"
+  },
+  "(site) assets/photos/thumb/badger-creek-ranch.jpg": {
+   "sha256": "70de3442e8eace06b1f7a12520a81f5f2bd4629e17b406cb315f40da2f222362"
+  },
+  "(site) assets/photos/thumb/colorado-farm-to-table.jpg": {
+   "sha256": "9cbf3d1c73ccc411dc6890a004e401cb67b6fed79fe67b12bd9dd563e9583354"
+  },
+  "(site) assets/photos/thumb/colorado-mountain-lavender.jpg": {
+   "sha256": "4795e72ed5205dbab27a5d025e22ea55ba91d1b63994fae5231b9cb2c7268184"
+  },
+  "(site) assets/photos/thumb/copper-kettle-apothecary.jpg": {
+   "sha256": "3043ba2703f1a40149c5816ec351f37521ddb1005bdfc62831bfc0dba398719a"
+  },
+  "(site) assets/photos/thumb/everett-ranch-beef.jpg": {
+   "sha256": "45a36ab41ef60c7b4bc52f828a326355368f786297df87a8a36a92527671139c"
+  },
+  "(site) assets/photos/thumb/headwater-farms.jpg": {
+   "sha256": "044a69f6c0e6daaad08ca64def1ce16cdd2d595092a93234e53759129a49beeb"
+  },
+  "(site) assets/photos/thumb/hutchinson-ranch.jpg": {
+   "sha256": "0a95f30ebe1c81779835b89003769406add6b6d6875536ae2a19f6cb565134c6"
+  },
+  "(site) assets/photos/thumb/lewis-lazy-l-ranch.jpg": {
+   "sha256": "1faf701f9068028479e791db4c15c9ea156b531447c8aa17ad5b10f4f324ff5d"
+  },
+  "(site) assets/photos/thumb/mushroom-love-co.jpg": {
+   "sha256": "13df244b3c44103c9f80e25e600d7579b0b6b14f427326bf29c17de98845962f"
+  },
+  "(site) assets/photos/thumb/phytology-flowers-farm.jpg": {
+   "sha256": "abb42170f096ef1607bf44c36d13bb05773da22817faa46bd9cec419747289de"
+  },
+  "(site) assets/photos/thumb/rocky-mountain-garlic.jpg": {
+   "sha256": "0da4c581390a5f574b64356733ae3607cc7b22d48e08e0f0dc034e56425e02bc"
+  },
+  "(site) assets/photos/thumb/scanga-meat-company.jpg": {
+   "sha256": "7b31f51337ebfd0a10a5e7a5709a6fda6a5e9f67dc50f65d0a1b0b03b5c2969d"
+  },
+  "(site) assets/photos/thumb/sweet-pea-farms-wildflower-honey.jpg": {
+   "sha256": "6143b594f016fc75e7b23cd1575f20edf7ef4541cbdce944f727c6806f27c5dc"
+  },
+  "(site) assets/photos/thumb/valley-roots-food-hub.jpg": {
+   "sha256": "8022c5cb38fece7697fc1aba812a09ea0832b709b45bbed4c64783de06570699"
+  },
+  "(site) assets/photos/valley-roots-food-hub.jpg": {
+   "sha256": "5d00bfe69db3f37c73049bc6bb2d56b10c095a94e148bc15f963ed294c069228"
+  }
+ }
+}

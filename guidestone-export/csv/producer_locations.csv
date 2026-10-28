@@ -1,0 +1,58 @@
+﻿location_id,producer_id,producer,role,place_name,address,city,zip,county,lat,lon,precision,on_map,hours,days,season_start,season_end,status
+co-loc-001507,co-p-001240,Alpenglow Hive & Honey,home_base,,,Buena Vista,,Chaffee,,,none,no,,,,,listed
+co-loc-001518,co-p-001240,Alpenglow Hive & Honey,store,The Farmstand,County Road 306,Buena Vista,81211,Chaffee,38.81435,-106.276176,exact,yes,,,,,listed
+co-loc-001527,co-p-001240,Alpenglow Hive & Honey,farm_stand,Alpenglow Hive & Honey Farmstand,County Road 306,Buena Vista,81211,Chaffee,38.81435,-106.276176,exact,yes,,,,,listed
+co-loc-001498,co-p-001232,Alpine Valley Mushrooms,home_base,,,Saguache,,08109,38.0863,-106.1411,town,no,,,,,listed
+co-loc-000026,co-p-001232,Alpine Valley Mushrooms,pickup,Salida Farmers Market,"Alpine Park, 404 E Street, Salida, CO 81201",Salida,81201,Chaffee,38.533052,-105.993304,exact,yes,Sat: 8:00am - 12:00pm (through Oct 24),Sat,,,listed
+co-loc-000001,co-p-000001,Arrowpoint Cattle Company,home_base,,21900 County Road 196,Nathrop,81236,Chaffee,38.730347,-106.07423,exact,yes,,,,,listed
+co-loc-001528,co-p-000001,Arrowpoint Cattle Company,farm_stand,The Farmstand on South Main,703 Front Loop,Buena Vista,81211,Chaffee,38.842171,-106.119541,exact,yes,Open 24/7 (QR code at the door),,,,listed
+co-loc-000002,co-p-000002,Badger Creek Ranch,home_base,,,Coaldale,,08043,38.3557,-105.8131,town,no,,,,,listed
+co-loc-001493,co-p-000002,Badger Creek Ranch,pickup,Safeway parking lot (Salida),232 G St,Salida,81201,Chaffee,38.535842,-105.994042,exact,yes,Tue: 4:45pm - 5:00pm,Tue,,,listed
+co-loc-001494,co-p-000002,Badger Creek Ranch,pickup,Valley Fellowship Church (Buena Vista),608 S San Juan Ave,Buena Vista,81211,Chaffee,38.835891,-106.133171,exact,yes,Tue: 6:00pm - 6:15pm,Tue,,,listed
+co-loc-001495,co-p-000002,Badger Creek Ranch,pickup,Ranch Annex (Coaldale),364 County Road 40,Coaldale,81222,08043,38.365553,-105.757784,approximate,no,Pickup by arrangement,,,,listed
+co-loc-000026,co-p-000002,Badger Creek Ranch,pickup,Salida Farmers Market,"Alpine Park, 404 E Street, Salida, CO 81201",Salida,81201,Chaffee,38.533052,-105.993304,exact,yes,Sat: 8:00am - 12:00pm (through Oct 24); winter market Nov 14 - Dec 19,Sat,,,listed
+co-loc-000004,co-p-000004,Buck and Bloom Cheese Co,home_base,,31700 US Highway 24 North,Buena Vista,81211,Chaffee,38.878099,-106.162631,exact,yes,,,,,listed
+co-loc-000006,co-p-000005,Colorado Farm to Table,home_base,,7750 County Road 150,Salida,81201,Chaffee,38.553956,-106.019829,exact,no,,,,,listed
+co-loc-000007,co-p-000006,Colorado Mountain Lavender,home_base,,5968 State Highway 69,Buena Vista,81211,08043,38.33039,-105.601783,exact,no,Not open to the public. Order online.,,,,listed
+co-loc-000397,co-p-000317,DRAM Apothecary,home_base,,,Salida,81201,Chaffee,38.52991,-105.99802,approximate,no,No storefront; online support Mon-Thu 8-3 MT,mon; tue; wed; thu,,,listed
+co-loc-001517,co-p-000317,DRAM Apothecary,store,Howl Mercantile,130 W 1st St,Salida,81201,Chaffee,,,none,no,,,,,listed
+co-loc-000012,co-p-000010,Everett Ranch Beef,home_base,,,Salida,,Chaffee,38.5347,-105.9989,town,no,,,,,listed
+co-loc-001500,co-p-001234,Foxtown Farm,home_base,,,Buena Vista,,Chaffee,,,none,no,,,,,listed
+co-loc-001511,co-p-001234,Foxtown Farm,store,The Lettucehead Food Company,545 US Highway 24 N,Buena Vista,,Chaffee,38.846739,-106.135068,exact,yes,,,,,listed
+co-loc-001512,co-p-001234,Foxtown Farm,store,Rock Paper Scissors (Buena Vista),,Buena Vista,,Chaffee,38.842749,-106.128913,approximate,yes,,,,,listed
+co-loc-001513,co-p-001234,Foxtown Farm,store,Rock Paper Scissors (Salida),,Salida,,Chaffee,38.535854,-105.992413,approximate,yes,,,,,listed
+co-loc-001514,co-p-001234,Foxtown Farm,store,The Mixing Bowl,,Salida,,Chaffee,38.535677,-105.992642,approximate,yes,,,,,listed
+co-loc-001515,co-p-001234,Foxtown Farm,store,Cool River Cafe,,Buena Vista,,Chaffee,38.843154,-106.127542,approximate,yes,,,,,listed
+co-loc-000026,co-p-001234,Foxtown Farm,pickup,Salida Farmers Market,"Alpine Park, 404 E Street, Salida, CO 81201",Salida,81201,Chaffee,38.533052,-105.993304,exact,yes,Sat: 8:00am - 12:00pm (through Oct 24),Sat,,,listed
+co-loc-001501,co-p-001235,Greg's Gourmet Greens,home_base,,,Poncha Springs,,Chaffee,,,none,no,,,,,listed
+co-loc-000026,co-p-001235,Greg's Gourmet Greens,pickup,Salida Farmers Market,"Alpine Park, 404 E Street, Salida, CO 81201",Salida,81201,Chaffee,38.533052,-105.993304,exact,yes,Sat: 8:00am - 12:00pm (through Oct 24),Sat,,,listed
+co-loc-001496,co-p-001230,Guidestone Colorado Community and School Farm,home_base,,1455 Holman Ave,Salida,81201,Chaffee,38.529598,-106.01067,exact,yes,Tue: 4:00pm - 6:00pm,tue,,,listed
+co-loc-000014,co-p-000012,Headwater Farms,home_base,,,Buena Vista,,Chaffee,38.8422,-106.1311,town,yes,,,,,listed
+co-loc-001520,co-p-000012,Headwater Farms,pickup,Headwater Farms (Buena Vista),,Buena Vista,,Chaffee,,,none,no,Pickup for online orders and CSA shares; address not published (ask the farm),,,,listed
+co-loc-001521,co-p-000012,Headwater Farms,pickup,Headwater Farms greenhouse (Nathrop),,Nathrop,,Chaffee,,,none,no,Pickup for online orders and CSA shares; address not published (ask the farm),,,,listed
+co-loc-001522,co-p-000012,Headwater Farms,pickup,Salida pick-up location,,Salida,,Chaffee,,,none,no,Pickup for online orders and CSA shares; address not published (ask the farm),,,,listed
+co-loc-001523,co-p-000012,Headwater Farms,store,The Lettucehead Food Company,545 US Highway 24 N,Buena Vista,,Chaffee,38.846739,-106.135068,exact,yes,,,,,listed
+co-loc-001530,co-p-000012,Headwater Farms,farm_stand,The Farmstand on South Main,703 Front Loop,Buena Vista,81211,Chaffee,38.842171,-106.119541,exact,yes,Open 24/7 (QR code at the door),,,,listed
+co-loc-000026,co-p-000012,Headwater Farms,pickup,Salida Farmers Market,"Alpine Park, 404 E Street, Salida, CO 81201",Salida,81201,Chaffee,38.533052,-105.993304,exact,yes,"Saturdays, June - October",Sat,,,listed
+co-loc-000005,co-p-000012,Headwater Farms,pickup,Buena Vista Farmers' Market,"Turner Farm & Apple Orchard, 829 W Main St",Buena Vista,81211,Chaffee,38.839044,-106.141712,exact,yes,"Saturdays, June - October",Sat,,,listed
+co-loc-001516,co-p-001243,Hutchinson Homestead & Learning Center,home_base,,8913 W Hwy 50,Salida,81201,Chaffee,38.52092,-106.035675,exact,yes,Sat-Sun: 1:00pm - 4:00pm (June-September; by appointment),sat; sun,,,listed
+co-loc-000015,co-p-000013,Hutchinson Ranch,home_base,,"6700 Old Corral Road, Salida, CO 81201",Salida,81201,Chaffee,38.516552,-106.043571,exact,yes,,,,,listed
+co-loc-000016,co-p-000014,Lewis Lazy L Ranch,home_base,,7980 CR 250,Salida,81201,Chaffee,38.53126,-106.117607,exact,no,,,,,listed
+co-loc-001502,co-p-001236,Microgreen Creations LLC,home_base,,,Buena Vista,,Chaffee,,,none,no,,,,,listed
+co-loc-001503,co-p-001236,Microgreen Creations LLC,pickup,Breckenridge Sunday Market,,Breckenridge,,08117,,,none,no,Sundays,Sun,,,listed
+co-loc-000026,co-p-001236,Microgreen Creations LLC,pickup,Salida Farmers Market,"Alpine Park, 404 E Street, Salida, CO 81201",Salida,81201,Chaffee,38.533052,-105.993304,exact,yes,Sat: 8:00am - 12:00pm (through Oct 24),Sat,,,listed
+co-loc-001504,co-p-001237,Miss Penn's Mountain Seeds,home_base,,,Westcliffe,,08027,,,none,no,,,,,listed
+co-loc-000026,co-p-001237,Miss Penn's Mountain Seeds,pickup,Salida Farmers Market,"Alpine Park, 404 E Street, Salida, CO 81201",Salida,81201,Chaffee,38.533052,-105.993304,exact,yes,Sat: 8:00am - 12:00pm (through Oct 24),Sat,,,listed
+co-loc-000021,co-p-000018,Mushroom Love Co,home_base,,,Buena Vista,,Chaffee,38.8422,-106.1311,town,no,,,,,listed
+co-loc-000986,co-p-000792,Palisade Peach Shack,home_base,,757 37 3/10 Rd,Palisade,81526,08077,39.11413,-108.360267,exact,no,U-pick orchard tours in summer season,,,,listed
+co-loc-000026,co-p-000792,Palisade Peach Shack,pickup,Salida Farmers Market,"Alpine Park, 404 E Street, Salida, CO 81201",Salida,81201,Chaffee,38.533052,-105.993304,exact,yes,Sat: 8:00am - 12:00pm (through Oct 24),Sat,,,listed
+co-loc-000022,co-p-000019,Phytology Flowers Farm,home_base,,,Salida,,Chaffee,38.5136,-106.0783,town,no,By appointment,,,,listed
+co-loc-001519,co-p-000019,Phytology Flowers Farm,store,Salida Garden Supply,1242 C Street,Salida,81201,Chaffee,,,none,no,,,,,listed
+co-loc-000024,co-p-000021,Rocky Mountain Garlic,home_base,,9241 County Road 156,Salida,81201,Chaffee,38.550883,-106.010492,exact,yes,Mon: 8 am - 6 pm; Tue: 8 am - 6 pm; Wed: 8 am - 6 pm; Thu: 8 am - 6 pm; Fri: 8 am - 6 pm; Sat: 8 am - 6 pm,mon; tue; wed; thu; fri; sat,,,listed
+co-loc-000026,co-p-000021,Rocky Mountain Garlic,pickup,Salida Farmers Market,"Alpine Park, 404 E Street, Salida, CO 81201",Salida,81201,Chaffee,38.533052,-105.993304,exact,yes,Sat: 8:00am - 12:00pm (through Oct 24); winter market Nov 14 - Dec 19,Sat,,,listed
+co-loc-000028,co-p-000024,Sweet Pea Farm’s Wildflower Honey,home_base,,7465 COUNTY ROAD 146,Salida,81201,Chaffee,38.526716,-106.044923,exact,yes,,,,,listed
+co-loc-000032,co-p-000026,The Triangle Oasis,home_base,,8875 Co Rd 150,Salida,81201,Chaffee,38.56156,-106.036496,exact,yes,"Pick-your-own flowers by appointment, June–October",,,,listed
+co-loc-000034,co-p-000028,Valley Roots Food Hub,home_base,,"5401 Terry Street, Mosca, CO 81146",Mosca,81146,08003,,,none,no,,,,,listed
+co-loc-001506,co-p-001239,Westcliffe Honey Company,home_base,,,Westcliffe,,08027,,,none,no,,,,,listed
+co-loc-000026,co-p-001239,Westcliffe Honey Company,pickup,Salida Farmers Market,"Alpine Park, 404 E Street, Salida, CO 81201",Salida,81201,Chaffee,38.533052,-105.993304,exact,yes,Sat: 8:00am - 12:00pm (through Oct 24),Sat,,,listed
+co-loc-001497,co-p-001231,Who Knows? Farms,home_base,,19235 US Highway 285,Nathrop,81236,Chaffee,38.697301,-106.090238,exact,yes,Tue-Sun: 8:00am - 6:00pm,tue; wed; thu; fri; sat; sun,,,listed
