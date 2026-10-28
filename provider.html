@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Listing · Chaffee Provides</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;1,200&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -62,8 +62,7 @@
     return '<div class="vrow '+cls+'"><span class="vmark" aria-hidden="true">'+mark+'</span><span>'+(v === true ? yes : (v === false ? no : unknown))+'</span></div>';
   }
   function visit(r){
-    if(r.group === "outlet") return { none:true };   // a shop: no "open to everyone" banner, and no hours to point to
-    if(r.group !== "farm") return { tone:"ok", html:'<div class="vrow yes"><span class="vmark" aria-hidden="true">✔</span><span><strong>Open to everyone.</strong> Come at the times shown below.</span></div>' };
+    if(r.group !== "farm") return { none:true };   // shops, markets and other open places: no "open to everyone" banner
     // A farm that isn't open to visitors gets one plain note under "All the places to find them", never a banner up top.
     if(!noVisits(r) || noPublicSales(r)) return { none:true, html:"" };
     return { tone:"no", compact:true, html:'<div class="vrow no"><span class="vmark" aria-hidden="true">✖</span><span><strong>' + "Drop-in visits are not offered." + '</strong></span></div>' };
