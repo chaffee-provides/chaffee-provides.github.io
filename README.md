@@ -9,7 +9,7 @@ GitHub Pages in place of the old WordPress site. It holds no scraping or data pi
 The producer data lives in [colorado-open-food-web](https://github.com/open-food-web/colorado-open-food-web).
 The Food Web publishes one statewide file per release (`open-food-web.json`, format described in its
 `docs/EXPORTS.md`), not a file per site. This site pins a release and applies its own scope when it syncs:
-`scripts/scope.json` holds the county, the categories and shop kinds shown, and the per-producer choices.
+`scripts/scope.json` holds the county, the producer types and shop kinds shown, and the per-producer choices.
 The site keeps the result in `data/chaffee-provides.json` and nothing else from the Food Web.
 
 ```bash
