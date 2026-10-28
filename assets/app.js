@@ -10,7 +10,7 @@
     draft: true,                      // true shows the "prototype" banner; set false at launch (and drop the noindex tags)
     contactEmail: "info@guidestonecolorado.org",
     forms: { suggest: "", add: "" },  // Google Form addresses; until set, the buttons open an email instead
-    supportedFormat: 1                // export format_version this site understands
+    supportedFormat: 2                // export format_version this site understands
   };
 
   // What a pin or card is: the business's own category. Colors come from site.css (--t-*).
@@ -40,7 +40,7 @@
     market_site:"Market", access_site:"Free food", outlet_site:"Shop", store:"Sold here" };
   var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-  var NAV = [ ["find-food.html","Map"], ["directory.html","Directory"], ["list-your-business.html","List Your Business"], ["about.html","About"] ];
+  var NAV = [ ["index.html","Home"], ["find-food.html","Map"], ["directory.html","Directory"], ["list-your-business.html","List Your Business"], ["about.html","About"] ];
 
   function esc(s){
     return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
@@ -65,17 +65,16 @@
     return '<a class="skip" href="#main">Skip to content</a>'
       + (CONFIG.draft ? '<div class="draft" role="note"><strong>Prototype for review</strong> — a proposed new Chaffee Provides, prepared for Guidestone Colorado. Not the official site yet: visit <a href="https://chaffeeprovides.org">chaffeeprovides.org</a>.</div>' : '')
       + '<header class="site-header"><div class="wrap">'
-      + '<a class="brand" href="'+url("find-food.html")+'"><span class="name">Chaffee Provides</span></a>'
+      + '<a class="brand" href="'+url("index.html")+'"><span class="name">Chaffee Provides</span></a>'
       + '<button class="menu-btn" aria-expanded="false" aria-controls="sitenav">Menu</button>'
       + '<nav class="nav" id="sitenav" aria-label="Main">'+links+'</nav>'
       + '</div></header>';
   }
   function footer(){
     return '<footer class="site-footer"><div class="wrap"><div class="cols">'
-      + '<div><a class="brand" href="'+url("find-food.html")+'"><span class="name">Chaffee Provides</span><span class="tag">This land provides</span></a>'
+      + '<div><a class="brand" href="'+url("index.html")+'"><span class="name">Chaffee Provides</span><span class="tag">This land provides</span></a>'
       + '<p style="margin-top:14px">Connecting Chaffee County residents with the farms, ranches, markets and free-food sites that feed this valley. A project of '
-      + '<a href="https://guidestonecolorado.org/" rel="noopener">Guidestone Colorado</a> with '
-      + '<a href="https://envisionchaffeecounty.org/" rel="noopener">Envision Chaffee County</a>.</p></div>'
+      + '<a href="https://guidestonecolorado.org/" rel="noopener">Guidestone Colorado</a>.</p></div>'
       + '<div><h3 style="color:#fff;font-size:1rem">Explore</h3><ul>'
       + NAV.map(function(n){ return '<li><a href="'+url(n[0])+'">'+n[1]+'</a></li>'; }).join("")
       + '</ul></div>'
@@ -148,7 +147,7 @@
       town:towns[0] || "", channels:channels, channelText:channels.map(function(c){ return channelLabels[c] || c; }),
       homeTown:homeCity,
       photo:photos[raw.slug] || null,
-      hours:raw.hours_text || "", products:(raw.products || []).join(", "), categories:raw.categories || [] };
+      hours:raw.hours_text || "", products:(raw.products || []).join(", ") };
     places.forEach(function(p){ p.rec = rec; });
     rec.baseSearch = [raw.name, towns.join(" "), rec.products, rec.productText.join(" "), GROUPS[cat].label].join(" ").toLowerCase();
     places.forEach(function(p){ p.search = [p.title, p.loc.address].join(" ").toLowerCase(); });
@@ -246,13 +245,6 @@
     return '<img class="'+cls+'" src="'+url(rec.photo.file)+'" alt="'+esc(rec.photo.alt)+'" loading="lazy" width="'+rec.photo.width+'" height="'+rec.photo.height+'">';
   }
 
-  // Small flag for lists and popups. Only a confirmed yes is shown; a no or unknown says nothing (the producer page still says it).
-  function visitBadge(r){
-    if(r.group !== "farm") return "";
-    if(r.dropin === true) return ' <span class="vflag yes">Drop-in visits welcome</span>';
-    return "";
-  }
-
   // "Visit the farm" for a farm, "Visit the shop" for an apothecary or store, and so on, by what kind of business it is.
   var VISIT_WORD = { bakery:"bakery", winery:"winery", apothecary:"shop", shop:"shop", store:"shop", grocer:"shop", market:"market" };
   function visitWord(r){ return VISIT_WORD[r && r.raw && r.raw.kind] || "farm"; }
@@ -264,7 +256,7 @@
     get: function(){ try{ return JSON.parse(sessionStorage.getItem("cp-browse") || "null"); }catch(e){ return null; } }
   };
 
-  window.CP = { visitWord:visitWord, browse:browse, placeLabel:placeLabel, visitBadge:visitBadge, esc:esc, url:url, load:load, loadModel:loadModel, CONFIG:CONFIG, GROUPS:GROUPS, catLabel:catLabel, ROLE_LABEL:ROLE_LABEL, MONTHS:MONTHS,
+  window.CP = { visitWord:visitWord, browse:browse, placeLabel:placeLabel, esc:esc, url:url, load:load, loadModel:loadModel, CONFIG:CONFIG, GROUPS:GROUPS, catLabel:catLabel, ROLE_LABEL:ROLE_LABEL, MONTHS:MONTHS,
     fanOut:fanOut, thisMonth:thisMonth, typeStyle:typeStyle, pinIcon:pinIcon, basemap:basemap, countyOutline:countyOutline,
     fmtDate:fmtDate, directions:directions, recUrl:recUrl, safeLink:safeLink, photoHtml:photoHtml, mailto:mailto, suggestUrl:suggestUrl };
 

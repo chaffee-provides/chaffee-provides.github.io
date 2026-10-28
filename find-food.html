@@ -7,7 +7,7 @@
 <title>Find Local Food · Chaffee Provides</title>
 <meta name="description" content="Map of Chaffee County farms, ranches, farm stands, pickup points, farmers markets and free-food sites. Search by what you want to buy.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;1,200&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -36,7 +36,6 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
         <select id="town" style="flex:1"><option value="">All towns</option></select>
         <label><input type="checkbox" id="snap"> Accepts SNAP</label>
       </div>
-      <div class="row"><label><input type="checkbox" id="dropin"> Open for drop-in visits</label></div>
       <div class="mobile-toggle" role="group" aria-label="View">
         <button class="chip" data-view="list" aria-pressed="true">List</button>
         <button class="chip" data-view="map" aria-pressed="false">Map</button>
@@ -53,9 +52,9 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
 (function(){
   "use strict";
   var esc = CP.esc;
-  var state = { q:"", cat:"", product:"", town:"", snap:false, dropin:false };
+  var state = { q:"", cat:"", product:"", town:"", snap:false };
   var els = { q:document.getElementById("q"), products:document.getElementById("products"),
-    town:document.getElementById("town"), snap:document.getElementById("snap"), dropin:document.getElementById("dropin"), list:document.getElementById("list"),
+    town:document.getElementById("town"), snap:document.getElementById("snap"), list:document.getElementById("list"),
     count:document.getElementById("count"), suggest:document.getElementById("suggest") };
 
   var map = L.map("map", { zoomControl:false, scrollWheelZoom:true }).setView([38.73, -106.1], 9);
@@ -70,14 +69,13 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
   function readUrl(){
     var p = new URLSearchParams(location.search);
     state.q = p.get("q") || ""; state.cat = p.get("cat") || ""; state.product = p.get("product") || "";
-    state.town = p.get("town") || ""; state.snap = p.get("snap") === "1"; state.dropin = p.get("dropin") === "1";
+    state.town = p.get("town") || ""; state.snap = p.get("snap") === "1";
   }
   function writeUrl(){
     var p = new URLSearchParams(), cur = new URLSearchParams(location.search);
     ["embed","basemap"].forEach(function(k){ if(cur.get(k)) p.set(k, cur.get(k)); });
     ["q","cat","product","town"].forEach(function(k){ if(state[k]) p.set(k, state[k]); });
     if(state.snap) p.set("snap","1");
-    if(state.dropin) p.set("dropin","1");
     var s = p.toString();
     history.replaceState(null, "", location.pathname + (s ? "?"+s : ""));
   }
@@ -107,7 +105,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
     new Legend().addTo(map);
   }
   function sync(){
-    els.q.value = state.q; els.town.value = state.town; els.snap.checked = state.snap; els.dropin.checked = state.dropin;
+    els.q.value = state.q; els.town.value = state.town; els.snap.checked = state.snap;
     [["product",els.products]].forEach(function(g){
       g[1].querySelectorAll(".chip").forEach(function(c){ c.setAttribute("aria-pressed", c.dataset.key === state[g[0]] ? "true" : "false"); });
     });
@@ -120,7 +118,6 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
     if(state.cat && r.cat !== state.cat) return null;
     if(state.product && r.productGroups.indexOf(state.product) === -1) return null;
     if(state.snap && r.raw.accepts_snap !== true) return null;
-    if(state.dropin && r.dropin !== true) return null;
     var inTown = function(p){ return !state.town || p.loc.city === state.town; };
     var placeless = !r.places.length;
     if(state.q){
@@ -144,11 +141,10 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
   function popup(p){
     var r = p.rec;
     var where = CP.placeLabel(p);
-    var dropinHere = p.role === "home_base" && r.dropin === true;   // the visit flag and the farm's hours read as one block
     var title = p.title !== p.loc.address && p.title !== p.loc.city && p.title !== r.name ? p.title : "";
     var addr = p.loc.address ? esc(p.loc.address) + (p.loc.city && p.loc.address.toLowerCase().indexOf(p.loc.city.toLowerCase()) === -1 ? ", " + esc(p.loc.city) : "") : (p.loc.city ? esc(p.loc.city) : "");
     return '<h4>'+esc(r.name)+'</h4><div style="margin:2px 0 6px"><a href="'+CP.recUrl(r)+'">Details →</a></div><div style="margin-bottom:6px">'+catTag(r)+'</div>'
-      + '<div style="font-size:.9rem"><strong>'+(dropinHere ? 'Drop-in visits welcome at the farm' : esc(where)+(title ? ": "+esc(title) : ""))+'</strong>'+(addr ? '<br>'+addr : '')+(p.hours ? '<br>'+esc(p.hours) : '')+'</div>'
+      + '<div style="font-size:.9rem"><strong>'+esc(where)+(title ? ": "+esc(title) : "")+'</strong>'+(addr ? '<br>'+addr : '')+(p.hours ? '<br>'+esc(p.hours) : '')+'</div>'
       + (r.productText.length ? '<div class="muted" style="font-size:.85rem;margin-top:6px">'+esc(r.productText.join(" · "))+'</div>' : '')
       + (p.unconfirmed ? '<div class="muted" style="font-size:.84rem;margin-top:6px">Not confirmed yet that they sell here.</div>' : '')
       + (r.raw.phone || r.raw.website ? '<div style="margin-top:6px;font-size:.9rem">'
@@ -182,7 +178,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
       var r = x.r, pins = x.ps.filter(function(p){ return p.pin; }).length;
       var sub = [r.towns.slice(0,3).join(", "), r.productText.slice(0,4).join(" · ") || (r.group === "access" ? (r.hours || "") : "")].filter(Boolean).join(" · ");
       return '<a class="result" href="'+CP.recUrl(r)+'" data-id="'+esc(r.id)+'"><strong>'+esc(r.name)+'</strong>'
-        + '<div class="types">'+catTag(r)+CP.visitBadge(r)+'</div><div class="sub">'+esc(sub)+(pins > 1 ? ' · '+pins+' places' : '')+'</div></a>';
+        + '<div class="types">'+catTag(r)+'</div><div class="sub">'+esc(sub)+(pins > 1 ? ' · '+pins+' places' : '')+'</div></a>';
     }).join("") || '<p style="padding:16px" class="muted">Nothing matches those filters. <button class="chip" id="reset2">Clear filters</button></p>';
     var r2 = document.getElementById("reset2"); if(r2) r2.addEventListener("click", reset);
 
@@ -206,8 +202,8 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
       m.addTo(layer); bounds.push([g.lat, g.lng]);
     });
     var offMap = rows.filter(function(x){ return !x.ps.some(function(p){ return p.pin; }); }).length;
-    els.count.textContent = rows.length + " of " + ALL.length + " listings · " + groups.length + " places on the map" + (offMap ? " ("+offMap+" not on the map)" : "");
-    var filtered = state.q || state.cat || state.product || state.town || state.snap || state.dropin;
+    els.count.textContent = rows.length + " of " + ALL.length + " listings · " + (rows.length - offMap) + " on the map" + (offMap ? ", " + offMap + " not" : "");
+    var filtered = state.q || state.cat || state.product || state.town || state.snap;
     var fit = bounds.length ? L.latLngBounds(bounds) : null;
     if(!filtered && countyBounds) fit = fit ? fit.extend(countyBounds) : countyBounds;
     if(fit) map.fitBounds(fit, { padding:[24,24], maxZoom:12 });
@@ -221,13 +217,12 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
     var r = ALL.find(function(x){ return x.id === a.dataset.id; });
     if(r && r._m) r._m.openPopup();
   });
-  function reset(){ state = { q:"", cat:"", product:"", town:"", snap:false, dropin:false }; sync(); apply(); }
+  function reset(){ state = { q:"", cat:"", product:"", town:"", snap:false }; sync(); apply(); }
 
   var t;
   els.q.addEventListener("input", function(){ clearTimeout(t); t = setTimeout(function(){ state.q = els.q.value.trim(); apply(); }, 150); });
   els.town.addEventListener("change", function(){ state.town = els.town.value; apply(); });
   els.snap.addEventListener("change", function(){ state.snap = els.snap.checked; apply(); });
-  els.dropin.addEventListener("change", function(){ state.dropin = els.dropin.checked; apply(); });
   document.getElementById("reset").addEventListener("click", reset);
   document.querySelectorAll(".mobile-toggle .chip").forEach(function(b){
     b.addEventListener("click", function(){
