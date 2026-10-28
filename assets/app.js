@@ -102,7 +102,8 @@
   var cache = {};
   function load(name){
     if(!cache[name]){
-      cache[name] = fetch(url("data/"+name+".json")).then(function(r){
+      // no-cache: revalidate, so a visitor holding an older data file never pairs it with this script (format mismatch).
+      cache[name] = fetch(url("data/"+name+".json"), { cache:"no-cache" }).then(function(r){
         if(!r.ok) throw new Error(name+".json: HTTP "+r.status);
         return r.json();
       });
