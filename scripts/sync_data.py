@@ -2,7 +2,7 @@
 """Build data/chaffee-provides.json from a Colorado Open Food Web release, after checking it.
 
 The Food Web publishes one statewide file per release (open-food-web.json). This site pins a release and
-applies its own scope here (scripts/scope.json: county, categories, shop kinds, pins). The site reads
+applies its own scope here (scripts/scope.json: county, producer types, shop kinds, pins). The site reads
 data/chaffee-provides.json and nothing else from the Food Web, and this script is the only thing that writes it,
 so a bad release fails here and never reaches the published site.
 
@@ -13,7 +13,7 @@ Usage:
 """
 import hashlib, json, os, sys, urllib.request
 
-SUPPORTED = 1
+SUPPORTED = 2
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEST = os.path.join(HERE, "..", "data", "chaffee-provides.json")
 SCOPE = os.path.join(HERE, "scope.json")
@@ -56,8 +56,8 @@ def apply_scope(d, scope):
     sources = set(scope.get("include_sources", []))
     exclude_slugs = set(scope.get("exclude_slugs", {}))
     hide_pin_slugs = set(scope.get("hide_pin_slugs", {}))
-    include_cats = set(scope.get("include_categories", {}))
-    exclude_cats = set(scope.get("exclude_categories", {}))
+    exclude_producer_types = set(scope.get("exclude_producer_types", {}))
+    exclude_only_channels = set(scope.get("exclude_only_channels", {}))
     outlet_kinds = set(scope.get("include_outlet_kinds", []))
     show_home = scope.get("show_unconfirmed_home_pins", False)
     outside = {"producers": 0, "markets": 0, "access_points": 0, "outlets": 0}
@@ -68,9 +68,9 @@ def apply_scope(d, scope):
 
     producers = []
     for p in d["producers"]:
-        cats = set(p["categories"])
-        if p["slug"] in exclude_slugs or (exclude_cats and cats and cats <= exclude_cats) \
-                or (include_cats and cats and not cats & include_cats):
+        chans = set(p["sales_channels"])
+        if p["slug"] in exclude_slugs or p["producer_type"] in exclude_producer_types \
+                or (chans and chans <= exclude_only_channels):
             continue
         if not in_area(p, p["locations"], p["service_county_fips"]):
             outside["producers"] += 1

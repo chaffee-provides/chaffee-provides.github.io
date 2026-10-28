@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="assets/icon-32.png" sizes="32x32">
+<link rel="icon" href="assets/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
 <meta name="robots" content="noindex, nofollow">
 <title>Find Local Food · Chaffee Provides</title>
 <meta name="description" content="Map of Chaffee County farms, ranches, farm stands, pickup points, farmers markets and free-food sites. Search by what you want to buy.">
@@ -94,8 +97,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
       var cats = Object.keys(CP.GROUPS).filter(function(k){ return ALL.some(function(r){ return r.cat === k; }); });
       div.innerHTML = '<div class="map-legend-title">Map key</div>' + cats.map(function(k){
         return '<button type="button" data-key="'+k+'"><span class="pin-swatch" style="background:'+CP.typeStyle(k).hex+'"><span aria-hidden="true">'+CP.typeStyle(k).emoji+'</span></span>'+esc(CP.GROUPS[k].label)+'</button>';
-      }).join("") + '<div class="map-legend-note"><span class="pin-swatch" style="background:#7a7a72"><span aria-hidden="true">📍</span></span>Pickup point</div><div class="map-legend-note"><span class="pin-swatch" style="background:#7a7a72"><span aria-hidden="true">' + CP.typeStyle("market").emoji + '</span></span>Sells at a farmers market</div>'
-        + '<div class="map-legend-note"><span class="pin-swatch faded" style="background:#7a7a72"><span aria-hidden="true"></span></span>Faded: not confirmed yet</div>';
+      }).join("") + '<div class="map-legend-note"><span class="pin-swatch" style="background:#7a7a72"><span aria-hidden="true">📍</span></span>Pickup point</div><div class="map-legend-note"><span class="pin-swatch" style="background:#7a7a72"><span aria-hidden="true">' + CP.typeStyle("market").emoji + '</span></span>Sells at a farmers market</div>';
       L.DomEvent.disableClickPropagation(div);
       div.querySelectorAll("button").forEach(function(b){
         b.addEventListener("click", function(){ state.cat = state.cat === b.dataset.key ? "" : b.dataset.key; sync(); apply(); });

@@ -1,0 +1,125 @@
+{
+ "note": "Photos uploaded to the old Chaffee Provides site; reuse confirmed by Guidestone Colorado (Oct 2026). Keyed by Food Web slug.",
+ "photos": {
+  "arrowpoint-cattle-company": {
+   "file": "assets/photos/arrowpoint-cattle-company.jpg",
+   "alt": "Photo from Arrowpoint Cattle Company",
+   "width": 900,
+   "height": 501,
+   "from": "http://chaffeeprovides.org/wp-content/uploads/2021/01/horses-pasture-scaled.jpg",
+   "thumb": "assets/photos/thumb/arrowpoint-cattle-company.jpg"
+  },
+  "badger-creek-ranch": {
+   "file": "assets/photos/badger-creek-ranch.jpg",
+   "alt": "Photo from Badger Creek Ranch",
+   "width": 900,
+   "height": 601,
+   "from": "http://chaffeeprovides.org/wp-content/uploads/2021/01/BadgerCreekBIOpic.jpg",
+   "thumb": "assets/photos/thumb/badger-creek-ranch.jpg"
+  },
+  "lewis-lazy-l-ranch": {
+   "file": "assets/photos/lewis-lazy-l-ranch.jpg",
+   "alt": "Photo from Lewis Lazy L Ranch",
+   "width": 675,
+   "height": 900,
+   "from": "https://chaffeeprovides.org/wp-content/uploads/gravity_forms/3-807d06458b68d91ec29987f0f5c0f413/2021/03/3C032A93-595E-480E-B18E-D83116C4F8B1.jpeg",
+   "thumb": "assets/photos/thumb/lewis-lazy-l-ranch.jpg"
+  },
+  "rocky-mountain-garlic": {
+   "file": "assets/photos/rocky-mountain-garlic.jpg",
+   "alt": "Photo from Rocky Mountain Garlic",
+   "width": 900,
+   "height": 900,
+   "from": "https://chaffeeprovides.org/wp-content/uploads/gravity_forms/3-807d06458b68d91ec29987f0f5c0f413/2021/04/RMG_sign.jpg",
+   "thumb": "assets/photos/thumb/rocky-mountain-garlic.jpg"
+  },
+  "colorado-farm-to-table": {
+   "file": "assets/photos/colorado-farm-to-table.jpg",
+   "alt": "Photo from Colorado Farm to Table",
+   "width": 900,
+   "height": 675,
+   "from": "https://chaffeeprovides.org/wp-content/uploads/gravity_forms/3-807d06458b68d91ec29987f0f5c0f413/2021/04/CFTT-Inside-Greenhouse-with-Seedlings.JPG",
+   "thumb": "assets/photos/thumb/colorado-farm-to-table.jpg"
+  },
+  "everett-ranch-beef": {
+   "file": "assets/photos/everett-ranch-beef.jpg",
+   "alt": "Photo from Everett Ranch Beef",
+   "width": 900,
+   "height": 900,
+   "from": "https://chaffeeprovides.org/wp-content/uploads/2021/04/20819675_817167228447775_8586000362924642062_o.jpg",
+   "thumb": "assets/photos/thumb/everett-ranch-beef.jpg"
+  },
+  "scanga-meat-company": {
+   "file": "assets/photos/scanga-meat-company.jpg",
+   "alt": "Photo from Scanga Meat Company",
+   "width": 400,
+   "height": 225,
+   "from": "https://chaffeeprovides.org/wp-content/uploads/2021/04/128269770_2899229960297262_4912055832908041889_n.png",
+   "thumb": "assets/photos/thumb/scanga-meat-company.jpg"
+  },
+  "phytology-flowers-farm": {
+   "file": "assets/photos/phytology-flowers-farm.jpg",
+   "alt": "Photo from Phytology Flowers Farm",
+   "width": 595,
+   "height": 579,
+   "from": "https://chaffeeprovides.org/wp-content/uploads/gravity_forms/3-807d06458b68d91ec29987f0f5c0f413/2021/05/23F05F7F-3D24-4CBB-B2F7-D98CFA25DBC3.jpeg",
+   "thumb": "assets/photos/thumb/phytology-flowers-farm.jpg"
+  },
+  "copper-kettle-apothecary": {
+   "file": "assets/photos/copper-kettle-apothecary.jpg",
+   "alt": "Photo from Copper Kettle Apothecary",
+   "width": 820,
+   "height": 864,
+   "from": "https://chaffeeprovides.org/wp-content/uploads/gravity_forms/3-807d06458b68d91ec29987f0f5c0f413/2023/12/logo.png",
+   "thumb": "assets/photos/thumb/copper-kettle-apothecary.jpg"
+  },
+  "sweet-pea-farms-wildflower-honey": {
+   "file": "assets/photos/sweet-pea-farms-wildflower-honey.jpg",
+   "alt": "Photo from Sweet Pea Farm’s Wildflower Honey",
+   "width": 900,
+   "height": 675,
+   "from": "https://chaffeeprovides.org/wp-content/uploads/gravity_forms/3-807d06458b68d91ec29987f0f5c0f413/2023/12/20231226_133306.jpg",
+   "thumb": "assets/photos/thumb/sweet-pea-farms-wildflower-honey.jpg"
+  },
+  "valley-roots-food-hub": {
+   "file": "assets/photos/valley-roots-food-hub.jpg",
+   "alt": "Photo from Valley Roots Food Hub",
+   "width": 900,
+   "height": 746,
+   "from": "https://chaffeeprovides.org/wp-content/uploads/gravity_forms/3-807d06458b68d91ec29987f0f5c0f413/2024/01/FB_5.jpeg",
+   "thumb": "assets/photos/thumb/valley-roots-food-hub.jpg"
+  },
+  "headwater-farms": {
+   "file": "assets/photos/headwater-farms.jpg",
+   "alt": "Photo from Headwater Farms",
+   "width": 900,
+   "height": 675,
+   "from": "https://chaffeeprovides.org/wp-content/uploads/gravity_forms/3-807d06458b68d91ec29987f0f5c0f413/2024/01/E705417D-3E5C-4F2A-B307-13CBC95B99671.jpeg",
+   "thumb": "assets/photos/thumb/headwater-farms.jpg"
+  },
+  "hutchinson-ranch": {
+   "file": "assets/photos/hutchinson-ranch.jpg",
+   "alt": "Photo from Hutchinson Ranch",
+   "width": 900,
+   "height": 834,
+   "from": "https://chaffeeprovides.org/wp-content/uploads/gravity_forms/3-807d06458b68d91ec29987f0f5c0f413/2024/01/IMG_3154.jpeg",
+   "thumb": "assets/photos/thumb/hutchinson-ranch.jpg"
+  },
+  "colorado-mountain-lavender": {
+   "file": "assets/photos/colorado-mountain-lavender.jpg",
+   "alt": "Photo from Colorado Mountain Lavender",
+   "width": 809,
+   "height": 900,
+   "from": "https://chaffeeprovides.org/wp-content/uploads/gravity_forms/3-807d06458b68d91ec29987f0f5c0f413/2024/01/harvest-time-2.jpg",
+   "thumb": "assets/photos/thumb/colorado-mountain-lavender.jpg"
+  },
+  "mushroom-love-co": {
+   "file": "assets/photos/mushroom-love-co.jpg",
+   "alt": "Photo from Mushroom Love Co",
+   "width": 225,
+   "height": 225,
+   "from": "https://chaffeeprovides.org/wp-content/uploads/gravity_forms/3-807d06458b68d91ec29987f0f5c0f413/2024/01/27d5ad_3164ee3f6de14835b55053edd36518b7_mv2.jpg",
+   "thumb": "assets/photos/thumb/mushroom-love-co.jpg"
+  }
+ }
+}

@@ -1,30 +1,24 @@
 {
  "export": {
   "app": "chaffee-provides",
-  "format_version": 1,
-  "release": "2026-10",
-  "generated": "2026-10-15",
+  "format_version": 2,
+  "release": "v2026.10.8",
+  "generated": "2026-10-28",
   "source": "Colorado Open Food Web",
   "county_fips": [
    "08015"
   ],
   "attribution": "Colorado Open Food Web, CC BY 4.0. Partner data from Guidestone Colorado.",
   "counts": {
-   "producers": 32,
-   "markets": 2,
+   "producers": 27,
+   "markets": 3,
    "access_points": 2,
    "market_links": 37,
-   "outlets": 3,
-   "outlet_pins": 3,
-   "pins": 35,
-   "excluded_no_county": {
-    "producers": 27,
-    "markets": 1,
-    "access_points": 0,
-    "outlets": 4
-   },
+   "outlets": 4,
+   "outlet_pins": 4,
+   "pins": 38,
    "excluded_outside_area": {
-    "producers": 924,
+    "producers": 1017,
     "markets": 150,
     "access_points": 0,
     "outlets": 79
@@ -45,6 +39,7 @@
    "online": "Online orders",
    "wholesale": "Wholesale",
    "retail_partners": "Sold in stores",
+   "agritourism": "Agritourism (visits, lodging, events)",
    "none": "No public sales"
   },
   "months": [
@@ -61,13 +56,12 @@
    "November",
    "December"
   ],
-  "kinds": {
+  "producer_types": {
    "farm": "Farms",
    "ranch": "Ranches",
    "orchard": "Orchards",
    "bakery": "Bakeries",
    "maker": "Food makers",
-   "agritourism": "Agritourism",
    "education": "Agricultural education",
    "winery": "Wineries"
   },
@@ -109,10 +103,7 @@
    "id": "co-p-001240",
    "slug": "alpenglow-hive-and-honey",
    "name": "Alpenglow Hive & Honey",
-   "kind": "maker",
-   "categories": [
-    "Food Maker"
-   ],
+   "producer_type": "farm",
    "products": [
     "Raw honey",
     "propolis",
@@ -121,13 +112,19 @@
    "product_groups": [
     "honey"
    ],
-   "visits": [],
-   "dropin_visits": null,
+   "visits": [
+    {
+     "type": "farm_stand",
+     "label": "Farm stand",
+     "detail": null
+    }
+   ],
+   "dropin_visits": true,
    "dropin_hours": null,
-   "farm_pickup": null,
+   "farm_pickup": true,
    "visit_basis": {
-    "dropin": null,
-    "pickup": null
+    "dropin": "listing",
+    "pickup": "listing"
    },
    "visit_note": null,
    "months_open": [],
@@ -140,6 +137,7 @@
    "facebook": "https://www.facebook.com/p/Alpenglow-Hive-Honey-61586258981365/",
    "instagram": null,
    "sales_channels": [
+    "farm_stand",
     "retail_partners"
    ],
    "sells_at": [],
@@ -163,7 +161,7 @@
      "lon": null,
      "precision": "none",
      "pin": false,
-     "pin_basis": "unconfirmed",
+     "pin_basis": "confirmed",
      "days": [],
      "hours_text": null,
      "season_start": null,
@@ -175,6 +173,26 @@
      "id": "co-loc-001518",
      "role": "store",
      "name": "The Farmstand",
+     "address": "County Road 306",
+     "city": "Buena Vista",
+     "zip": "81211",
+     "county_fips": "08015",
+     "lat": 38.81435,
+     "lon": -106.276176,
+     "precision": "exact",
+     "pin": true,
+     "pin_basis": "confirmed",
+     "days": [],
+     "hours_text": null,
+     "season_start": null,
+     "season_end": null,
+     "status": "listed",
+     "confirm_url": null
+    },
+    {
+     "id": "co-loc-001527",
+     "role": "farm_stand",
+     "name": "Alpenglow Hive & Honey Farmstand",
      "address": "County Road 306",
      "city": "Buena Vista",
      "zip": "81211",
@@ -205,10 +223,7 @@
    "id": "co-p-001232",
    "slug": "alpine-valley-mushrooms",
    "name": "Alpine Valley Mushrooms",
-   "kind": "farm",
-   "categories": [
-    "On-Farm / Ranch Sales"
-   ],
+   "producer_type": "farm",
    "products": [
     "Certified organic gourmet mushrooms",
     "fresh and dried",
@@ -267,8 +282,8 @@
      "city": "Saguache",
      "zip": null,
      "county_fips": "08109",
-     "lat": 38.5136,
-     "lon": -106.0783,
+     "lat": 38.0863,
+     "lon": -106.1411,
      "precision": "town",
      "pin": false,
      "pin_basis": "unconfirmed",
@@ -320,10 +335,7 @@
    "id": "co-p-000001",
    "slug": "arrowpoint-cattle-company",
    "name": "Arrowpoint Cattle Company",
-   "kind": "ranch",
-   "categories": [
-    "On-Farm / Ranch Sales"
-   ],
+   "producer_type": "ranch",
    "products": [
     "Grass-fed Highland beef",
     "pork",
@@ -337,12 +349,18 @@
    "product_groups": [
     "beef-meat"
    ],
-   "visits": [],
-   "dropin_visits": null,
-   "dropin_hours": null,
+   "visits": [
+    {
+     "type": "farm_stand",
+     "label": "Farm stand",
+     "detail": "Open 24/7 (QR code at the door)"
+    }
+   ],
+   "dropin_visits": true,
+   "dropin_hours": "Open 24/7 (QR code at the door)",
    "farm_pickup": true,
    "visit_basis": {
-    "dropin": null,
+    "dropin": "listing",
     "pickup": "set"
    },
    "visit_note": "Pickup at the ranch by order; delivery within Chaffee County only; hats and dog treats also ship",
@@ -357,6 +375,7 @@
    "instagram": "https://www.instagram.com/arrowpointprovisions/",
    "sales_channels": [
     "delivery",
+    "farm_stand",
     "farmers_market",
     "online"
    ],
@@ -390,10 +409,30 @@
      "lat": 38.730347,
      "lon": -106.07423,
      "precision": "exact",
-     "pin": false,
-     "pin_basis": "unconfirmed",
+     "pin": true,
+     "pin_basis": "confirmed",
      "days": [],
      "hours_text": null,
+     "season_start": null,
+     "season_end": null,
+     "status": "listed",
+     "confirm_url": null
+    },
+    {
+     "id": "co-loc-001528",
+     "role": "farm_stand",
+     "name": "The Farmstand on South Main",
+     "address": "703 Front Loop",
+     "city": "Buena Vista",
+     "zip": "81211",
+     "county_fips": "08015",
+     "lat": 38.842171,
+     "lon": -106.119541,
+     "precision": "exact",
+     "pin": true,
+     "pin_basis": "confirmed",
+     "days": [],
+     "hours_text": "Open 24/7 (QR code at the door)",
      "season_start": null,
      "season_end": null,
      "status": "listed",
@@ -429,10 +468,7 @@
    "id": "co-p-000002",
    "slug": "badger-creek-ranch",
    "name": "Badger Creek Ranch",
-   "kind": "ranch",
-   "categories": [
-    "On-Farm / Ranch Sales"
-   ],
+   "producer_type": "ranch",
    "products": [
     "Grass-fed beef",
     "eggs"
@@ -492,8 +528,8 @@
      "city": "Coaldale",
      "zip": null,
      "county_fips": "08043",
-     "lat": 38.5347,
-     "lon": -105.9989,
+     "lat": 38.3557,
+     "lon": -105.8131,
      "precision": "town",
      "pin": false,
      "pin_basis": "unconfirmed",
@@ -629,11 +665,7 @@
    "id": "co-p-000004",
    "slug": "buck-and-bloom-cheese-co",
    "name": "Buck and Bloom Cheese Co",
-   "kind": "maker",
-   "categories": [
-    "On-Farm / Ranch Sales",
-    "Agritourism"
-   ],
+   "producer_type": "maker",
    "products": [
     "Artisan goat and cow cheeses (chèvre",
     "fromage blanc",
@@ -677,6 +709,7 @@
    "facebook": "https://www.facebook.com/people/Buck-Bloom-Cheese-Co/61578967916917/",
    "instagram": "https://www.instagram.com/buckandbloomcheese/",
    "sales_channels": [
+    "agritourism",
     "farm_stand",
     "farmers_market",
     "wholesale"
@@ -699,6 +732,15 @@
      "season_label": null,
      "basis": "exact_name",
      "source_url": "https://cbfarmersmarket.org/our-farmers-artisans/"
+    },
+    {
+     "market_id": "co-m-000057",
+     "name": "Farmers' Market at Highlands Square",
+     "county_fips": "08031",
+     "year": null,
+     "season_label": null,
+     "basis": "stated_text",
+     "source_url": null
     },
     {
      "market_id": "co-m-000060",
@@ -802,10 +844,7 @@
    "id": "co-p-000005",
    "slug": "colorado-farm-to-table",
    "name": "Colorado Farm to Table",
-   "kind": "farm",
-   "categories": [
-    "On-Farm / Ranch Sales"
-   ],
+   "producer_type": "farm",
    "products": [
     "Corn",
     "acorn squash",
@@ -896,10 +935,7 @@
    "id": "co-p-000006",
    "slug": "colorado-mountain-lavender",
    "name": "Colorado Mountain Lavender",
-   "kind": "farm",
-   "categories": [
-    "Farm Products (online)"
-   ],
+   "producer_type": "farm",
    "products": [
     "Lavender essential oil",
     "skin care",
@@ -992,10 +1028,7 @@
    "id": "co-p-000317",
    "slug": "dram-apothecary",
    "name": "DRAM Apothecary",
-   "kind": "maker",
-   "categories": [
-    "Food Maker"
-   ],
+   "producer_type": "maker",
    "products": [
     "Botanical sparkling waters",
     "adaptogenic CBD sparkling waters and drops",
@@ -1121,10 +1154,7 @@
    "id": "co-p-000010",
    "slug": "everett-ranch-beef",
    "name": "Everett Ranch Beef",
-   "kind": "ranch",
-   "categories": [
-    "On-Farm / Ranch Sales"
-   ],
+   "producer_type": "ranch",
    "products": [
     "Beef/Meat"
    ],
@@ -1212,116 +1242,10 @@
    ]
   },
   {
-   "id": "co-p-001233",
-   "slug": "feedsack-flowers",
-   "name": "Feedsack Flowers",
-   "kind": "farm",
-   "categories": [],
-   "products": [
-    "Cut-flower bouquets",
-    "dried and pressed flower art"
-   ],
-   "product_groups": [
-    "flowers"
-   ],
-   "visits": [],
-   "dropin_visits": null,
-   "dropin_hours": null,
-   "farm_pickup": null,
-   "visit_basis": {
-    "dropin": null,
-    "pickup": null
-   },
-   "visit_note": null,
-   "months_open": [],
-   "hours_text": null,
-   "hours": [],
-   "hours_status": "none",
-   "website": null,
-   "phone": null,
-   "email": null,
-   "facebook": "https://www.facebook.com/Feedsackflowers/",
-   "instagram": null,
-   "sales_channels": [
-    "farmers_market"
-   ],
-   "sells_at": [
-    {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
-    }
-   ],
-   "certified_organic": null,
-   "accepts_snap": null,
-   "ada_accessible": null,
-   "call_first": null,
-   "status": "unverified",
-   "claimed": false,
-   "last_verified": null,
-   "locations": [
-    {
-     "id": "co-loc-001499",
-     "role": "home_base",
-     "name": null,
-     "address": null,
-     "city": "Center",
-     "zip": null,
-     "county_fips": null,
-     "lat": null,
-     "lon": null,
-     "precision": "none",
-     "pin": false,
-     "pin_basis": "unconfirmed",
-     "days": [],
-     "hours_text": null,
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
-    },
-    {
-     "id": "co-loc-000026",
-     "role": "pickup",
-     "name": "Salida Farmers Market",
-     "address": "Alpine Park, 404 E Street, Salida, CO 81201",
-     "city": "Salida",
-     "zip": "81201",
-     "county_fips": "08015",
-     "lat": 38.533052,
-     "lon": -105.993304,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [
-      "Sat"
-     ],
-     "hours_text": "Sat: 8:00am - 12:00pm (through Oct 24)",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
-    }
-   ],
-   "sources": [
-    {
-     "source": "curated",
-     "label": "Farmers market vendor lists, checked by hand",
-     "url": null
-    }
-   ],
-   "confirmed_by": []
-  },
-  {
    "id": "co-p-001234",
    "slug": "foxtown-farm",
    "name": "Foxtown Farm",
-   "kind": "maker",
-   "categories": [],
+   "producer_type": "maker",
    "products": [
     "Ginger",
     "turmeric and elderberry honey syrups",
@@ -1585,8 +1509,7 @@
    "id": "co-p-001235",
    "slug": "gregs-gourmet-greens",
    "name": "Greg's Gourmet Greens",
-   "kind": "farm",
-   "categories": [],
+   "producer_type": "farm",
    "products": [
     "Microgreens",
     "freeze-dried produce",
@@ -1695,11 +1618,7 @@
    "id": "co-p-001230",
    "slug": "guidestone-colorado-community-and-school-farm",
    "name": "Guidestone Colorado Community and School Farm",
-   "kind": "farm",
-   "categories": [
-    "Roadside Market",
-    "Agritourism"
-   ],
+   "producer_type": "farm",
    "products": [],
    "product_groups": [],
    "visits": [
@@ -1733,6 +1652,7 @@
    "facebook": "https://www.facebook.com/guidestonecolorado/",
    "instagram": "https://www.instagram.com/guidestonecolorado/",
    "sales_channels": [
+    "agritourism",
     "farm_stand"
    ],
    "sells_at": [],
@@ -1780,10 +1700,7 @@
    "id": "co-p-000012",
    "slug": "headwater-farms",
    "name": "Headwater Farms",
-   "kind": "farm",
-   "categories": [
-    "On-Farm / Ranch Sales"
-   ],
+   "producer_type": "farm",
    "products": [
     "Fresh produce",
     "wildflowers",
@@ -1793,13 +1710,19 @@
    "product_groups": [
     "veggies"
    ],
-   "visits": [],
-   "dropin_visits": null,
-   "dropin_hours": null,
-   "farm_pickup": null,
+   "visits": [
+    {
+     "type": "farm_stand",
+     "label": "Farm stand",
+     "detail": "Open 24/7 (QR code at the door)"
+    }
+   ],
+   "dropin_visits": true,
+   "dropin_hours": "Open 24/7 (QR code at the door)",
+   "farm_pickup": true,
    "visit_basis": {
-    "dropin": null,
-    "pickup": null
+    "dropin": "listing",
+    "pickup": "listing"
    },
    "visit_note": null,
    "months_open": [],
@@ -1813,6 +1736,7 @@
    "instagram": "https://instagram.com/headwater_farms",
    "sales_channels": [
     "csa",
+    "farm_stand",
     "farmers_market",
     "online",
     "retail_partners",
@@ -1848,8 +1772,8 @@
      "lat": 38.8422,
      "lon": -106.1311,
      "precision": "town",
-     "pin": false,
-     "pin_basis": "unconfirmed",
+     "pin": true,
+     "pin_basis": "confirmed",
      "days": [],
      "hours_text": null,
      "season_start": null,
@@ -1938,6 +1862,26 @@
      "confirm_url": "https://www.headwaterfarmco.com/purchase"
     },
     {
+     "id": "co-loc-001530",
+     "role": "farm_stand",
+     "name": "The Farmstand on South Main",
+     "address": "703 Front Loop",
+     "city": "Buena Vista",
+     "zip": "81211",
+     "county_fips": "08015",
+     "lat": 38.842171,
+     "lon": -106.119541,
+     "precision": "exact",
+     "pin": true,
+     "pin_basis": "confirmed",
+     "days": [],
+     "hours_text": "Open 24/7 (QR code at the door)",
+     "season_start": null,
+     "season_end": null,
+     "status": "listed",
+     "confirm_url": null
+    },
+    {
      "id": "co-loc-000026",
      "role": "pickup",
      "name": "Salida Farmers Market",
@@ -2011,10 +1955,7 @@
    "id": "co-p-001243",
    "slug": "hutchinson-homestead-and-learning-center",
    "name": "Hutchinson Homestead & Learning Center",
-   "kind": "education",
-   "categories": [
-    "Agricultural Education"
-   ],
+   "producer_type": "education",
    "products": [
     "Beef"
    ],
@@ -2108,11 +2049,7 @@
    "id": "co-p-000013",
    "slug": "hutchinson-ranch",
    "name": "Hutchinson Ranch",
-   "kind": "agritourism",
-   "categories": [
-    "Agritourism",
-    "On-Farm / Ranch Sales"
-   ],
+   "producer_type": "ranch",
    "products": [
     "Grass-fed beef"
    ],
@@ -2137,7 +2074,9 @@
    "email": "hutchsalida@gmail.com",
    "facebook": "https://www.facebook.com/HutchinsonRanch/",
    "instagram": "https://www.instagram.com/hutchranch/",
-   "sales_channels": [],
+   "sales_channels": [
+    "agritourism"
+   ],
    "sells_at": [],
    "certified_organic": null,
    "accepts_snap": null,
@@ -2198,10 +2137,7 @@
    "id": "co-p-000014",
    "slug": "lewis-lazy-l-ranch",
    "name": "Lewis Lazy L Ranch",
-   "kind": "ranch",
-   "categories": [
-    "On-Farm / Ranch Sales"
-   ],
+   "producer_type": "ranch",
    "products": [
     "Beef/Meat"
    ],
@@ -2223,7 +2159,7 @@
    "hours_status": "none",
    "website": null,
    "phone": "(719) 850-3440",
-   "email": null,
+   "email": "kate.dvm93@gmail.com",
    "facebook": "https://www.facebook.com/myredcows/",
    "instagram": null,
    "sales_channels": [
@@ -2237,7 +2173,7 @@
    "call_first": null,
    "status": "unverified",
    "claimed": false,
-   "last_verified": null,
+   "last_verified": "2026-10-15",
    "locations": [
     {
      "id": "co-loc-000016",
@@ -2272,14 +2208,22 @@
      "url": null
     }
    ],
-   "confirmed_by": []
+   "confirmed_by": [
+    {
+     "by": "the business's Facebook page",
+     "fields": [
+      "email"
+     ],
+     "url": "https://www.facebook.com/myredcows/",
+     "date": "2026-10-15"
+    }
+   ]
   },
   {
    "id": "co-p-001236",
    "slug": "microgreen-creations-llc",
    "name": "Microgreen Creations LLC",
-   "kind": "farm",
-   "categories": [],
+   "producer_type": "farm",
    "products": [
     "Micro and baby herbs and greens",
     "mushrooms"
@@ -2434,8 +2378,7 @@
    "id": "co-p-001237",
    "slug": "miss-penns-mountain-seeds",
    "name": "Miss Penn's Mountain Seeds",
-   "kind": "farm",
-   "categories": [],
+   "producer_type": "farm",
    "products": [
     "Heirloom mountain-adapted seeds (about 250 tomato varieties)"
    ],
@@ -2547,10 +2490,7 @@
    "id": "co-p-000018",
    "slug": "mushroom-love-co",
    "name": "Mushroom Love Co",
-   "kind": "farm",
-   "categories": [
-    "On-Farm / Ranch Sales"
-   ],
+   "producer_type": "farm",
    "products": [
     "Gourmet mushrooms (lion's mane",
     "king oyster)",
@@ -2649,11 +2589,7 @@
    "id": "co-p-000792",
    "slug": "palisade-peach-shack",
    "name": "Palisade Peach Shack",
-   "kind": "orchard",
-   "categories": [
-    "Roadside Market",
-    "U-Pick"
-   ],
+   "producer_type": "orchard",
    "products": [
     "Peaches",
     "cherries",
@@ -2831,10 +2767,7 @@
    "id": "co-p-000019",
    "slug": "phytology-flowers-farm",
    "name": "Phytology Flowers Farm",
-   "kind": "farm",
-   "categories": [
-    "On-Farm / Ranch Sales"
-   ],
+   "producer_type": "farm",
    "products": [
     "Flowers",
     "wedding and event florals",
@@ -2950,117 +2883,10 @@
    ]
   },
   {
-   "id": "co-p-000020",
-   "slug": "poncha-creek-gardens",
-   "name": "Poncha Creek Gardens",
-   "kind": "farm",
-   "categories": [
-    "On-Farm / Ranch Sales"
-   ],
-   "products": [
-    "Microgreens",
-    "sunflower shoots",
-    "pea shoots"
-   ],
-   "product_groups": [
-    "veggies",
-    "flowers"
-   ],
-   "visits": [
-    {
-     "type": "by_appointment",
-     "label": "Visits by appointment",
-     "detail": "By appointment"
-    }
-   ],
-   "dropin_visits": false,
-   "dropin_hours": null,
-   "farm_pickup": true,
-   "visit_basis": {
-    "dropin": "set",
-    "pickup": "set"
-   },
-   "visit_note": "On-farm pickup by arrangement; also delivers in Salida and Poncha Springs",
-   "months_open": [],
-   "hours_text": "By appointment",
-   "hours": [],
-   "hours_status": "appointment",
-   "website": "https://ponchacreekgardens.wordpress.com/our-products/",
-   "phone": "(720) 380-2121",
-   "email": "ponchacreekgardens@gmail.com",
-   "facebook": "http://www.facebook.com/ponchacreekgardens",
-   "instagram": "https://www.instagram.com/salidaholidaymakersmarket",
-   "sales_channels": [
-    "delivery",
-    "online",
-    "pickup"
-   ],
-   "sells_at": [],
-   "certified_organic": null,
-   "accepts_snap": null,
-   "ada_accessible": null,
-   "call_first": null,
-   "status": "unverified",
-   "claimed": false,
-   "last_verified": null,
-   "locations": [
-    {
-     "id": "co-loc-000023",
-     "role": "home_base",
-     "name": null,
-     "address": null,
-     "city": "Poncha Springs",
-     "zip": "81242",
-     "county_fips": "08015",
-     "lat": 38.51396,
-     "lon": -106.076895,
-     "precision": "approximate",
-     "pin": false,
-     "pin_basis": "unconfirmed",
-     "days": [],
-     "hours_text": "By appointment",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
-    }
-   ],
-   "sources": [
-    {
-     "source": "producer_site",
-     "label": "Producer's own website",
-     "url": "https://ponchacreekgardens.wordpress.com/our-products/"
-    },
-    {
-     "source": "chaffee_provides",
-     "label": "Chaffee Provides",
-     "url": null
-    }
-   ],
-   "confirmed_by": [
-    {
-     "by": "the business's own website",
-     "fields": [
-      "email",
-      "hours",
-      "phone",
-      "products"
-     ],
-     "url": "https://ponchacreekgardens.wordpress.com/our-products/",
-     "date": null
-    }
-   ]
-  },
-  {
    "id": "co-p-000021",
    "slug": "rocky-mountain-garlic",
    "name": "Rocky Mountain Garlic",
-   "kind": "farm",
-   "categories": [
-    "CSA Farm",
-    "Roadside Market",
-    "On-Farm / Ranch Sales"
-   ],
+   "producer_type": "farm",
    "products": [
     "Hardneck garlic",
     "vegetables"
@@ -3129,7 +2955,7 @@
    "hours_status": "parsed",
    "website": "https://www.rockymountaingarlic.net/",
    "phone": "(719) 221-6943",
-   "email": null,
+   "email": "rockymountaingarlicllc@gmail.com",
    "facebook": "https://www.facebook.com/RockyMountainGarlic",
    "instagram": "https://www.instagram.com/rockymountaingarlic1",
    "sales_channels": [
@@ -3155,7 +2981,7 @@
    "call_first": null,
    "status": "unverified",
    "claimed": false,
-   "last_verified": null,
+   "last_verified": "2026-10-15",
    "locations": [
     {
      "id": "co-loc-000024",
@@ -3226,6 +3052,14 @@
    ],
    "confirmed_by": [
     {
+     "by": "the business's Facebook page",
+     "fields": [
+      "email"
+     ],
+     "url": "https://www.facebook.com/RockyMountainGarlic",
+     "date": "2026-10-15"
+    },
+    {
      "by": "the business's own website",
      "fields": [
       "products"
@@ -3236,111 +3070,10 @@
    ]
   },
   {
-   "id": "co-p-000023",
-   "slug": "scanga-meat-company",
-   "name": "Scanga Meat Company",
-   "kind": "ranch",
-   "categories": [
-    "Meat Producer & Packer"
-   ],
-   "products": [
-    "Beef/Meat",
-    "Poultry/Eggs"
-   ],
-   "product_groups": [
-    "beef-meat",
-    "poultry-eggs"
-   ],
-   "visits": [
-    {
-     "type": "shop",
-     "label": "Shop",
-     "detail": "Mon-Sat 8:30am - 5:00pm"
-    }
-   ],
-   "dropin_visits": true,
-   "dropin_hours": "Mon-Sat 8:30am - 5:00pm",
-   "farm_pickup": true,
-   "visit_basis": {
-    "dropin": "set",
-    "pickup": "listing"
-   },
-   "visit_note": "Hours are from a business directory",
-   "months_open": [],
-   "hours_text": null,
-   "hours": [],
-   "hours_status": "none",
-   "website": "http://www.scangameat.com/",
-   "phone": "(719) 539-3511",
-   "email": null,
-   "facebook": null,
-   "instagram": null,
-   "sales_channels": [
-    "farm_stand",
-    "wholesale"
-   ],
-   "sells_at": [],
-   "certified_organic": null,
-   "accepts_snap": null,
-   "ada_accessible": null,
-   "call_first": null,
-   "status": "unverified",
-   "claimed": false,
-   "last_verified": null,
-   "locations": [
-    {
-     "id": "co-loc-000027",
-     "role": "home_base",
-     "name": null,
-     "address": "9250 County Road 156, Salida, CO",
-     "city": "Salida",
-     "zip": "81201",
-     "county_fips": "08015",
-     "lat": 38.553927,
-     "lon": -106.00867,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [],
-     "hours_text": null,
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
-    }
-   ],
-   "sources": [
-    {
-     "source": "producer_site",
-     "label": "Producer's own website",
-     "url": "http://www.scangameat.com/"
-    },
-    {
-     "source": "chaffee_provides",
-     "label": "Chaffee Provides",
-     "url": null
-    }
-   ],
-   "confirmed_by": [
-    {
-     "by": "the business's own website",
-     "fields": [
-      "address",
-      "phone"
-     ],
-     "url": "http://www.scangameat.com/",
-     "date": null
-    }
-   ]
-  },
-  {
    "id": "co-p-000024",
    "slug": "sweet-pea-farms-wildflower-honey",
    "name": "Sweet Pea Farm’s Wildflower Honey",
-   "kind": "farm",
-   "categories": [
-    "On-Farm / Ranch Sales"
-   ],
+   "producer_type": "farm",
    "products": [
     "Wildflower honey",
     "free-range meat chickens",
@@ -3446,106 +3179,10 @@
    ]
   },
   {
-   "id": "co-p-001242",
-   "slug": "the-farmstand",
-   "name": "The Farmstand",
-   "kind": "farm",
-   "categories": [
-    "Roadside Market"
-   ],
-   "products": [
-    "Eggs",
-    "honey",
-    "flowers",
-    "produce",
-    "baked goods",
-    "jams",
-    "tallow balms",
-    "soaps"
-   ],
-   "product_groups": [
-    "veggies",
-    "poultry-eggs",
-    "honey",
-    "flowers",
-    "baked-goods"
-   ],
-   "visits": [
-    {
-     "type": "farm_stand",
-     "label": "Farm stand",
-     "detail": null
-    }
-   ],
-   "dropin_visits": true,
-   "dropin_hours": null,
-   "farm_pickup": true,
-   "visit_basis": {
-    "dropin": "listing",
-    "pickup": "listing"
-   },
-   "visit_note": null,
-   "months_open": [],
-   "hours_text": null,
-   "hours": [],
-   "hours_status": "none",
-   "website": null,
-   "phone": null,
-   "email": null,
-   "facebook": "https://www.facebook.com/p/the-farmstand-61576733552283/",
-   "instagram": null,
-   "sales_channels": [
-    "farm_stand"
-   ],
-   "sells_at": [],
-   "certified_organic": null,
-   "accepts_snap": null,
-   "ada_accessible": null,
-   "call_first": null,
-   "status": "unverified",
-   "claimed": false,
-   "last_verified": null,
-   "locations": [
-    {
-     "id": "co-loc-001510",
-     "role": "home_base",
-     "name": null,
-     "address": "County Road 306",
-     "city": "Buena Vista",
-     "zip": "81211",
-     "county_fips": "08015",
-     "lat": 38.81435,
-     "lon": -106.276176,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [],
-     "hours_text": null,
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
-    }
-   ],
-   "sources": [
-    {
-     "source": "curated",
-     "label": "Farmers market vendor lists, checked by hand",
-     "url": null
-    }
-   ],
-   "confirmed_by": []
-  },
-  {
    "id": "co-p-000026",
    "slug": "the-triangle-oasis",
    "name": "The Triangle Oasis",
-   "kind": "farm",
-   "categories": [
-    "On-Farm / Ranch Sales",
-    "CSA Farm",
-    "U-Pick"
-   ],
+   "producer_type": "farm",
    "products": [
     "Seasonal produce",
     "vegetables",
@@ -3647,107 +3284,10 @@
    "confirmed_by": []
   },
   {
-   "id": "co-p-000027",
-   "slug": "trout-creek-farm",
-   "name": "Trout Creek Farm",
-   "kind": "farm",
-   "categories": [
-    "On-Farm / Ranch Sales"
-   ],
-   "products": [
-    "Specialty cut flowers",
-    "produce"
-   ],
-   "product_groups": [
-    "veggies",
-    "flowers"
-   ],
-   "visits": [],
-   "dropin_visits": null,
-   "dropin_hours": null,
-   "farm_pickup": null,
-   "visit_basis": {
-    "dropin": null,
-    "pickup": null
-   },
-   "visit_note": null,
-   "months_open": [],
-   "hours_text": null,
-   "hours": [],
-   "hours_status": "none",
-   "website": "https://www.troutcreekfarm.com",
-   "phone": "(719) 207-0230",
-   "email": "beth@troutcreekfarm.com",
-   "facebook": null,
-   "instagram": null,
-   "sales_channels": [
-    "online",
-    "wholesale"
-   ],
-   "sells_at": [],
-   "certified_organic": null,
-   "accepts_snap": null,
-   "ada_accessible": null,
-   "call_first": null,
-   "status": "unverified",
-   "claimed": false,
-   "last_verified": null,
-   "locations": [
-    {
-     "id": "co-loc-000033",
-     "role": "home_base",
-     "name": null,
-     "address": "28872 CR 330, Buena Vista, CO 81211",
-     "city": "Buena Vista",
-     "zip": "81211",
-     "county_fips": "08015",
-     "lat": 38.796609,
-     "lon": -106.094898,
-     "precision": "exact",
-     "pin": false,
-     "pin_basis": "unconfirmed",
-     "days": [],
-     "hours_text": null,
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
-    }
-   ],
-   "sources": [
-    {
-     "source": "producer_site",
-     "label": "Producer's own website",
-     "url": "https://www.troutcreekfarm.com"
-    },
-    {
-     "source": "chaffee_provides",
-     "label": "Chaffee Provides",
-     "url": null
-    }
-   ],
-   "confirmed_by": [
-    {
-     "by": "the business's own website",
-     "fields": [
-      "address",
-      "email",
-      "phone",
-      "products"
-     ],
-     "url": "https://www.troutcreekfarm.com",
-     "date": null
-    }
-   ]
-  },
-  {
    "id": "co-p-000028",
    "slug": "valley-roots-food-hub",
    "name": "Valley Roots Food Hub",
-   "kind": "ranch",
-   "categories": [
-    "On-Farm / Ranch Sales"
-   ],
+   "producer_type": "ranch",
    "products": [
     "Produce",
     "meat",
@@ -3844,8 +3384,7 @@
    "id": "co-p-001239",
    "slug": "westcliffe-honey-company",
    "name": "Westcliffe Honey Company",
-   "kind": "farm",
-   "categories": [],
+   "producer_type": "farm",
    "products": [
     "Raw",
     "creamed and infused honey",
@@ -3951,11 +3490,7 @@
    "id": "co-p-001231",
    "slug": "who-knows-farms",
    "name": "Who Knows? Farms",
-   "kind": "farm",
-   "categories": [
-    "Roadside Market",
-    "On-Farm / Ranch Sales"
-   ],
+   "producer_type": "farm",
    "products": [
     "Vegetables",
     "fruit",
@@ -4130,6 +3665,55 @@
    ]
   },
   {
+   "id": "co-m-000154",
+   "slug": "chaffee-county-winter-farmers-market",
+   "name": "Chaffee County Winter Farmers Market",
+   "operator": null,
+   "days": [
+    "sat"
+   ],
+   "hours_text": "Sat: 10:00am - 1:00pm (Nov 14 - Dec 19)",
+   "hours": [
+    {
+     "day": "sat",
+     "opens": "10:00",
+     "closes": "13:00"
+    }
+   ],
+   "hours_status": "parsed",
+   "vendors": [],
+   "website": "https://www.foodshedalliance.com/discover-the-market",
+   "phone": "(719) 207-5787",
+   "email": null,
+   "facebook": "https://www.facebook.com/FoodshedAllianceCO",
+   "instagram": null,
+   "accepts_snap": true,
+   "ada_accessible": null,
+   "status": "unverified",
+   "last_verified": null,
+   "location": {
+    "id": "co-loc-001529",
+    "role": "market_site",
+    "name": null,
+    "address": "10165 County Road 120",
+    "city": "Salida",
+    "zip": "81201",
+    "county_fips": "08015",
+    "lat": 38.519154,
+    "lon": -106.063251,
+    "precision": "exact",
+    "pin": true,
+    "pin_basis": "confirmed"
+   },
+   "sources": [
+    {
+     "source": "curated",
+     "label": "Farmers market vendor lists, checked by hand",
+     "url": null
+    }
+   ]
+  },
+  {
    "id": "co-m-000002",
    "slug": "salida-farmers-market",
    "name": "Salida Farmers Market",
@@ -4160,7 +3744,6 @@
     "co-p-000026",
     "co-p-000792",
     "co-p-001232",
-    "co-p-001233",
     "co-p-001234",
     "co-p-001235",
     "co-p-001236",
@@ -4411,6 +3994,14 @@
      ],
      "url": null,
      "date": "2026-10-13"
+    },
+    {
+     "by": "the business's Facebook page",
+     "fields": [
+      "email"
+     ],
+     "url": "https://www.facebook.com/copperkettleapothecary/",
+     "date": "2026-10-15"
     }
    ]
   },
@@ -4450,6 +4041,66 @@
     }
    ],
    "confirmed_by": []
+  },
+  {
+   "id": "co-o-000161",
+   "slug": "scanga-meat-company-outlet",
+   "name": "Scanga Meat Company",
+   "kind": "grocery",
+   "group": "shops",
+   "brand": null,
+   "hours": [],
+   "website": "http://www.scangameat.com/",
+   "phone": "(719) 539-3511",
+   "facebook": null,
+   "instagram": null,
+   "status": "unverified",
+   "last_verified": null,
+   "location": {
+    "id": "co-loc-001531",
+    "role": "outlet_site",
+    "name": null,
+    "address": "9250 County Road 156, Salida, CO",
+    "city": "Salida",
+    "zip": "81201",
+    "county_fips": "08015",
+    "lat": 38.553927,
+    "lon": -106.00867,
+    "precision": "exact",
+    "pin": true,
+    "pin_basis": "confirmed"
+   },
+   "sources": [
+    {
+     "source": "producer_site",
+     "label": "Producer's own website",
+     "url": "http://www.scangameat.com/"
+    },
+    {
+     "source": "chaffee_provides",
+     "label": "Chaffee Provides",
+     "url": null
+    }
+   ],
+   "confirmed_by": [
+    {
+     "by": "Guidestone Colorado",
+     "fields": [
+      "type"
+     ],
+     "url": null,
+     "date": "2026-10-27"
+    },
+    {
+     "by": "the business's own website",
+     "fields": [
+      "address",
+      "phone"
+     ],
+     "url": "http://www.scangameat.com/",
+     "date": null
+    }
+   ]
   },
   {
    "id": "co-o-000004",
