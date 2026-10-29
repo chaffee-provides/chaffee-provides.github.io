@@ -13,7 +13,7 @@ Usage:
 """
 import hashlib, json, os, sys, urllib.request
 
-SUPPORTED = 2
+SUPPORTED = 3
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEST = os.path.join(HERE, "..", "data", "chaffee-provides.json")
 SCOPE = os.path.join(HERE, "scope.json")
@@ -114,7 +114,7 @@ def apply_scope(d, scope):
 
     ex = d["export"]
     counts = {"producers": len(producers), "markets": len(markets), "access_points": len(access),
-              "market_links": sum(len(p["sells_at"]) for p in producers),
+              "market_links": sum(1 for p in producers for o in p.get("offerings", []) if o.get("market")),
               "outlets": len(outlets), "outlet_pins": sum(o["location"]["pin"] for o in outlets),
               "pins": sum(l["pin"] for p in producers for l in p["locations"]) + len(markets) + len(access),
               "excluded_outside_area": outside}

@@ -10,7 +10,7 @@
     draft: true,                      // true shows the "prototype" banner; set false at launch (and drop the noindex tags)
     contactEmail: "info@guidestonecolorado.org",
     forms: { suggest: "", add: "" },  // Google Form addresses; until set, the buttons open an email instead
-    supportedFormat: 2                // export format_version this site understands
+    supportedFormat: 3                // export format_version this site understands
   };
 
   // What a pin or card is: the business's own category. Colors come from site.css (--t-*).
@@ -39,6 +39,10 @@
     market_site:"Market", access_site:"Free food", outlet_site:"Shop", store:"Sold here" };
   var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
+  // The on-farm ways to find a producer are sales channels; this is their order and the title shown for each.
+  var ON_FARM_TITLE = { farm_stand:"Farm stand", farm_visit:"Visit the farm", u_pick:"Pick your own", tour:"Farm tours", stay:"Farm stay", volunteer:"Volunteer days" };
+  var ON_FARM = Object.keys(ON_FARM_TITLE);
+  function onFarmOf(raw){ return ON_FARM.filter(function(c){ return (raw.sales_channels || []).indexOf(c) !== -1; }); }
   var NAV = [ ["find-food.html","Map"], ["directory.html","Directory"], ["list-your-business.html","List Your Business"], ["about.html","About"] ];
 
   function esc(s){
@@ -136,11 +140,10 @@
         title:placeTitle(l), hours:l.hours_text || (group === "farm" ? "" : raw.hours_text) || "", days:l.days || [],
         pin:!!l.pin && l.lat != null, unconfirmed:l.pin_basis === "unconfirmed", lat:l.lat, lng:l.lon });
     });
-    // A farm that welcomes neither drop-in visits nor pickup at the farm is not somewhere to find them: keep the town, drop the place,
-    // unless the Food Web gave it a pin (a donation farm people volunteer at).
+    // A farm with no stated way to visit and no pickup at the farm is not somewhere to find them: keep the town, drop the place.
     var homeCity = ((places.filter(function(p){ return p.role === "home_base"; })[0] || { loc:{} }).loc.city || "");
-    if(group === "farm" && raw.farm_pickup !== true && raw.dropin_visits !== true && (raw.dropin_visits === false || raw.farm_pickup === false))
-      places = places.filter(function(p){ return p.role !== "home_base" || p.pin; });
+    if(group === "farm" && raw.farm_pickup === false && !onFarmOf(raw).length)
+      places = places.filter(function(p){ return p.role !== "home_base"; });
     var towns = [];
     places.forEach(function(p){ if(p.pin && p.loc.city && towns.indexOf(p.loc.city) === -1) towns.push(p.loc.city); });
     if(!towns.length) places.forEach(function(p){ if(p.loc.city && towns.indexOf(p.loc.city) === -1) towns.push(p.loc.city); });
@@ -149,7 +152,9 @@
     var groups = raw.product_groups || [];
     var rec = { id:raw.id, slug:raw.slug, name:raw.name, group:group, cat:cat, raw:raw, productGroups:groups,
       productText:groups.map(function(g){ return productLabels[g] || g; }),
-      dropin:(group === "farm" ? (raw.dropin_visits == null ? null : raw.dropin_visits) : true),
+      onFarm:(group === "farm" ? onFarmOf(raw) : []),   // the on-farm ways to find them, in display order
+      details:raw.channel_details || {},                // text for a channel: its hours, a booking link
+      canVisit:(group === "farm" ? onFarmOf(raw).length > 0 : true),
       farmPickup:(raw.farm_pickup == null ? null : raw.farm_pickup), visitNote:raw.visit_note || "", places:places, towns:towns,
       town:towns[0] || "", channels:channels, channelText:channels.map(function(c){ return channelLabels[c] || c; }),
       homeTown:homeCity,
@@ -263,7 +268,7 @@
     get: function(){ try{ return JSON.parse(sessionStorage.getItem("cp-browse") || "null"); }catch(e){ return null; } }
   };
 
-  window.CP = { visitWord:visitWord, browse:browse, placeLabel:placeLabel, esc:esc, url:url, load:load, loadModel:loadModel, CONFIG:CONFIG, GROUPS:GROUPS, catLabel:catLabel, ROLE_LABEL:ROLE_LABEL, MONTHS:MONTHS,
+  window.CP = { ON_FARM_TITLE:ON_FARM_TITLE, visitWord:visitWord, browse:browse, placeLabel:placeLabel, esc:esc, url:url, load:load, loadModel:loadModel, CONFIG:CONFIG, GROUPS:GROUPS, catLabel:catLabel, ROLE_LABEL:ROLE_LABEL, MONTHS:MONTHS,
     fanOut:fanOut, thisMonth:thisMonth, typeStyle:typeStyle, pinIcon:pinIcon, basemap:basemap, countyOutline:countyOutline,
     fmtDate:fmtDate, directions:directions, recUrl:recUrl, safeLink:safeLink, photoHtml:photoHtml, mailto:mailto, suggestUrl:suggestUrl };
 
