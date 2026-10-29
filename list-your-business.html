@@ -11,15 +11,16 @@
 <meta name="description" content="Free listing for Chaffee County farms, ranches, markets and free-food sites.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="assets/site.css">
 <style>
 .hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+.sect{ border-top:2px solid var(--line); padding-top:18px; margin-top:10px; }
+.sect h2{ margin:0 0 4px; }
+.sect p{ margin:0; }
 .addr{ position:relative; display:grid; gap:6px; }
 .addr-list{ position:absolute; top:100%; left:0; right:0; z-index:1000; margin:2px 0 0; padding:0; list-style:none; background:var(--card); border:1px solid var(--line); box-shadow:0 4px 12px rgba(0,0,0,.12); max-height:260px; overflow:auto; }
 .addr-list li{ padding:9px 12px; cursor:pointer; font-weight:400; font-size:.92rem; }
 .addr-list li[aria-selected="true"], .addr-list li:hover{ background:var(--bg-2); }
-#addr-map{ height:260px; border:1px solid var(--line); border-radius:2px; }
 </style>
 </head>
 <body data-page="list-your-business.html">
@@ -29,16 +30,46 @@
     <h1>List your business, free</h1>
     <p style="font-size:1.1rem">Farms, ranches, markets and free-food sites in and around Chaffee County can be listed at no cost. Tell us <strong>where and when</strong> people can get your food, so customers know where to go.</p>
     <p>Already listed and something is wrong, or you would rather not be listed? Use <strong>Suggest an update</strong> or <strong>Remove this listing</strong> on your listing page. Removal requests are honored first.</p>
-    <div class="notice-box"><strong>Prototype form.</strong> For now, sending this opens an email to Guidestone with your answers filled in. A person reviews every listing before it appears, and nothing is published without checking it with you.</div>
+    <div class="notice-box"><strong>What gets shown?</strong> Only the section titled <strong>Shown on your public listing</strong> appears on the website. Your name, what kind of place you are, and your address (unless you ask us to hide it) are used to build the listing. Your contact email and phone are for the Chaffee Provides team only. A person reviews every listing before it appears, and nothing is published without checking it with you.</div>
     <form class="form" id="f" novalidate>
       <div class="hp" aria-hidden="true"><label>Leave this empty <input name="company_website" tabindex="-1" autocomplete="off"></label></div>
+
+      <div class="sect">
+        <h2>About your business</h2>
+        <p class="muted">We use this to set up your listing. Your contact email and phone are <strong>not shown</strong> to the public.</p>
+      </div>
       <label>Business name * <input name="name" required autocomplete="organization"></label>
       <label>What kind of place is it? *
         <select name="type" required>
           <option value="">Choose one</option>
-          <option>Farm</option><option>Ranch</option><option>Orchard or greenhouse</option><option>Food maker or bakery</option>
-          <option>Farmers market</option><option>Free food site (fridge, pantry)</option><option>Other</option>
+          <option>Farm</option><option>Ranch</option><option>Greenhouse</option><option>Food maker or bakery</option>
+          <option>Farmers market</option><option>Free food site</option><option>Other</option>
         </select></label>
+      <label>Contact email * <input name="email" type="email" required autocomplete="email"></label>
+      <label>Contact phone * <input name="phone" type="tel" required autocomplete="tel"></label>
+
+      <div class="sect">
+        <h2>Location</h2>
+        <p class="muted">Optional. Your address puts you on the map.</p>
+      </div>
+      <label><span><input type="checkbox" name="hide"> Don't show my street address on the map. People should not visit here.</span></label>
+      <div class="addr">
+        <label for="address">Street address (optional, start typing for suggestions)</label>
+        <input id="address" name="address" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="addr-list" aria-autocomplete="list">
+        <ul class="addr-list" id="addr-list" role="listbox" hidden></ul>
+      </div>
+      <label>Town (optional)
+        <select name="town">
+          <option value="">Choose one</option>
+          <option>Salida</option><option>Buena Vista</option><option>Poncha Springs</option><option>Nathrop</option>
+          <option>Granite</option><option>Monarch</option><option>Howard</option><option>Cotopaxi</option><option>Cañon City</option><option>Other</option>
+        </select></label>
+
+      <div class="sect">
+        <h2>Shown on your public listing</h2>
+        <p class="muted">Everything in this section appears on the website. Leave out anything you don't want people to see.</p>
+      </div>
+      <label>Where, and when? <textarea name="places" rows="3" placeholder="e.g. Farm stand at our farm, Tuesdays 4–6. Pickup at the Salida Safeway lot, Tuesdays 4:45–5."></textarea></label>
       <fieldset><legend>How can people get it? (check all that apply)</legend>
         <label><input type="checkbox" name="channel" value="Farm stand / on-farm sales"> Farm stand or on-farm sales (people can visit)</label>
         <label><input type="checkbox" name="channel" value="U-pick"> U-pick</label>
@@ -49,7 +80,6 @@
         <label><input type="checkbox" name="channel" value="Online orders"> Online orders</label>
         <label><input type="checkbox" name="channel" value="Wholesale"> Wholesale only</label>
       </fieldset>
-      <label>Where, and when? <textarea name="places" rows="3" placeholder="e.g. Farm stand at our farm, Tuesdays 4–6. Pickup at the Salida Safeway lot, Tuesdays 4:45–5."></textarea></label>
       <fieldset><legend>What do you offer?</legend>
         <label><input type="checkbox" name="offer" value="Veggies"> Veggies</label>
         <label><input type="checkbox" name="offer" value="Fruit"> Fruit</label>
@@ -63,44 +93,35 @@
         <label><input type="checkbox" id="offer-other" name="offer" value="Other"> Other</label>
         <label id="offer-other-wrap" hidden>What else do you offer? <input name="offer_other" placeholder="e.g. Maple syrup, baked goods, lamb"></label>
       </fieldset>
-      <div class="addr">
-        <label for="address">Street address of your farm or business (start typing, or click the map)</label>
-        <input id="address" name="address" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="addr-list" aria-autocomplete="list">
-        <ul class="addr-list" id="addr-list" role="listbox" hidden></ul>
-        <div id="addr-map" aria-label="Map: click to place a pin at your location"></div>
-        <input type="hidden" name="lat"><input type="hidden" name="lon">
-        <span class="muted" id="addr-note">Suggestions come from OpenStreetMap. You can also drag the pin. If a suggestion is slightly off, fix the text before submitting.</span>
-      </div>
-      <label>Town *
-        <select name="town" required>
-          <option value="">Choose one</option>
-          <option>Salida</option><option>Buena Vista</option><option>Poncha Springs</option><option>Nathrop</option>
-          <option>Granite</option><option>Monarch</option><option>Howard</option><option>Cotopaxi</option><option>Cañon City</option><option>Other</option>
-        </select></label>
-      <label><span><input type="checkbox" name="hide"> Don't show my street address on the map. People should not visit here.</span></label>
       <label>Season <input name="season" placeholder="e.g. June–October, or year-round"></label>
-      <label>Phone * <input name="phone" type="tel" required autocomplete="tel"></label>
-      <label>Email <input name="email" type="email" autocomplete="email"></label>
-      <label>Website or social page <input name="website" type="url" placeholder="https://"></label>
+      <label>Phone to show on your listing <input name="public_phone" type="tel" placeholder="Leave blank to not show a phone"></label>
+      <label>Email to show on your listing <input name="public_email" type="email" placeholder="Leave blank to not show an email"></label>
+      <label>Website <input name="website" type="url" placeholder="https://"></label>
+      <label>Instagram <input name="instagram" placeholder="https://instagram.com/yourname"></label>
+      <label>Facebook <input name="facebook" placeholder="https://facebook.com/yourpage"></label>
       <label>Do you accept SNAP/EBT?
         <select name="snap"><option value="">Not sure / skip</option><option>Yes</option><option>No</option></select></label>
-      <label>Anything else people should know? <textarea name="desc" rows="4"></textarea></label>
+      <label>Anything else you want the public to know about your business? <textarea name="desc" rows="4"></textarea></label>
+
+      <div class="sect">
+        <h2>For the Chaffee Provides team</h2>
+        <p class="muted">This is <strong>not shown</strong> to the public.</p>
+      </div>
+      <label>Any comments for the Chaffee Provides team? <textarea name="team_comments" rows="3"></textarea></label>
+
       <p class="muted" id="err" role="alert"></p>
       <button class="btn btn-primary" type="submit">Submit my listing</button>
     </form>
   </article>
 </main>
 <div id="site-footer"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="assets/app.js"></script>
 <script>
 (function(){
   var PHOTON = "https://photon.komoot.io";
   var BBOX = "-106.8,38.2,-105.0,39.3";  // Chaffee County plus Cañon City
   var f = document.getElementById("f"), input = document.getElementById("address"), list = document.getElementById("addr-list");
-  var map = L.map("addr-map", { scrollWheelZoom:false }).setView([38.73, -106.1], 9);
-  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
-  var marker = null, timer = null, seq = 0, items = [], active = -1;
+  var timer = null, seq = 0, items = [], active = -1;
 
   function norm(s){ return (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase(); }
   function line(p){
@@ -112,20 +133,11 @@
     var hit = Array.prototype.filter.call(sel.options, function(o){ return o.value && norm(o.value) === want; })[0];
     if(hit) sel.value = hit.value;
   }
-  function place(lat, lon, zoom){
-    f.elements.lat.value = lat.toFixed(6); f.elements.lon.value = lon.toFixed(6);
-    if(!marker){
-      marker = L.marker([lat, lon], { draggable:true }).addTo(map);
-      marker.on("dragend", function(){ var ll = marker.getLatLng(); place(ll.lat, ll.lng); reverse(ll.lat, ll.lng); });
-    } else marker.setLatLng([lat, lon]);
-    if(zoom) map.setView([lat, lon], zoom);
-  }
   function close(){ list.hidden = true; input.setAttribute("aria-expanded", "false"); active = -1; }
   function pick(i){
     var feat = items[i]; if(!feat) return;
-    var p = feat.properties, l = line(p), c = feat.geometry.coordinates;
-    input.value = l.street || p.name;
-    setTown(p); place(c[1], c[0], 16); close();
+    input.value = line(feat.properties).street || feat.properties.name;
+    setTown(feat.properties); close();
   }
   function show(feats){
     items = feats; list.innerHTML = "";
@@ -144,12 +156,6 @@
       .then(function(d){ if(mine === seq) show((d.features || []).filter(function(ft){ return ft.properties.street || ft.properties.name; })); })
       .catch(function(){ close(); });  // offline or rate-limited: typing still works
   }
-  function reverse(lat, lon){
-    fetch(PHOTON + "/reverse?lang=en&lat=" + lat + "&lon=" + lon)
-      .then(function(r){ return r.json(); })
-      .then(function(d){ var ft = (d.features || [])[0]; if(!ft) return; var l = line(ft.properties); if(l.street) input.value = l.street; setTown(ft.properties); })
-      .catch(function(){});
-  }
   input.addEventListener("input", function(){
     clearTimeout(timer);
     var q = input.value.trim();
@@ -167,7 +173,6 @@
     } else if(e.key === "Enter" && active >= 0){ e.preventDefault(); pick(active); }
   });
   input.addEventListener("blur", close);
-  map.on("click", function(e){ place(e.latlng.lat, e.latlng.lng); reverse(e.latlng.lat, e.latlng.lng); });
 })();
 document.getElementById("offer-other").addEventListener("change", function(e){
   var wrap = document.getElementById("offer-other-wrap");
@@ -178,42 +183,50 @@ document.getElementById("f").addEventListener("submit", function(e){
   e.preventDefault();
   var f = e.target, err = document.getElementById("err");
   if(f.elements.company_website.value) return;  // spam trap: people leave it empty, bots fill it in
-  var missing = ["name","type","town","phone"].filter(function(n){ return !f.elements[n].value.trim(); });
-  if(missing.length){ err.textContent = "Please fill in: " + missing.join(", ") + "."; f.elements[missing[0]].focus(); return; }
+  var required = [["name","business name"], ["type","kind of place"], ["email","contact email"], ["phone","contact phone"]];
+  var missing = required.filter(function(r){ return !f.elements[r[0]].value.trim(); });
+  if(missing.length){ err.textContent = "Please fill in: " + missing.map(function(r){ return r[1]; }).join(", ") + "."; f.elements[missing[0][0]].focus(); return; }
+  var bad = ["email","public_email","website"].filter(function(n){ return f.elements[n].value && !f.elements[n].checkValidity(); });
+  if(bad.length){ err.textContent = "Please check that the " + (bad[0] === "website" ? "website address starts with https://" : "email address is valid") + "."; f.elements[bad[0]].focus(); return; }
   err.textContent = "";
   function checked(name){ return Array.prototype.map.call(f.querySelectorAll('input[name='+name+']:checked'), function(i){ return i.value; }); }
   var offers = checked("offer").map(function(v){ var o = f.elements.offer_other.value.trim(); return v === "Other" && o ? "Other (" + o + ")" : v; }).join(", ");
+  var el = f.elements;
+  // [column in the sheet, label in the email, value]
+  var rec = [
+    ["business", "Business", el.name.value], ["kind", "Kind", el.type.value],
+    ["contact_email", "Contact email (private)", el.email.value], ["contact_phone", "Contact phone (private)", el.phone.value],
+    ["address", "Address", el.address.value], ["hide_address", "Hide address from the map", el.hide.checked ? "yes" : ""], ["town", "Town", el.town.value],
+    ["where_and_when", "Where and when", el.places.value], ["how_to_get_it", "How people can get it", checked("channel").join(", ")], ["offers", "Offers", offers],
+    ["season", "Season", el.season.value], ["public_phone", "Public phone", el.public_phone.value], ["public_email", "Public email", el.public_email.value],
+    ["website", "Website", el.website.value], ["instagram", "Instagram", el.instagram.value], ["facebook", "Facebook", el.facebook.value],
+    ["snap", "SNAP/EBT", el.snap.value], ["public_notes", "For the public", el.desc.value], ["team_comments", "Comments for the team (private)", el.team_comments.value]
+  ];
   if(CP.CONFIG.forms.sheet){
     // Appends a row to the Google Sheet through the Apps Script web app in scripts/google-sheet-intake.gs.
+    // The thank-you appears only after the script confirms it stored the submission. The id is kept across retries,
+    // and the script ignores an id it has already stored, so pressing Submit again never makes a duplicate.
     var btn = f.querySelector("button[type=submit]"), row = new URLSearchParams();
-    [["business", f.elements.name.value], ["kind", f.elements.type.value], ["how_to_get_it", checked("channel").join(", ")],
-     ["where_and_when", f.elements.places.value], ["offers", offers], ["address", f.elements.address.value],
-     ["hide_address", f.elements.hide.checked ? "yes" : ""], ["lat", f.elements.lat.value], ["lon", f.elements.lon.value],
-     ["town", f.elements.town.value], ["season", f.elements.season.value], ["phone", f.elements.phone.value],
-     ["email", f.elements.email.value], ["website", f.elements.website.value], ["snap", f.elements.snap.value],
-     ["notes", f.elements.desc.value]].forEach(function(kv){ row.append(kv[0], kv[1].trim()); });
+    var id = f.dataset.id = f.dataset.id || (window.crypto && crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
+    row.append("id", id);
+    rec.forEach(function(r){ row.append(r[0], r[2].trim()); });
+    var backup = CP.mailto("New listing: " + el.name.value, rec.map(function(r){ return r[1] + ": " + r[2]; }).join("\n"));
+    try { localStorage.setItem("cp-unsent-listing", row.toString()); } catch(x){}  // survives a closed tab until confirmed
     btn.disabled = true; btn.textContent = "Sending…";
-    // no-cors: Apps Script sends no CORS headers, so the reply is opaque; a resolved fetch means it was delivered.
-    fetch(CP.CONFIG.forms.sheet, { method:"POST", mode:"no-cors", body:row }).then(function(){
+    fetch(CP.CONFIG.forms.sheet, { method:"POST", body:row }).then(function(r){ return r.json(); }).then(function(d){
+      if(!d || !d.ok) throw new Error("not stored");
+      try { localStorage.removeItem("cp-unsent-listing"); } catch(x){}
       f.innerHTML = '<h2>Thank you!</h2><p>We received your listing for <strong></strong>. A person will review it and check with you before anything is published.</p>';
       f.querySelector("strong").textContent = row.get("business");
     }).catch(function(){
-      btn.disabled = false; btn.textContent = "Submit my listing";
-      err.textContent = "Sorry, that didn't send. Check your connection and try again, or email " + CP.CONFIG.contactEmail + ".";
+      btn.disabled = false; btn.textContent = "Try again";
+      err.innerHTML = 'We could not confirm that your listing was saved. Please press <strong>Try again</strong>, or <a></a> instead.';
+      var a = err.querySelector("a"); a.href = backup; a.textContent = "send it by email";
     });
     return;
   }
   if(CP.CONFIG.forms.add){ location.href = CP.CONFIG.forms.add; return; }
-  var lines = [
-    "Business: " + f.elements.name.value, "Kind: " + f.elements.type.value,
-    "How people can get it: " + checked("channel").join(", "), "Where and when: " + f.elements.places.value,
-    "Offers: " + offers,
-    "Address: " + f.elements.address.value + (f.elements.hide.checked ? " (do not show on the map)" : ""),
-    "Map pin: " + (f.elements.lat.value ? f.elements.lat.value + ", " + f.elements.lon.value + " (https://www.openstreetmap.org/?mlat=" + f.elements.lat.value + "&mlon=" + f.elements.lon.value + "#map=17/" + f.elements.lat.value + "/" + f.elements.lon.value + ")" : "not set"), "Town: " + f.elements.town.value,
-    "Season: " + f.elements.season.value, "Phone: " + f.elements.phone.value,
-    "Email: " + f.elements.email.value, "Website: " + f.elements.website.value, "SNAP: " + f.elements.snap.value, "", f.elements.desc.value
-  ];
-  location.href = CP.mailto("New listing: " + f.elements.name.value, lines.join("\n"));
+  location.href = CP.mailto("New listing: " + el.name.value, rec.map(function(r){ return r[1] + ": " + r[2]; }).join("\n"));
 });
 </script>
 </body>
