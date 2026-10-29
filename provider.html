@@ -40,12 +40,10 @@
     if(a && c && a.toLowerCase().indexOf(c.toLowerCase()) === -1) return a + ", " + c;
     return a || c || "";
   }
-  // A farm that doesn't take visitors isn't "a place to find them": only list its home if it has a pin or welcomes drop-ins.
-  // We know they don't take visitors: they said so, or we looked for drop-in visits and found only other ways to buy.
-  function noVisits(r){ return r.group === "farm" && r.dropin !== true && (r.dropin === false || (r.dropin == null && r.channels.length > 0)); }
+  // A home base is a place to list when it is pinned or the business says visitors are welcome; we never say that anyone may not drop in.
   // Says outright that it doesn't sell to the public (a donation farm, say): their own note takes the place of "how to buy".
-  function noPublicSales(r){ return r.group === "farm" && r.dropin === false && r.channels.length === 0 && !!r.raw.visit_note; }
-  function isVisitable(p){ return p.role !== "home_base" || p.rec.dropin === true || (!noVisits(p.rec) && p.pin); }
+  function noPublicSales(r){ return r.group === "farm" && r.channels.length === 0 && !!r.raw.visit_note; }
+  function isVisitable(p){ return p.role !== "home_base" || p.pin || p.rec.dropin === true; }
   function isMarket(p){ return /market/i.test(p.title || "") || /market/i.test(p.loc.name || ""); }
   var used = {};   // places a "way" already shows, so the list under the map does not repeat them
   function line(p, label){
@@ -58,18 +56,6 @@
   // The business's own page that says it sells here, so a visitor can check it for themselves.
   function ownPage(p, label){ return p.loc.confirm_url && label !== null ? ' <span class="muted">· ' + CP.safeLink(p.loc.confirm_url, label || (p.pickup ? "Pickup info" : "More info")) + '</span>' : ""; }
 
-  // Plain answers to "can I show up?" and "how do I get it?"
-  // Two separate answers: can I just show up, and can I pick up an order at the farm?
-  function vrow(v, yes, no, unknown){
-    var cls = v === true ? "yes" : (v === false ? "no" : "unk"), mark = v === true ? "✔" : (v === false ? "✖" : "?");
-    return '<div class="vrow '+cls+'"><span class="vmark" aria-hidden="true">'+mark+'</span><span>'+(v === true ? yes : (v === false ? no : unknown))+'</span></div>';
-  }
-  function visit(r){
-    if(r.group !== "farm") return { none:true };   // shops, markets and other open places: no "open to everyone" banner
-    // A farm that isn't open to visitors gets one plain note under "All the places to find them", never a banner up top.
-    if(!noVisits(r) || noPublicSales(r)) return { none:true, html:"" };
-    return { tone:"no", compact:true, html:'<div class="vrow no"><span class="vmark" aria-hidden="true">✖</span><span><strong>' + "Drop-in visits are not offered." + '</strong></span></div>' };
-  }
   function ways(r){
     var raw = r.raw, ch = r.channels, out = [];
     function add(title, html){ out.push('<li><strong>'+esc(title)+'</strong>'+'<div>'+html+'</div></li>'); }
@@ -160,8 +146,8 @@
     var prodChips = r.productGroups.map(function(g, i){
       return '<a class="chip" href="directory.html?product='+encodeURIComponent(g)+'">'+esc(r.productText[i])+'</a>';
     }).join(" ");
-    var v = visit(r), wl = ways(r);
-    var notes = /^not open to the public/i.test(raw.hours_text || "") ? '<div class="notice-box"><strong>Not open to the public.</strong> Please don\'t visit in person; use the website to order.</div>' : "";
+    var wl = ways(r);
+    var notes = /^not open to the public/i.test(raw.hours_text || "") ? '<div class="notice-box"><strong>Not open to the public.</strong> Use the website to order.</div>' : "";
     var pins = r.places.filter(function(p){ return p.pin; });
     var verified = raw.last_verified ? '<span class="pill ok">Checked '+esc(CP.fmtDate(raw.last_verified))+'</span>'
       : '';
@@ -189,12 +175,10 @@
     var unified = r.group === "farm" || r.group === "outlet";
     // A home base with no pin is not somewhere to go (the business has not published it): do not list it as a place.
     var rest = r.places.filter(function(p){ return !used[p.id] && isVisitable(p); });
-    var visitHtml = v.none ? "" : '<div class="visit'+(v.compact ? ' compact ' : ' ')+v.tone+'" role="note">'+v.html+'</div>';
     var placesSection = '<h2 style="font-size:1.25rem;margin-top:22px">Places to find them</h2>'
       + (pins.length ? '<div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '')
       + '<ul class="ways">'+wl.join("")+'</ul>'
-      + (rest.length ? '<ul class="places">'+rest.map(placeItem).join("")+'</ul>' : '')
-      + visitHtml;      // the drop-in note comes last, at the bottom of this section
+      + (rest.length ? '<ul class="places">'+rest.map(placeItem).join("")+'</ul>' : '');
     // Previous / next: the list the visitor was browsing (directory or map results) when this listing is in it, else everything A to Z.
     var order = (CP.browse.get() || []).filter(function(s){ return M.bySlug[s]; });
     if(order.indexOf(slug) === -1) order = M.recs.map(function(x){ return x.slug; }).sort(function(a, b){ return M.bySlug[a].name.localeCompare(M.bySlug[b].name); });
@@ -211,9 +195,7 @@
       +   '<div style="margin-top:12px">'+verified+'</div>'+notes
       +   (r.photo ? CP.photoHtml(r, "hero-photo") : "")
       +   (r.description ? '<div class="about">' + r.description.split("\n").map(function(t){ return '<p>' + esc(t) + '</p>'; }).join("") + '</div>' : "")
-      +   (unified || v.compact || v.none ? '' : '<div class="visit '+v.tone+'" role="note">'+v.html+'</div>')
       +   (unified ? placesSection : (wl.length ? '<h2 style="font-size:1.25rem;margin-top:22px">How to get it</h2><ul class="ways">'+wl.join("")+'</ul>' : ''))
-      +   (!unified && v.compact ? '<div class="visit compact '+v.tone+'" role="note">'+v.html+'</div>' : '')
       +   (prodChips || r.products ? '<h2 style="font-size:1.25rem;margin-top:24px">What they offer</h2>' + (prodChips ? '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+prodChips+'</div>' : '') + (r.products ? '<p>'+esc(r.products)+'</p>' : '') : '')
       +   (!unified && r.places.length ? '<h2 style="font-size:1.25rem;margin-top:24px">Location</h2>'
       +   (pins.length ? '<div id="mini" class="mini-map" role="img" aria-label="Map showing where to find '+esc(r.name)+'"></div>' : '')
