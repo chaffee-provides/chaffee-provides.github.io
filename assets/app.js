@@ -9,7 +9,9 @@
   var CONFIG = {
     draft: true,                      // true shows the "prototype" banner; set false at launch (and drop the noindex tags)
     contactEmail: "info@guidestonecolorado.org",
-    forms: { suggest: "", add: "" },  // Google Form addresses; until set, the buttons open an email instead
+    // suggest/add: Google Form addresses. sheet: Apps Script web app URL that appends listings to a Google Sheet
+    // (scripts/google-sheet-intake.gs). Until set, the buttons open an email instead.
+    forms: { suggest: "", add: "", sheet: "" },
     supportedFormat: 2                // export format_version this site understands
   };
 

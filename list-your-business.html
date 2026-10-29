@@ -11,8 +11,16 @@
 <meta name="description" content="Free listing for Chaffee County farms, ranches, markets and free-food sites.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="assets/site.css">
-<style>.hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }</style>
+<style>
+.hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+.addr{ position:relative; display:grid; gap:6px; }
+.addr-list{ position:absolute; top:100%; left:0; right:0; z-index:1000; margin:2px 0 0; padding:0; list-style:none; background:var(--card); border:1px solid var(--line); box-shadow:0 4px 12px rgba(0,0,0,.12); max-height:260px; overflow:auto; }
+.addr-list li{ padding:9px 12px; cursor:pointer; font-weight:400; font-size:.92rem; }
+.addr-list li[aria-selected="true"], .addr-list li:hover{ background:var(--bg-2); }
+#addr-map{ height:260px; border:1px solid var(--line); border-radius:2px; }
+</style>
 </head>
 <body data-page="list-your-business.html">
 <div id="site-header"></div>
@@ -52,8 +60,17 @@
         <label><input type="checkbox" name="offer" value="Honey"> Honey</label>
         <label><input type="checkbox" name="offer" value="Spices/Garlic"> Spices &amp; garlic</label>
         <label><input type="checkbox" name="offer" value="Staples"> Pantry staples</label>
+        <label><input type="checkbox" id="offer-other" name="offer" value="Other"> Other</label>
+        <label id="offer-other-wrap" hidden>What else do you offer? <input name="offer_other" placeholder="e.g. Maple syrup, baked goods, lamb"></label>
       </fieldset>
-      <label>Street address of your farm or business <input name="address" autocomplete="street-address"></label>
+      <div class="addr">
+        <label for="address">Street address of your farm or business (start typing, or click the map)</label>
+        <input id="address" name="address" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="addr-list" aria-autocomplete="list">
+        <ul class="addr-list" id="addr-list" role="listbox" hidden></ul>
+        <div id="addr-map" aria-label="Map: click to place a pin at your location"></div>
+        <input type="hidden" name="lat"><input type="hidden" name="lon">
+        <span class="muted" id="addr-note">Suggestions come from OpenStreetMap. You can also drag the pin. If a suggestion is slightly off, fix the text before submitting.</span>
+      </div>
       <label>Town *
         <select name="town" required>
           <option value="">Choose one</option>
@@ -74,8 +91,89 @@
   </article>
 </main>
 <div id="site-footer"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="assets/app.js"></script>
 <script>
+(function(){
+  var PHOTON = "https://photon.komoot.io";
+  var BBOX = "-106.8,38.2,-105.0,39.3";  // Chaffee County plus Cañon City
+  var f = document.getElementById("f"), input = document.getElementById("address"), list = document.getElementById("addr-list");
+  var map = L.map("addr-map", { scrollWheelZoom:false }).setView([38.73, -106.1], 9);
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+  var marker = null, timer = null, seq = 0, items = [], active = -1;
+
+  function norm(s){ return (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase(); }
+  function line(p){
+    var street = [p.housenumber, p.street || p.name].filter(Boolean).join(" ");
+    return { street: street, place: [p.city || p.locality || p.district, p.state, p.postcode].filter(Boolean).join(", ") };
+  }
+  function setTown(p){
+    var sel = f.elements.town, want = norm(p.city || p.locality || p.district || "");
+    var hit = Array.prototype.filter.call(sel.options, function(o){ return o.value && norm(o.value) === want; })[0];
+    if(hit) sel.value = hit.value;
+  }
+  function place(lat, lon, zoom){
+    f.elements.lat.value = lat.toFixed(6); f.elements.lon.value = lon.toFixed(6);
+    if(!marker){
+      marker = L.marker([lat, lon], { draggable:true }).addTo(map);
+      marker.on("dragend", function(){ var ll = marker.getLatLng(); place(ll.lat, ll.lng); reverse(ll.lat, ll.lng); });
+    } else marker.setLatLng([lat, lon]);
+    if(zoom) map.setView([lat, lon], zoom);
+  }
+  function close(){ list.hidden = true; input.setAttribute("aria-expanded", "false"); active = -1; }
+  function pick(i){
+    var feat = items[i]; if(!feat) return;
+    var p = feat.properties, l = line(p), c = feat.geometry.coordinates;
+    input.value = l.street || p.name;
+    setTown(p); place(c[1], c[0], 16); close();
+  }
+  function show(feats){
+    items = feats; list.innerHTML = "";
+    feats.forEach(function(ft, i){
+      var l = line(ft.properties), li = document.createElement("li");
+      li.setAttribute("role", "option"); li.textContent = (l.street ? l.street + ", " : "") + l.place;
+      li.addEventListener("mousedown", function(e){ e.preventDefault(); pick(i); });
+      list.appendChild(li);
+    });
+    list.hidden = !feats.length; input.setAttribute("aria-expanded", feats.length ? "true" : "false"); active = -1;
+  }
+  function search(q){
+    var mine = ++seq;
+    fetch(PHOTON + "/api/?limit=6&lang=en&bbox=" + BBOX + "&lat=38.73&lon=-106.1&q=" + encodeURIComponent(q))
+      .then(function(r){ return r.json(); })
+      .then(function(d){ if(mine === seq) show((d.features || []).filter(function(ft){ return ft.properties.street || ft.properties.name; })); })
+      .catch(function(){ close(); });  // offline or rate-limited: typing still works
+  }
+  function reverse(lat, lon){
+    fetch(PHOTON + "/reverse?lang=en&lat=" + lat + "&lon=" + lon)
+      .then(function(r){ return r.json(); })
+      .then(function(d){ var ft = (d.features || [])[0]; if(!ft) return; var l = line(ft.properties); if(l.street) input.value = l.street; setTown(ft.properties); })
+      .catch(function(){});
+  }
+  input.addEventListener("input", function(){
+    clearTimeout(timer);
+    var q = input.value.trim();
+    if(q.length < 3){ close(); return; }
+    timer = setTimeout(function(){ search(q); }, 300);
+  });
+  input.addEventListener("keydown", function(e){
+    var lis = list.children;
+    if(e.key === "Escape"){ close(); return; }
+    if(list.hidden || !lis.length) return;
+    if(e.key === "ArrowDown" || e.key === "ArrowUp"){
+      e.preventDefault();
+      active = (active + (e.key === "ArrowDown" ? 1 : -1) + lis.length) % lis.length;
+      Array.prototype.forEach.call(lis, function(li, i){ li.setAttribute("aria-selected", i === active ? "true" : "false"); });
+    } else if(e.key === "Enter" && active >= 0){ e.preventDefault(); pick(active); }
+  });
+  input.addEventListener("blur", close);
+  map.on("click", function(e){ place(e.latlng.lat, e.latlng.lng); reverse(e.latlng.lat, e.latlng.lng); });
+})();
+document.getElementById("offer-other").addEventListener("change", function(e){
+  var wrap = document.getElementById("offer-other-wrap");
+  wrap.hidden = !e.target.checked;
+  if(e.target.checked) wrap.querySelector("input").focus();
+});
 document.getElementById("f").addEventListener("submit", function(e){
   e.preventDefault();
   var f = e.target, err = document.getElementById("err");
@@ -84,12 +182,34 @@ document.getElementById("f").addEventListener("submit", function(e){
   if(missing.length){ err.textContent = "Please fill in: " + missing.join(", ") + "."; f.elements[missing[0]].focus(); return; }
   err.textContent = "";
   function checked(name){ return Array.prototype.map.call(f.querySelectorAll('input[name='+name+']:checked'), function(i){ return i.value; }); }
+  var offers = checked("offer").map(function(v){ var o = f.elements.offer_other.value.trim(); return v === "Other" && o ? "Other (" + o + ")" : v; }).join(", ");
+  if(CP.CONFIG.forms.sheet){
+    // Appends a row to the Google Sheet through the Apps Script web app in scripts/google-sheet-intake.gs.
+    var btn = f.querySelector("button[type=submit]"), row = new URLSearchParams();
+    [["business", f.elements.name.value], ["kind", f.elements.type.value], ["how_to_get_it", checked("channel").join(", ")],
+     ["where_and_when", f.elements.places.value], ["offers", offers], ["address", f.elements.address.value],
+     ["hide_address", f.elements.hide.checked ? "yes" : ""], ["lat", f.elements.lat.value], ["lon", f.elements.lon.value],
+     ["town", f.elements.town.value], ["season", f.elements.season.value], ["phone", f.elements.phone.value],
+     ["email", f.elements.email.value], ["website", f.elements.website.value], ["snap", f.elements.snap.value],
+     ["notes", f.elements.desc.value]].forEach(function(kv){ row.append(kv[0], kv[1].trim()); });
+    btn.disabled = true; btn.textContent = "Sending…";
+    // no-cors: Apps Script sends no CORS headers, so the reply is opaque; a resolved fetch means it was delivered.
+    fetch(CP.CONFIG.forms.sheet, { method:"POST", mode:"no-cors", body:row }).then(function(){
+      f.innerHTML = '<h2>Thank you!</h2><p>We received your listing for <strong></strong>. A person will review it and check with you before anything is published.</p>';
+      f.querySelector("strong").textContent = row.get("business");
+    }).catch(function(){
+      btn.disabled = false; btn.textContent = "Submit my listing";
+      err.textContent = "Sorry, that didn't send. Check your connection and try again, or email " + CP.CONFIG.contactEmail + ".";
+    });
+    return;
+  }
   if(CP.CONFIG.forms.add){ location.href = CP.CONFIG.forms.add; return; }
   var lines = [
     "Business: " + f.elements.name.value, "Kind: " + f.elements.type.value,
     "How people can get it: " + checked("channel").join(", "), "Where and when: " + f.elements.places.value,
-    "Offers: " + checked("offer").join(", "),
-    "Address: " + f.elements.address.value + (f.elements.hide.checked ? " (do not show on the map)" : ""), "Town: " + f.elements.town.value,
+    "Offers: " + offers,
+    "Address: " + f.elements.address.value + (f.elements.hide.checked ? " (do not show on the map)" : ""),
+    "Map pin: " + (f.elements.lat.value ? f.elements.lat.value + ", " + f.elements.lon.value + " (https://www.openstreetmap.org/?mlat=" + f.elements.lat.value + "&mlon=" + f.elements.lon.value + "#map=17/" + f.elements.lat.value + "/" + f.elements.lon.value + ")" : "not set"), "Town: " + f.elements.town.value,
     "Season: " + f.elements.season.value, "Phone: " + f.elements.phone.value,
     "Email: " + f.elements.email.value, "Website: " + f.elements.website.value, "SNAP: " + f.elements.snap.value, "", f.elements.desc.value
   ];
