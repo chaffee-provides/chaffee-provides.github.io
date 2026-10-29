@@ -100,15 +100,22 @@
 
   // ---- data ------------------------------------------------------------------------------------
   var cache = {};
-  function load(name){
-    if(!cache[name]){
+  function load(name, bust){
+    var key = bust ? name + "?bust" : name;
+    if(!cache[key]){
       // no-cache: revalidate, so a visitor holding an older data file never pairs it with this script (format mismatch).
-      cache[name] = fetch(url("data/"+name+".json"), { cache:"no-cache" }).then(function(r){
+      cache[key] = fetch(url("data/"+name+".json" + (bust ? "?v=" + Date.now() : "")), { cache:"no-cache" }).then(function(r){
         if(!r.ok) throw new Error(name+".json: HTTP "+r.status);
         return r.json();
       });
     }
-    return cache[name];
+    return cache[key];
+  }
+  // Right after a deploy a CDN can briefly serve a new script beside the previous data file: if the format is not ours, ask once more past every cache.
+  function loadData(){
+    return load("chaffee-provides").then(function(d){
+      return d && d.export && d.export.format_version === CONFIG.supportedFormat ? d : load("chaffee-provides", true);
+    });
   }
 
   function placeTitle(l){
@@ -157,7 +164,7 @@
   // The whole site runs on this model: every producer, market and free-food site, each with its places.
   function loadModel(){
     if(!cache.model){
-      cache.model = Promise.all([load("chaffee-provides"), load("photos").catch(function(){ return { photos:{} }; }), load("descriptions").catch(function(){ return { descriptions:{} }; })]).then(function(r){
+      cache.model = Promise.all([loadData(), load("photos").catch(function(){ return { photos:{} }; }), load("descriptions").catch(function(){ return { descriptions:{} }; })]).then(function(r){
         var d = r[0], photos = (r[1] && r[1].photos) || {}, descs = (r[2] && r[2].descriptions) || {};
         if(d.export.format_version !== CONFIG.supportedFormat)
           throw new Error("this site understands export format " + CONFIG.supportedFormat + ", but the data is format " + d.export.format_version);
