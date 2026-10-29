@@ -1,22 +1,22 @@
 {
  "export": {
   "app": "chaffee-provides",
-  "format_version": 2,
-  "release": "v2026.10.8",
-  "generated": "2026-10-28",
+  "format_version": 3,
+  "release": "v2026.10.9",
+  "generated": "2026-10-29",
   "source": "Colorado Open Food Web",
   "county_fips": [
    "08015"
   ],
   "attribution": "Colorado Open Food Web, CC BY 4.0. Partner data from Guidestone Colorado.",
   "counts": {
-   "producers": 27,
+   "producers": 28,
    "markets": 3,
    "access_points": 2,
-   "market_links": 37,
+   "market_links": 41,
    "outlets": 4,
    "outlet_pins": 4,
-   "pins": 38,
+   "pins": 26,
    "excluded_outside_area": {
     "producers": 1017,
     "markets": 150,
@@ -40,6 +40,11 @@
    "wholesale": "Wholesale",
    "retail_partners": "Sold in stores",
    "agritourism": "Agritourism (visits, lodging, events)",
+   "food_access": "Food access programs (grown for, not sold)",
+   "farm_visit": "Visit the farm",
+   "tour": "Farm tours",
+   "stay": "Farm stay",
+   "volunteer": "Volunteer days",
    "none": "No public sales"
   },
   "months": [
@@ -64,14 +69,6 @@
    "maker": "Food makers",
    "education": "Agricultural education",
    "winery": "Wineries"
-  },
-  "visit_types": {
-   "farm_stand": "Farm stand",
-   "shop": "Shop",
-   "u_pick": "Pick your own",
-   "tour": "Farm tours",
-   "volunteer": "Volunteer days",
-   "by_appointment": "Visits by appointment"
   },
   "product_groups": {
    "veggies": "Veggies",
@@ -112,21 +109,12 @@
    "product_groups": [
     "honey"
    ],
-   "visits": [
-    {
-     "type": "farm_stand",
-     "label": "Farm stand",
-     "detail": null
-    }
-   ],
-   "dropin_visits": true,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": true,
    "visit_basis": {
-    "dropin": "listing",
     "pickup": "listing"
    },
-   "visit_note": null,
+   "visit_note": "The farm stand has its own Facebook page: https://www.facebook.com/p/the-farmstand-61576733552283/",
    "months_open": [],
    "hours_text": null,
    "hours": [],
@@ -137,10 +125,18 @@
    "facebook": "https://www.facebook.com/p/Alpenglow-Hive-Honey-61586258981365/",
    "instagram": null,
    "sales_channels": [
-    "farm_stand",
-    "retail_partners"
+    "farm_stand"
    ],
-   "sells_at": [],
+   "offerings": [
+    {
+     "id": "co-off-000012",
+     "channel": "farm_stand",
+     "location_id": "co-loc-001527",
+     "text": null,
+     "confirm_url": null,
+     "basis": "role"
+    }
+   ],
    "certified_organic": null,
    "accepts_snap": null,
    "ada_accessible": null,
@@ -167,27 +163,8 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
-    },
-    {
-     "id": "co-loc-001518",
-     "role": "store",
-     "name": "The Farmstand",
-     "address": "County Road 306",
-     "city": "Buena Vista",
-     "zip": "81211",
-     "county_fips": "08015",
-     "lat": 38.81435,
-     "lon": -106.276176,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [],
-     "hours_text": null,
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     },
     {
      "id": "co-loc-001527",
@@ -207,7 +184,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": [
+      "farm_stand"
+     ]
     }
    ],
    "sources": [
@@ -233,12 +213,9 @@
    "product_groups": [
     "mushrooms"
    ],
-   "visits": [],
-   "dropin_visits": false,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": false,
    "visit_basis": {
-    "dropin": "set",
     "pickup": "set"
    },
    "visit_note": "No on-farm store. Find them at the Salida Farmers Market (Saturdays)",
@@ -255,15 +232,44 @@
     "farmers_market",
     "wholesale"
    ],
-   "sells_at": [
+   "offerings": [
     {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
+     "id": "co-off-001005",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000002",
+      "name": "Salida Farmers Market",
+      "slug": "salida-farmers-market",
+      "city": "Salida",
+      "lat": 38.533052,
+      "lon": -105.993304,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.foodshedalliance.com/meet-our-vendors",
+      "producer_page_url": "https://www.alpinevalleymushrooms.com/",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "The producer's own page, checked 2026-10-29, names no markets"
+     }
+    },
+    {
+     "id": "co-off-000013",
+     "channel": "wholesale",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
     }
    ],
    "certified_organic": true,
@@ -292,29 +298,8 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
-    },
-    {
-     "id": "co-loc-000026",
-     "role": "pickup",
-     "name": "Salida Farmers Market",
-     "address": "Alpine Park, 404 E Street, Salida, CO 81201",
-     "city": "Salida",
-     "zip": "81201",
-     "county_fips": "08015",
-     "lat": 38.533052,
-     "lon": -105.993304,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [
-      "Sat"
-     ],
-     "hours_text": "Sat: 8:00am - 12:00pm (through Oct 24)",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     }
    ],
    "sources": [
@@ -349,18 +334,11 @@
    "product_groups": [
     "beef-meat"
    ],
-   "visits": [
-    {
-     "type": "farm_stand",
-     "label": "Farm stand",
-     "detail": "Open 24/7 (QR code at the door)"
-    }
-   ],
-   "dropin_visits": true,
-   "dropin_hours": "Open 24/7 (QR code at the door)",
+   "channel_details": {
+    "farm_stand": "Open 24/7 (QR code at the door)"
+   },
    "farm_pickup": true,
    "visit_basis": {
-    "dropin": "listing",
     "pickup": "set"
    },
    "visit_note": "Pickup at the ranch by order; delivery within Chaffee County only; hats and dog treats also ship",
@@ -379,15 +357,60 @@
     "farmers_market",
     "online"
    ],
-   "sells_at": [
+   "offerings": [
     {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "normalized_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
+     "id": "co-off-000018",
+     "channel": "delivery",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000017",
+     "channel": "farm_stand",
+     "location_id": "co-loc-001528",
+     "text": null,
+     "confirm_url": null,
+     "basis": "role"
+    },
+    {
+     "id": "co-off-000587",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000002",
+      "name": "Salida Farmers Market",
+      "slug": "salida-farmers-market",
+      "city": "Salida",
+      "lat": 38.533052,
+      "lon": -105.993304,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.foodshedalliance.com/meet-our-vendors",
+      "producer_page_url": "https://www.arrowpointcattle.com",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "The producer's own page, checked 2026-10-29, names no markets"
+     }
+    },
+    {
+     "id": "co-off-000019",
+     "channel": "online",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
     }
    ],
    "certified_organic": null,
@@ -416,7 +439,8 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     },
     {
      "id": "co-loc-001528",
@@ -436,7 +460,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": [
+      "farm_stand"
+     ]
     }
    ],
    "sources": [
@@ -477,15 +504,12 @@
     "beef-meat",
     "poultry-eggs"
    ],
-   "visits": [],
-   "dropin_visits": false,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": true,
    "visit_basis": {
-    "dropin": "set",
     "pickup": "set"
    },
-   "visit_note": "Pick up an order at the Coaldale ranch annex by arrangement, or at the Tuesday pickup points, or ask about delivery",
+   "visit_note": null,
    "months_open": [],
    "hours_text": null,
    "hours": [],
@@ -501,15 +525,76 @@
     "online",
     "pickup"
    ],
-   "sells_at": [
+   "offerings": [
     {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
+     "id": "co-off-000026",
+     "channel": "delivery",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000588",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000002",
+      "name": "Salida Farmers Market",
+      "slug": "salida-farmers-market",
+      "city": "Salida",
+      "lat": 38.533052,
+      "lon": -105.993304,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.foodshedalliance.com/meet-our-vendors",
+      "producer_page_url": "https://store.badgercreekranch.com/delivery_location/salida-farmers-market",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "2025 season on its store page, no 2026 dates yet; also confirmed by the Guidestone review of Oct 13 (Alycen Quattrocchi)"
+     }
+    },
+    {
+     "id": "co-off-000025",
+     "channel": "online",
+     "location_id": "co-loc-001493",
+     "text": null,
+     "confirm_url": "https://store.badgercreekranch.com/delivery_location/salida-safeway-parking-lot",
+     "basis": "stated"
+    },
+    {
+     "id": "co-off-001023",
+     "channel": "online",
+     "location_id": "co-loc-001494",
+     "text": null,
+     "confirm_url": "https://store.badgercreekranch.com/delivery_location/valley-fellowship-church",
+     "basis": "stated"
+    },
+    {
+     "id": "co-off-001024",
+     "channel": "online",
+     "location_id": "co-loc-001495",
+     "text": null,
+     "confirm_url": null,
+     "basis": "stated"
+    },
+    {
+     "id": "co-off-000027",
+     "channel": "pickup",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
     }
    ],
    "certified_organic": null,
@@ -532,13 +617,14 @@
      "lon": -105.8131,
      "precision": "town",
      "pin": false,
-     "pin_basis": "unconfirmed",
+     "pin_basis": "confirmed",
      "days": [],
      "hours_text": null,
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     },
     {
      "id": "co-loc-001493",
@@ -560,7 +646,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": "https://store.badgercreekranch.com/delivery_location/salida-safeway-parking-lot"
+     "confirm_url": "https://store.badgercreekranch.com/delivery_location/salida-safeway-parking-lot",
+     "channels": [
+      "online"
+     ]
     },
     {
      "id": "co-loc-001494",
@@ -582,7 +671,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": "https://store.badgercreekranch.com/delivery_location/valley-fellowship-church"
+     "confirm_url": "https://store.badgercreekranch.com/delivery_location/valley-fellowship-church",
+     "channels": [
+      "online"
+     ]
     },
     {
      "id": "co-loc-001495",
@@ -602,29 +694,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
-    },
-    {
-     "id": "co-loc-000026",
-     "role": "pickup",
-     "name": "Salida Farmers Market",
-     "address": "Alpine Park, 404 E Street, Salida, CO 81201",
-     "city": "Salida",
-     "zip": "81201",
-     "county_fips": "08015",
-     "lat": 38.533052,
-     "lon": -105.993304,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [
-      "Sat"
-     ],
-     "hours_text": "Sat: 8:00am - 12:00pm (through Oct 24); winter market Nov 14 - Dec 19",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": [
+      "online"
+     ]
     }
    ],
    "sources": [
@@ -679,23 +752,13 @@
     "poultry-eggs",
     "dairy"
    ],
-   "visits": [
-    {
-     "type": "farm_stand",
-     "label": "Farm stand",
-     "detail": "Self-serve farm general store - current hours on Google Maps"
-    },
-    {
-     "type": "tour",
-     "label": "Farm tours",
-     "detail": "Book at buckandbloomcheese.com/tour"
-    }
-   ],
-   "dropin_visits": true,
-   "dropin_hours": null,
+   "channel_details": {
+    "farm_stand": "Self serve. Visit [Google Maps](https://maps.app.goo.gl/bmdHdDnj1RaeHvyJA) for current hours",
+    "stay": "Book the BV Farm Stay House at https://www.airbnb.com/rooms/1584812800671844775",
+    "tour": "Book at https://www.buckandbloomcheese.com/tour"
+   },
    "farm_pickup": true,
    "visit_basis": {
-    "dropin": "set",
     "pickup": "listing"
    },
    "visit_note": null,
@@ -712,89 +775,288 @@
     "agritourism",
     "farm_stand",
     "farmers_market",
+    "stay",
+    "tour",
     "wholesale"
    ],
-   "sells_at": [
+   "offerings": [
     {
-     "market_id": "co-m-000017",
-     "name": "Boulder Farmers Market",
-     "county_fips": "08013",
-     "year": 2025,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://bcfm.org/vendors/meet-our-vendors/"
+     "id": "co-off-000070",
+     "channel": "agritourism",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
     },
     {
-     "market_id": "co-m-000037",
-     "name": "Crested Butte Farmers Market",
-     "county_fips": "08051",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://cbfarmersmarket.org/our-farmers-artisans/"
+     "id": "co-off-000071",
+     "channel": "farm_stand",
+     "location_id": "co-loc-000004",
+     "text": "Self serve. Visit [Google Maps](https://maps.app.goo.gl/bmdHdDnj1RaeHvyJA) for current hours",
+     "confirm_url": null,
+     "basis": "derived"
     },
     {
-     "market_id": "co-m-000057",
-     "name": "Farmers' Market at Highlands Square",
-     "county_fips": "08031",
-     "year": null,
-     "season_label": null,
-     "basis": "stated_text",
-     "source_url": null
+     "id": "co-off-000590",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000002",
+      "name": "Salida Farmers Market",
+      "slug": "salida-farmers-market",
+      "city": "Salida",
+      "lat": 38.533052,
+      "lon": -105.993304,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.foodshedalliance.com/meet-our-vendors",
+      "producer_page_url": "https://www.buckandbloomcheese.com/#markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000060",
-     "name": "Fort Collins Winter Farmers Market",
-     "county_fips": "08069",
-     "year": 2025,
-     "season_label": "2025-26 winter",
-     "basis": "normalized_name",
-     "source_url": "https://www.wildcraftmarkets.com/vendors"
+     "id": "co-off-000591",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000017",
+      "name": "Boulder Farmers Market",
+      "slug": "boulder-farmers-market",
+      "city": "Boulder",
+      "lat": 40.016196,
+      "lon": -105.278018,
+      "county_fips": "08013"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2025"
+      ],
+      "market_list_url": "https://bcfm.org/vendors/meet-our-vendors/",
+      "producer_page_url": "https://www.buckandbloomcheese.com/#markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000076",
-     "name": "Harvey Park Farmers Market",
-     "county_fips": "08031",
-     "year": 2026,
-     "season_label": null,
-     "basis": "normalized_name",
-     "source_url": "https://www.harveyparkfarmersmarket.com/vendors"
+     "id": "co-off-000592",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000037",
+      "name": "Crested Butte Farmers Market",
+      "slug": "crested-butte-farmers-market",
+      "city": "Crested Butte",
+      "lat": 38.869701,
+      "lon": -106.989015,
+      "county_fips": "08051"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://cbfarmersmarket.org/our-farmers-artisans/",
+      "producer_page_url": "https://www.buckandbloomcheese.com/#markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000090",
-     "name": "Longmont Farmers Market",
-     "county_fips": "08013",
-     "year": 2025,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://bcfm.org/vendors/meet-our-vendors/"
+     "id": "co-off-000593",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000057",
+      "name": "Farmers' Market at Highlands Square",
+      "slug": "farmers-market-at-highlands-square",
+      "city": "Denver",
+      "lat": 39.762138,
+      "lon": -105.033334,
+      "county_fips": "08031"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [],
+      "market_list_url": null,
+      "producer_page_url": "https://www.buckandbloomcheese.com/#markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000116",
-     "name": "Old South Pearl Street Association - Farmers Market",
-     "county_fips": "08031",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://southpearlstreet.com/farmers-market/"
+     "id": "co-off-000595",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000076",
+      "name": "Harvey Park Farmers Market",
+      "slug": "harvey-park-farmers-market",
+      "city": "Denver",
+      "lat": 39.675374,
+      "lon": -105.039893,
+      "county_fips": "08031"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.harveyparkfarmersmarket.com/vendors",
+      "producer_page_url": "https://www.buckandbloomcheese.com/#markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
+     "id": "co-off-000596",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000090",
+      "name": "Longmont Farmers Market",
+      "slug": "longmont-farmers-market",
+      "city": "Longmont",
+      "lat": 40.155552,
+      "lon": -105.129036,
+      "county_fips": "08013"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2025"
+      ],
+      "market_list_url": "https://bcfm.org/vendors/meet-our-vendors/",
+      "producer_page_url": "https://www.buckandbloomcheese.com/#markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000148",
-     "name": "Vail Farmers' Market",
-     "county_fips": "08037",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.vailfarmersmarket.com/2026-vendors"
+     "id": "co-off-000597",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000116",
+      "name": "Old South Pearl Street Association - Farmers Market",
+      "slug": "old-south-pearl-street-association-farmers-market",
+      "city": "Denver",
+      "lat": 39.688466,
+      "lon": -104.980365,
+      "county_fips": "08031"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://southpearlstreet.com/farmers-market/",
+      "producer_page_url": "https://www.buckandbloomcheese.com/#markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
+    },
+    {
+     "id": "co-off-000598",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000148",
+      "name": "Vail Farmers' Market",
+      "slug": "vail-farmers-market",
+      "city": "Vail",
+      "lat": 39.629079,
+      "lon": -106.289265,
+      "county_fips": "08037"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.vailfarmersmarket.com/2026-vendors",
+      "producer_page_url": "https://www.buckandbloomcheese.com/#markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
+    },
+    {
+     "id": "co-off-000072",
+     "channel": "stay",
+     "location_id": "co-loc-000004",
+     "text": "Book the BV Farm Stay House at https://www.airbnb.com/rooms/1584812800671844775",
+     "confirm_url": null,
+     "basis": "derived"
+    },
+    {
+     "id": "co-off-000073",
+     "channel": "tour",
+     "location_id": "co-loc-000004",
+     "text": "Book at https://www.buckandbloomcheese.com/tour",
+     "confirm_url": null,
+     "basis": "derived"
+    },
+    {
+     "id": "co-off-000074",
+     "channel": "wholesale",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
     }
    ],
    "certified_organic": null,
@@ -823,7 +1085,12 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": [
+      "farm_stand",
+      "stay",
+      "tour"
+     ]
     }
    ],
    "sources": [
@@ -855,15 +1122,12 @@
    "product_groups": [
     "veggies"
    ],
-   "visits": [],
-   "dropin_visits": false,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": false,
    "visit_basis": {
-    "dropin": "set",
     "pickup": "set"
    },
-   "visit_note": "Donates its produce to the community; no public sales. Volunteer opportunities are on their website",
+   "visit_note": "Grows produce for local food access programs; it does not sell to the public. Volunteer opportunities are on their website",
    "months_open": [],
    "hours_text": null,
    "hours": [],
@@ -874,9 +1138,18 @@
    "facebook": "https://www.facebook.com/nonprofitfarm/",
    "instagram": "https://www.instagram.com/colorado_farm_to_table/",
    "sales_channels": [
-    "none"
+    "food_access"
    ],
-   "sells_at": [],
+   "offerings": [
+    {
+     "id": "co-off-000088",
+     "channel": "food_access",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    }
+   ],
    "certified_organic": null,
    "accepts_snap": null,
    "ada_accessible": null,
@@ -903,7 +1176,8 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     }
    ],
    "sources": [
@@ -948,19 +1222,16 @@
     "flowers",
     "garlic-herbs"
    ],
-   "visits": [],
-   "dropin_visits": false,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": false,
    "visit_basis": {
-    "dropin": "set",
     "pickup": "set"
    },
    "visit_note": "The farm and shop are closed to the public; online orders only",
    "months_open": [],
-   "hours_text": "Not open to the public. Order online.",
+   "hours_text": null,
    "hours": [],
-   "hours_status": "text_only",
+   "hours_status": "none",
    "website": "https://co-mtn-lav.com/",
    "phone": "(719) 371-2828",
    "email": "connect@co-mtn-lav.com",
@@ -969,7 +1240,16 @@
    "sales_channels": [
     "online"
    ],
-   "sells_at": [],
+   "offerings": [
+    {
+     "id": "co-off-000092",
+     "channel": "online",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    }
+   ],
    "certified_organic": null,
    "accepts_snap": null,
    "ada_accessible": null,
@@ -992,11 +1272,12 @@
      "pin": false,
      "pin_basis": "unconfirmed",
      "days": [],
-     "hours_text": "Not open to the public. Order online.",
+     "hours_text": null,
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     }
    ],
    "sources": [
@@ -1025,6 +1306,134 @@
    ]
   },
   {
+   "id": "co-p-000008",
+   "slug": "cottonwood-spirit-ranch",
+   "name": "Cottonwood Spirit Ranch",
+   "producer_type": "ranch",
+   "products": [
+    "Beef",
+    "eggs",
+    "honey",
+    "produce"
+   ],
+   "product_groups": [
+    "veggies",
+    "beef-meat",
+    "poultry-eggs",
+    "honey"
+   ],
+   "channel_details": {},
+   "farm_pickup": true,
+   "visit_basis": {
+    "pickup": "set"
+   },
+   "visit_note": null,
+   "months_open": [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+   ],
+   "hours_text": "By appointment",
+   "hours": [],
+   "hours_status": "appointment",
+   "website": "https://cottonwoodspiritranch.com",
+   "phone": "(970) 406-8054",
+   "email": "cottonwoodspiritranch@gmail.com",
+   "facebook": "https://www.facebook.com/CottonwoodSpiritRanch/",
+   "instagram": null,
+   "sales_channels": [
+    "agritourism",
+    "online"
+   ],
+   "offerings": [
+    {
+     "id": "co-off-000099",
+     "channel": "agritourism",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000100",
+     "channel": "online",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    }
+   ],
+   "certified_organic": null,
+   "accepts_snap": null,
+   "ada_accessible": null,
+   "call_first": null,
+   "status": "unverified",
+   "claimed": false,
+   "last_verified": "2026-10-15",
+   "locations": [
+    {
+     "id": "co-loc-000009",
+     "role": "home_base",
+     "name": null,
+     "address": "16115 County Road 306",
+     "city": "Buena Vista",
+     "zip": "81211",
+     "county_fips": "08015",
+     "lat": 38.833153,
+     "lon": -106.167306,
+     "precision": "exact",
+     "pin": true,
+     "pin_basis": "confirmed",
+     "days": [],
+     "hours_text": "By appointment",
+     "season_start": null,
+     "season_end": null,
+     "status": "listed",
+     "confirm_url": null,
+     "channels": []
+    }
+   ],
+   "sources": [
+    {
+     "source": "producer_site",
+     "label": "Producer's own website",
+     "url": "https://cottonwoodspiritranch.com"
+    },
+    {
+     "source": "chaffee_provides",
+     "label": "Chaffee Provides",
+     "url": null
+    }
+   ],
+   "confirmed_by": [
+    {
+     "by": "the business's Facebook page",
+     "fields": [
+      "email"
+     ],
+     "url": "https://www.facebook.com/CottonwoodSpiritRanch/",
+     "date": "2026-10-15"
+    },
+    {
+     "by": "the business's own website",
+     "fields": [
+      "products"
+     ],
+     "url": "https://cottonwoodspiritranch.com",
+     "date": null
+    }
+   ]
+  },
+  {
    "id": "co-p-000317",
    "slug": "dram-apothecary",
    "name": "DRAM Apothecary",
@@ -1038,12 +1447,9 @@
    "product_groups": [
     "mushrooms"
    ],
-   "visits": [],
-   "dropin_visits": null,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": null,
    "visit_basis": {
-    "dropin": null,
     "pickup": null
    },
    "visit_note": null,
@@ -1086,7 +1492,32 @@
     "retail_partners",
     "wholesale"
    ],
-   "sells_at": [],
+   "offerings": [
+    {
+     "id": "co-off-000131",
+     "channel": "online",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000130",
+     "channel": "retail_partners",
+     "location_id": "co-loc-001517",
+     "text": null,
+     "confirm_url": "https://www.dramapothecary.com/about/",
+     "basis": "role"
+    },
+    {
+     "id": "co-off-000132",
+     "channel": "wholesale",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    }
+   ],
    "certified_organic": null,
    "accepts_snap": null,
    "ada_accessible": null,
@@ -1118,7 +1549,8 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     },
     {
      "id": "co-loc-001517",
@@ -1138,7 +1570,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": "https://www.dramapothecary.com/about/"
+     "confirm_url": "https://www.dramapothecary.com/about/",
+     "channels": [
+      "retail_partners"
+     ]
     }
    ],
    "sources": [
@@ -1161,12 +1596,9 @@
    "product_groups": [
     "beef-meat"
    ],
-   "visits": [],
-   "dropin_visits": null,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": null,
    "visit_basis": {
-    "dropin": null,
     "pickup": null
    },
    "visit_note": null,
@@ -1180,7 +1612,7 @@
    "facebook": "https://www.facebook.com/everettranchbeef/",
    "instagram": "https://www.instagram.com/everettranchbeef/",
    "sales_channels": [],
-   "sells_at": [],
+   "offerings": [],
    "certified_organic": null,
    "accepts_snap": null,
    "ada_accessible": null,
@@ -1207,7 +1639,8 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     }
    ],
    "sources": [
@@ -1257,12 +1690,9 @@
     "honey",
     "drinks"
    ],
-   "visits": [],
-   "dropin_visits": null,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": null,
    "visit_basis": {
-    "dropin": null,
     "pickup": null
    },
    "visit_note": null,
@@ -1280,69 +1710,320 @@
     "online",
     "retail_partners"
    ],
-   "sells_at": [
+   "offerings": [
     {
-     "market_id": "co-m-000019",
-     "name": "Breckenridge Farmers Market",
-     "county_fips": "08117",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://breckenridgefarmersmarket.com/#meet"
+     "id": "co-off-001006",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000002",
+      "name": "Salida Farmers Market",
+      "slug": "salida-farmers-market",
+      "city": "Salida",
+      "lat": 38.533052,
+      "lon": -105.993304,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.foodshedalliance.com/meet-our-vendors",
+      "producer_page_url": "https://foxtownfarm.com/pages/markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000029",
-     "name": "City Park Farmers Market",
-     "county_fips": "08031",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://vendors.cityparkfarmersmarket.com/vendor_team"
+     "id": "co-off-001007",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000019",
+      "name": "Breckenridge Farmers Market",
+      "slug": "breckenridge-farmers-market",
+      "city": "Breckenridge",
+      "lat": 39.480615,
+      "lon": -106.047335,
+      "county_fips": "08117"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://breckenridgefarmersmarket.com/#meet",
+      "producer_page_url": "https://foxtownfarm.com/pages/markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000069",
-     "name": "Golden Farmers Market",
-     "county_fips": "08059",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://goldenfarmersmarket.org/our-merchants/"
+     "id": "co-off-001008",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000029",
+      "name": "City Park Farmers Market",
+      "slug": "city-park-farmers-market",
+      "city": "Denver",
+      "lat": 39.740255,
+      "lon": -104.956383,
+      "county_fips": "08031"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://vendors.cityparkfarmersmarket.com/vendor_team",
+      "producer_page_url": "https://foxtownfarm.com/pages/markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000084",
-     "name": "Lafayette Colorado Farmers Market",
-     "county_fips": "08013",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://vendors.lafayettefm.com/2026_vendor_team"
+     "id": "co-off-001009",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000057",
+      "name": "Farmers' Market at Highlands Square",
+      "slug": "farmers-market-at-highlands-square",
+      "city": "Denver",
+      "lat": 39.762138,
+      "lon": -105.033334,
+      "county_fips": "08031"
+     },
+     "link": {
+      "state": "producer_only",
+      "confirmed_by_market": false,
+      "confirmed_by_producer": true,
+      "market_list_years": [],
+      "market_list_url": null,
+      "producer_page_url": "https://foxtownfarm.com/pages/markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000091",
-     "name": "Louisville Farmers Market",
-     "county_fips": "08013",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://realfarmersmarketco.com/louisville-farmers-market/2026/"
+     "id": "co-off-001010",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000069",
+      "name": "Golden Farmers Market",
+      "slug": "golden-farmers-market",
+      "city": "Golden",
+      "lat": 39.755898,
+      "lon": -105.225606,
+      "county_fips": "08059"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://goldenfarmersmarket.org/our-merchants/",
+      "producer_page_url": "https://foxtownfarm.com/pages/markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000116",
-     "name": "Old South Pearl Street Association - Farmers Market",
-     "county_fips": "08031",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://southpearlstreet.com/farmers-market/"
+     "id": "co-off-001011",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000084",
+      "name": "Lafayette Colorado Farmers Market",
+      "slug": "lafayette-colorado-farmers-market",
+      "city": "Lafayette",
+      "lat": 39.998448,
+      "lon": -105.090287,
+      "county_fips": "08013"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://vendors.lafayettefm.com/2026_vendor_team",
+      "producer_page_url": "https://foxtownfarm.com/pages/markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
+     "id": "co-off-001012",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000091",
+      "name": "Louisville Farmers Market",
+      "slug": "louisville-farmers-market",
+      "city": "Louisville",
+      "lat": 39.97841,
+      "lon": -105.130758,
+      "county_fips": "08013"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://realfarmersmarketco.com/louisville-farmers-market/2026/",
+      "producer_page_url": "https://foxtownfarm.com/pages/markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
+    },
+    {
+     "id": "co-off-001013",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000116",
+      "name": "Old South Pearl Street Association - Farmers Market",
+      "slug": "old-south-pearl-street-association-farmers-market",
+      "city": "Denver",
+      "lat": 39.688466,
+      "lon": -104.980365,
+      "county_fips": "08031"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://southpearlstreet.com/farmers-market/",
+      "producer_page_url": "https://foxtownfarm.com/pages/markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
+    },
+    {
+     "id": "co-off-001014",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000154",
+      "name": "Chaffee County Winter Farmers Market",
+      "slug": "chaffee-county-winter-farmers-market",
+      "city": "Salida",
+      "lat": 38.519154,
+      "lon": -106.063251,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "producer_only",
+      "confirmed_by_market": false,
+      "confirmed_by_producer": true,
+      "market_list_years": [],
+      "market_list_url": null,
+      "producer_page_url": "https://foxtownfarm.com/pages/markets",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "Saturdays, Nov 14 to Nov 28 2026 on its calendar"
+     }
+    },
+    {
+     "id": "co-off-000183",
+     "channel": "online",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000178",
+     "channel": "retail_partners",
+     "location_id": "co-loc-001511",
+     "text": null,
+     "confirm_url": "https://foxtownfarm.com/pages/find-a-store",
+     "basis": "role"
+    },
+    {
+     "id": "co-off-000179",
+     "channel": "retail_partners",
+     "location_id": "co-loc-001512",
+     "text": null,
+     "confirm_url": "https://foxtownfarm.com/pages/find-a-store",
+     "basis": "role"
+    },
+    {
+     "id": "co-off-000180",
+     "channel": "retail_partners",
+     "location_id": "co-loc-001513",
+     "text": null,
+     "confirm_url": "https://foxtownfarm.com/pages/find-a-store",
+     "basis": "role"
+    },
+    {
+     "id": "co-off-000181",
+     "channel": "retail_partners",
+     "location_id": "co-loc-001514",
+     "text": null,
+     "confirm_url": "https://foxtownfarm.com/pages/find-a-store",
+     "basis": "role"
+    },
+    {
+     "id": "co-off-000182",
+     "channel": "retail_partners",
+     "location_id": "co-loc-001515",
+     "text": null,
+     "confirm_url": "https://foxtownfarm.com/pages/find-a-store",
+     "basis": "role"
     }
    ],
    "certified_organic": null,
@@ -1371,7 +2052,8 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     },
     {
      "id": "co-loc-001511",
@@ -1391,7 +2073,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": "https://foxtownfarm.com/pages/find-a-store"
+     "confirm_url": "https://foxtownfarm.com/pages/find-a-store",
+     "channels": [
+      "retail_partners"
+     ]
     },
     {
      "id": "co-loc-001512",
@@ -1411,7 +2096,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": "https://foxtownfarm.com/pages/find-a-store"
+     "confirm_url": "https://foxtownfarm.com/pages/find-a-store",
+     "channels": [
+      "retail_partners"
+     ]
     },
     {
      "id": "co-loc-001513",
@@ -1431,7 +2119,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": "https://foxtownfarm.com/pages/find-a-store"
+     "confirm_url": "https://foxtownfarm.com/pages/find-a-store",
+     "channels": [
+      "retail_partners"
+     ]
     },
     {
      "id": "co-loc-001514",
@@ -1451,7 +2142,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": "https://foxtownfarm.com/pages/find-a-store"
+     "confirm_url": "https://foxtownfarm.com/pages/find-a-store",
+     "channels": [
+      "retail_partners"
+     ]
     },
     {
      "id": "co-loc-001515",
@@ -1471,29 +2165,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": "https://foxtownfarm.com/pages/find-a-store"
-    },
-    {
-     "id": "co-loc-000026",
-     "role": "pickup",
-     "name": "Salida Farmers Market",
-     "address": "Alpine Park, 404 E Street, Salida, CO 81201",
-     "city": "Salida",
-     "zip": "81201",
-     "county_fips": "08015",
-     "lat": 38.533052,
-     "lon": -105.993304,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [
-      "Sat"
-     ],
-     "hours_text": "Sat: 8:00am - 12:00pm (through Oct 24)",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
+     "confirm_url": "https://foxtownfarm.com/pages/find-a-store",
+     "channels": [
+      "retail_partners"
+     ]
     }
    ],
    "sources": [
@@ -1521,12 +2196,9 @@
     "garlic-herbs",
     "mushrooms"
    ],
-   "visits": [],
-   "dropin_visits": null,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": null,
    "visit_basis": {
-    "dropin": null,
     "pickup": null
    },
    "visit_note": null,
@@ -1543,15 +2215,44 @@
     "farmers_market",
     "online"
    ],
-   "sells_at": [
+   "offerings": [
     {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
+     "id": "co-off-001015",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000002",
+      "name": "Salida Farmers Market",
+      "slug": "salida-farmers-market",
+      "city": "Salida",
+      "lat": 38.533052,
+      "lon": -105.993304,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.foodshedalliance.com/meet-our-vendors",
+      "producer_page_url": "https://gregsgourmetgreens.com/",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "The producer's own page, checked 2026-10-29, names no markets"
+     }
+    },
+    {
+     "id": "co-off-000213",
+     "channel": "online",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
     }
    ],
    "certified_organic": null,
@@ -1580,29 +2281,8 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
-    },
-    {
-     "id": "co-loc-000026",
-     "role": "pickup",
-     "name": "Salida Farmers Market",
-     "address": "Alpine Park, 404 E Street, Salida, CO 81201",
-     "city": "Salida",
-     "zip": "81201",
-     "county_fips": "08015",
-     "lat": 38.533052,
-     "lon": -105.993304,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [
-      "Sat"
-     ],
-     "hours_text": "Sat: 8:00am - 12:00pm (through Oct 24)",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     }
    ],
    "sources": [
@@ -1621,18 +2301,11 @@
    "producer_type": "farm",
    "products": [],
    "product_groups": [],
-   "visits": [
-    {
-     "type": "farm_stand",
-     "label": "Farm stand",
-     "detail": "Tue 4:00pm - 6:00pm"
-    }
-   ],
-   "dropin_visits": true,
-   "dropin_hours": "Tue: 4:00pm - 6:00pm (closing for the season soon)",
+   "channel_details": {
+    "farm_stand": "Tue 4:00pm - 6:00pm"
+   },
    "farm_pickup": true,
    "visit_basis": {
-    "dropin": "set",
     "pickup": "listing"
    },
    "visit_note": "Season ending soon",
@@ -1655,7 +2328,24 @@
     "agritourism",
     "farm_stand"
    ],
-   "sells_at": [],
+   "offerings": [
+    {
+     "id": "co-off-000221",
+     "channel": "agritourism",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000222",
+     "channel": "farm_stand",
+     "location_id": "co-loc-001496",
+     "text": "Tue 4:00pm - 6:00pm",
+     "confirm_url": null,
+     "basis": "derived"
+    }
+   ],
    "certified_organic": null,
    "accepts_snap": null,
    "ada_accessible": null,
@@ -1684,7 +2374,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": [
+      "farm_stand"
+     ]
     }
    ],
    "sources": [
@@ -1710,18 +2403,11 @@
    "product_groups": [
     "veggies"
    ],
-   "visits": [
-    {
-     "type": "farm_stand",
-     "label": "Farm stand",
-     "detail": "Open 24/7 (QR code at the door)"
-    }
-   ],
-   "dropin_visits": true,
-   "dropin_hours": "Open 24/7 (QR code at the door)",
+   "channel_details": {
+    "farm_stand": "Open 24/7 (QR code at the door)"
+   },
    "farm_pickup": true,
    "visit_basis": {
-    "dropin": "listing",
     "pickup": "listing"
    },
    "visit_note": null,
@@ -1742,15 +2428,136 @@
     "retail_partners",
     "wholesale"
    ],
-   "sells_at": [
+   "offerings": [
     {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
+     "id": "co-off-000235",
+     "channel": "csa",
+     "location_id": "co-loc-001520",
+     "text": null,
+     "confirm_url": "https://www.headwaterfarmco.com/purchase",
+     "basis": "stated"
+    },
+    {
+     "id": "co-off-001025",
+     "channel": "csa",
+     "location_id": "co-loc-001521",
+     "text": null,
+     "confirm_url": "https://www.headwaterfarmco.com/purchase",
+     "basis": "stated"
+    },
+    {
+     "id": "co-off-001027",
+     "channel": "csa",
+     "location_id": "co-loc-001522",
+     "text": null,
+     "confirm_url": "https://www.headwaterfarmco.com/purchase",
+     "basis": "stated"
+    },
+    {
+     "id": "co-off-000238",
+     "channel": "farm_stand",
+     "location_id": "co-loc-001530",
+     "text": null,
+     "confirm_url": null,
+     "basis": "role"
+    },
+    {
+     "id": "co-off-000599",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000001",
+      "name": "Buena Vista Farmers' Market",
+      "slug": "buena-vista-farmers-market",
+      "city": "Buena Vista",
+      "lat": 38.839044,
+      "lon": -106.141712,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "producer_only",
+      "confirmed_by_market": false,
+      "confirmed_by_producer": true,
+      "market_list_years": [],
+      "market_list_url": null,
+      "producer_page_url": "https://www.headwaterfarmco.com/purchase",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "Page says every Saturday, June to October, but the market's own record says Sundays (May 31 to Oct 25): the market's schedule is the one shown"
+     }
+    },
+    {
+     "id": "co-off-000600",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000002",
+      "name": "Salida Farmers Market",
+      "slug": "salida-farmers-market",
+      "city": "Salida",
+      "lat": 38.533052,
+      "lon": -105.993304,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.foodshedalliance.com/meet-our-vendors",
+      "producer_page_url": "https://www.headwaterfarmco.com/purchase",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "Page says every Saturday, June to October"
+     }
+    },
+    {
+     "id": "co-off-000236",
+     "channel": "online",
+     "location_id": "co-loc-001520",
+     "text": null,
+     "confirm_url": "https://www.headwaterfarmco.com/purchase",
+     "basis": "stated"
+    },
+    {
+     "id": "co-off-001026",
+     "channel": "online",
+     "location_id": "co-loc-001521",
+     "text": null,
+     "confirm_url": "https://www.headwaterfarmco.com/purchase",
+     "basis": "stated"
+    },
+    {
+     "id": "co-off-001028",
+     "channel": "online",
+     "location_id": "co-loc-001522",
+     "text": null,
+     "confirm_url": "https://www.headwaterfarmco.com/purchase",
+     "basis": "stated"
+    },
+    {
+     "id": "co-off-000237",
+     "channel": "retail_partners",
+     "location_id": "co-loc-001523",
+     "text": null,
+     "confirm_url": "https://www.headwaterfarmco.com/purchase",
+     "basis": "role"
+    },
+    {
+     "id": "co-off-000239",
+     "channel": "wholesale",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
     }
    ],
    "certified_organic": null,
@@ -1772,14 +2579,15 @@
      "lat": 38.8422,
      "lon": -106.1311,
      "precision": "town",
-     "pin": true,
+     "pin": false,
      "pin_basis": "confirmed",
      "days": [],
      "hours_text": null,
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     },
     {
      "id": "co-loc-001520",
@@ -1799,7 +2607,11 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": "https://www.headwaterfarmco.com/purchase"
+     "confirm_url": "https://www.headwaterfarmco.com/purchase",
+     "channels": [
+      "csa",
+      "online"
+     ]
     },
     {
      "id": "co-loc-001521",
@@ -1819,7 +2631,11 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": "https://www.headwaterfarmco.com/purchase"
+     "confirm_url": "https://www.headwaterfarmco.com/purchase",
+     "channels": [
+      "csa",
+      "online"
+     ]
     },
     {
      "id": "co-loc-001522",
@@ -1839,7 +2655,11 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": "https://www.headwaterfarmco.com/purchase"
+     "confirm_url": "https://www.headwaterfarmco.com/purchase",
+     "channels": [
+      "csa",
+      "online"
+     ]
     },
     {
      "id": "co-loc-001523",
@@ -1859,7 +2679,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": "https://www.headwaterfarmco.com/purchase"
+     "confirm_url": "https://www.headwaterfarmco.com/purchase",
+     "channels": [
+      "retail_partners"
+     ]
     },
     {
      "id": "co-loc-001530",
@@ -1879,51 +2702,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
-    },
-    {
-     "id": "co-loc-000026",
-     "role": "pickup",
-     "name": "Salida Farmers Market",
-     "address": "Alpine Park, 404 E Street, Salida, CO 81201",
-     "city": "Salida",
-     "zip": "81201",
-     "county_fips": "08015",
-     "lat": 38.533052,
-     "lon": -105.993304,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [
-      "Sat"
-     ],
-     "hours_text": "Saturdays, June - October",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": "https://www.headwaterfarmco.com/purchase"
-    },
-    {
-     "id": "co-loc-000005",
-     "role": "pickup",
-     "name": "Buena Vista Farmers' Market",
-     "address": "Turner Farm & Apple Orchard, 829 W Main St",
-     "city": "Buena Vista",
-     "zip": "81211",
-     "county_fips": "08015",
-     "lat": 38.839044,
-     "lon": -106.141712,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [
-      "Sat"
-     ],
-     "hours_text": "Saturdays, June - October",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": "https://www.headwaterfarmco.com/purchase"
+     "confirm_url": null,
+     "channels": [
+      "farm_stand"
+     ]
     }
    ],
    "sources": [
@@ -1962,28 +2744,16 @@
    "product_groups": [
     "beef-meat"
    ],
-   "visits": [
-    {
-     "type": "tour",
-     "label": "Farm tours",
-     "detail": "Sat-Sun 1:00pm - 4:00pm, June - September"
-    },
-    {
-     "type": "by_appointment",
-     "label": "Visits by appointment",
-     "detail": "Call or email to schedule"
-    }
-   ],
-   "dropin_visits": true,
-   "dropin_hours": "Sat-Sun 1:00pm - 4:00pm (June - September)",
-   "farm_pickup": true,
-   "visit_basis": {
-    "dropin": "set",
-    "pickup": "listing"
+   "channel_details": {
+    "farm_visit": "Sat-Sun 1:00pm - 4:00pm, June - September"
    },
-   "visit_note": "Beef from Hutchinson Ranch is sometimes sold here. Ask first",
+   "farm_pickup": false,
+   "visit_basis": {
+    "pickup": "set"
+   },
+   "visit_note": null,
    "months_open": [],
-   "hours_text": "Sat-Sun: 1:00pm - 4:00pm (June-September; by appointment)",
+   "hours_text": "Sat-Sun: 1:00pm - 4:00pm (June-September)",
    "hours": [
     {
      "day": "sat",
@@ -2002,8 +2772,19 @@
    "email": "info@hutchinsonhomestead.org",
    "facebook": "https://www.facebook.com/hutchinsonhomesteadranch",
    "instagram": null,
-   "sales_channels": [],
-   "sells_at": [],
+   "sales_channels": [
+    "farm_visit"
+   ],
+   "offerings": [
+    {
+     "id": "co-off-000260",
+     "channel": "farm_visit",
+     "location_id": "co-loc-001516",
+     "text": "Sat-Sun 1:00pm - 4:00pm, June - September",
+     "confirm_url": null,
+     "basis": "derived"
+    }
+   ],
    "certified_organic": null,
    "accepts_snap": null,
    "ada_accessible": null,
@@ -2024,16 +2805,19 @@
      "lon": -106.035675,
      "precision": "exact",
      "pin": true,
-     "pin_basis": "unconfirmed",
+     "pin_basis": "confirmed",
      "days": [
       "sat",
       "sun"
      ],
-     "hours_text": "Sat-Sun: 1:00pm - 4:00pm (June-September; by appointment)",
+     "hours_text": "Sat-Sun: 1:00pm - 4:00pm (June-September)",
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": [
+      "farm_visit"
+     ]
     }
    ],
    "sources": [
@@ -2056,13 +2840,10 @@
    "product_groups": [
     "beef-meat"
    ],
-   "visits": [],
-   "dropin_visits": null,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": true,
    "visit_basis": {
-    "dropin": null,
-    "pickup": "listing"
+    "pickup": "set"
    },
    "visit_note": "Sells beef directly; none available right now. Ask by email or phone. Also a wedding and events venue with on-site lodging",
    "months_open": [],
@@ -2075,9 +2856,27 @@
    "facebook": "https://www.facebook.com/HutchinsonRanch/",
    "instagram": "https://www.instagram.com/hutchranch/",
    "sales_channels": [
-    "agritourism"
+    "agritourism",
+    "online"
    ],
-   "sells_at": [],
+   "offerings": [
+    {
+     "id": "co-off-000261",
+     "channel": "agritourism",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000262",
+     "channel": "online",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    }
+   ],
    "certified_organic": null,
    "accepts_snap": null,
    "ada_accessible": null,
@@ -2098,13 +2897,14 @@
      "lon": -106.043571,
      "precision": "exact",
      "pin": true,
-     "pin_basis": "unconfirmed",
+     "pin_basis": "confirmed",
      "days": [],
      "hours_text": null,
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     }
    ],
    "sources": [
@@ -2144,12 +2944,9 @@
    "product_groups": [
     "beef-meat"
    ],
-   "visits": [],
-   "dropin_visits": null,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": null,
    "visit_basis": {
-    "dropin": null,
     "pickup": null
    },
    "visit_note": "Beef shares and cuts for sale or delivery",
@@ -2166,7 +2963,24 @@
     "delivery",
     "pickup"
    ],
-   "sells_at": [],
+   "offerings": [
+    {
+     "id": "co-off-000299",
+     "channel": "delivery",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000300",
+     "channel": "pickup",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    }
+   ],
    "certified_organic": null,
    "accepts_snap": null,
    "ada_accessible": null,
@@ -2193,7 +3007,8 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     }
    ],
    "sources": [
@@ -2233,12 +3048,9 @@
     "garlic-herbs",
     "mushrooms"
    ],
-   "visits": [],
-   "dropin_visits": null,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": null,
    "visit_basis": {
-    "dropin": null,
     "pickup": null
    },
    "visit_note": null,
@@ -2254,42 +3066,134 @@
    "sales_channels": [
     "farmers_market"
    ],
-   "sells_at": [
+   "offerings": [
     {
-     "market_id": "co-m-000019",
-     "name": "Breckenridge Farmers Market",
-     "county_fips": "08117",
-     "year": 2026,
-     "season_label": null,
-     "basis": "normalized_name",
-     "source_url": "https://breckenridgefarmersmarket.com/#meet"
+     "id": "co-off-001016",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000002",
+      "name": "Salida Farmers Market",
+      "slug": "salida-farmers-market",
+      "city": "Salida",
+      "lat": 38.533052,
+      "lon": -105.993304,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.foodshedalliance.com/meet-our-vendors",
+      "producer_page_url": "https://www.facebook.com/61578591597809/",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000020",
-     "name": "Breckenridge Sunday Market",
-     "county_fips": "08117",
-     "year": 2026,
-     "season_label": null,
-     "basis": "normalized_name",
-     "source_url": "https://rockymountainevents.com/breckenridge-farmers-market/"
+     "id": "co-off-001017",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000019",
+      "name": "Breckenridge Farmers Market",
+      "slug": "breckenridge-farmers-market",
+      "city": "Breckenridge",
+      "lat": 39.480615,
+      "lon": -106.047335,
+      "county_fips": "08117"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://breckenridgefarmersmarket.com/#meet",
+      "producer_page_url": "https://www.facebook.com/61578591597809/",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000040",
-     "name": "Dillon Farmers Market",
-     "county_fips": "08117",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://townofdillon.mymarket.org/profiles"
+     "id": "co-off-001018",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000020",
+      "name": "Breckenridge Sunday Market",
+      "slug": "breckenridge-sunday-market",
+      "city": "Breckenridge",
+      "lat": 39.476794,
+      "lon": -106.044895,
+      "county_fips": "08117"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://rockymountainevents.com/breckenridge-farmers-market/",
+      "producer_page_url": "https://www.facebook.com/61578591597809/",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
     },
     {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
+     "id": "co-off-001019",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000040",
+      "name": "Dillon Farmers Market",
+      "slug": "dillon-farmers-market",
+      "city": "Dillon",
+      "lat": 39.629128,
+      "lon": -106.043385,
+      "county_fips": "08117"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://townofdillon.mymarket.org/profiles",
+      "producer_page_url": "https://www.facebook.com/61578591597809/",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": null
+     }
+    },
+    {
+     "id": "co-off-000335",
+     "channel": "pickup",
+     "location_id": "co-loc-001503",
+     "text": null,
+     "confirm_url": null,
+     "basis": "role"
     }
    ],
    "certified_organic": null,
@@ -2318,7 +3222,8 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     },
     {
      "id": "co-loc-001503",
@@ -2340,29 +3245,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
-    },
-    {
-     "id": "co-loc-000026",
-     "role": "pickup",
-     "name": "Salida Farmers Market",
-     "address": "Alpine Park, 404 E Street, Salida, CO 81201",
-     "city": "Salida",
-     "zip": "81201",
-     "county_fips": "08015",
-     "lat": 38.533052,
-     "lon": -105.993304,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [
-      "Sat"
-     ],
-     "hours_text": "Sat: 8:00am - 12:00pm (through Oct 24)",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": [
+      "pickup"
+     ]
     }
    ],
    "sources": [
@@ -2385,12 +3271,9 @@
    "product_groups": [
     "seeds-plants"
    ],
-   "visits": [],
-   "dropin_visits": null,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": null,
    "visit_basis": {
-    "dropin": null,
     "pickup": null
    },
    "visit_note": null,
@@ -2406,24 +3289,66 @@
    "sales_channels": [
     "farmers_market"
    ],
-   "sells_at": [
+   "offerings": [
     {
-     "market_id": "co-m-000037",
-     "name": "Crested Butte Farmers Market",
-     "county_fips": "08051",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://cbfarmersmarket.org/our-farmers-artisans/"
+     "id": "co-off-001020",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000002",
+      "name": "Salida Farmers Market",
+      "slug": "salida-farmers-market",
+      "city": "Salida",
+      "lat": 38.533052,
+      "lon": -105.993304,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.foodshedalliance.com/meet-our-vendors",
+      "producer_page_url": "https://www.pennandcordsgarden.com/miss-penns-mountain-seeds.html",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "The producer's own page, checked 2026-10-29, names no markets"
+     }
     },
     {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
+     "id": "co-off-001021",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000037",
+      "name": "Crested Butte Farmers Market",
+      "slug": "crested-butte-farmers-market",
+      "city": "Crested Butte",
+      "lat": 38.869701,
+      "lon": -106.989015,
+      "county_fips": "08051"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://cbfarmersmarket.org/our-farmers-artisans/",
+      "producer_page_url": "https://www.pennandcordsgarden.com/miss-penns-mountain-seeds.html",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "The producer's own page, checked 2026-10-29, names no markets"
+     }
     }
    ],
    "certified_organic": null,
@@ -2452,29 +3377,8 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
-    },
-    {
-     "id": "co-loc-000026",
-     "role": "pickup",
-     "name": "Salida Farmers Market",
-     "address": "Alpine Park, 404 E Street, Salida, CO 81201",
-     "city": "Salida",
-     "zip": "81201",
-     "county_fips": "08015",
-     "lat": 38.533052,
-     "lon": -105.993304,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [
-      "Sat"
-     ],
-     "hours_text": "Sat: 8:00am - 12:00pm (through Oct 24)",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     }
    ],
    "sources": [
@@ -2501,18 +3405,9 @@
    "product_groups": [
     "mushrooms"
    ],
-   "visits": [
-    {
-     "type": "tour",
-     "label": "Farm tours",
-     "detail": "By request"
-    }
-   ],
-   "dropin_visits": false,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": null,
    "visit_basis": {
-    "dropin": "set",
     "pickup": null
    },
    "visit_note": null,
@@ -2531,7 +3426,60 @@
     "online",
     "wholesale"
    ],
-   "sells_at": [],
+   "offerings": [
+    {
+     "id": "co-off-000353",
+     "channel": "csa",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000601",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000001",
+      "name": "Buena Vista Farmers' Market",
+      "slug": "buena-vista-farmers-market",
+      "city": "Buena Vista",
+      "lat": 38.839044,
+      "lon": -106.141712,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "producer_only",
+      "confirmed_by_market": false,
+      "confirmed_by_producer": true,
+      "market_list_years": [],
+      "market_list_url": null,
+      "producer_page_url": "http://www.mushroomloveco.com",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "Its homepage lists this as its only market, sold through Headwaters Farm"
+     }
+    },
+    {
+     "id": "co-off-000354",
+     "channel": "online",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000355",
+     "channel": "wholesale",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    }
+   ],
    "certified_organic": null,
    "accepts_snap": null,
    "ada_accessible": null,
@@ -2558,7 +3506,8 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     }
    ],
    "sources": [
@@ -2609,18 +3558,11 @@
     "dairy",
     "drinks"
    ],
-   "visits": [
-    {
-     "type": "u_pick",
-     "label": "Pick your own",
-     "detail": "Tours 9:00am - 5:00pm, no tours 12:00pm - 1:00pm, mid-June to mid-September"
-    }
-   ],
-   "dropin_visits": true,
-   "dropin_hours": "U-pick orchard tours in summer season",
+   "channel_details": {
+    "u_pick": "Tours 9:00am - 5:00pm, no tours 12:00pm - 1:00pm, mid-June to mid-September"
+   },
    "farm_pickup": true,
    "visit_basis": {
-    "dropin": "listing",
     "pickup": "listing"
    },
    "visit_note": null,
@@ -2638,69 +3580,232 @@
     "farmers_market",
     "u_pick"
    ],
-   "sells_at": [
+   "offerings": [
     {
-     "market_id": "co-m-000007",
-     "name": "Aspen Grove Farmers Market",
-     "county_fips": "08005",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://aspengrovefarmersmarket.com/vendors/"
+     "id": "co-off-000385",
+     "channel": "farm_stand",
+     "location_id": "co-loc-000986",
+     "text": null,
+     "confirm_url": null,
+     "basis": "derived"
     },
     {
-     "market_id": "co-m-000040",
-     "name": "Dillon Farmers Market",
-     "county_fips": "08117",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://townofdillon.mymarket.org/profiles"
+     "id": "co-off-000864",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000002",
+      "name": "Salida Farmers Market",
+      "slug": "salida-farmers-market",
+      "city": "Salida",
+      "lat": 38.533052,
+      "lon": -105.993304,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.foodshedalliance.com/meet-our-vendors",
+      "producer_page_url": "https://www.palisadepeachshack.com",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "The producer's own page, checked 2026-10-29, names no markets"
+     }
     },
     {
-     "market_id": "co-m-000067",
-     "name": "Glenwood Springs Downtown Market on 7th",
-     "county_fips": "08045",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.glenwoodspringsdda.com/market-on-7th/"
+     "id": "co-off-000865",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000007",
+      "name": "Aspen Grove Farmers Market",
+      "slug": "aspen-grove-farmers-market",
+      "city": "Littleton",
+      "lat": 39.58632,
+      "lon": -105.023655,
+      "county_fips": "08005"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://aspengrovefarmersmarket.com/vendors/",
+      "producer_page_url": "https://www.palisadepeachshack.com",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "The producer's own page, checked 2026-10-29, names no markets"
+     }
     },
     {
-     "market_id": "co-m-000109",
-     "name": "Montrose Farmers Market",
-     "county_fips": "08085",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://montrosefarmersmarket.mymarket.org/profiles"
+     "id": "co-off-000866",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000040",
+      "name": "Dillon Farmers Market",
+      "slug": "dillon-farmers-market",
+      "city": "Dillon",
+      "lat": 39.629128,
+      "lon": -106.043385,
+      "county_fips": "08117"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://townofdillon.mymarket.org/profiles",
+      "producer_page_url": "https://www.palisadepeachshack.com",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "The producer's own page, checked 2026-10-29, names no markets"
+     }
     },
     {
-     "market_id": "co-m-000118",
-     "name": "Orchard Farmers Market",
-     "county_fips": "08001",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://orchardfarmersmarket.com/sunday-farmers-market/"
+     "id": "co-off-000867",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000067",
+      "name": "Glenwood Springs Downtown Market on 7th",
+      "slug": "glenwood-springs-downtown-market-on-7th",
+      "city": "Glenwood Springs",
+      "lat": 39.547646,
+      "lon": -107.324201,
+      "county_fips": "08045"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.glenwoodspringsdda.com/market-on-7th/",
+      "producer_page_url": "https://www.palisadepeachshack.com",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "The producer's own page, checked 2026-10-29, names no markets"
+     }
     },
     {
-     "market_id": "co-m-000122",
-     "name": "Palisade Sunday Farmers' Market",
-     "county_fips": "08077",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://townofpalisade.mymarket.org/profiles"
+     "id": "co-off-000868",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000109",
+      "name": "Montrose Farmers Market",
+      "slug": "montrose-farmers-market",
+      "city": "Montrose",
+      "lat": 38.478148,
+      "lon": -107.862212,
+      "county_fips": "08085"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://montrosefarmersmarket.mymarket.org/profiles",
+      "producer_page_url": "https://www.palisadepeachshack.com",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "The producer's own page, checked 2026-10-29, names no markets"
+     }
     },
     {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
+     "id": "co-off-000869",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000118",
+      "name": "Orchard Farmers Market",
+      "slug": "orchard-farmers-market",
+      "city": "Westminster",
+      "lat": 39.961063,
+      "lon": -104.991624,
+      "county_fips": "08001"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://orchardfarmersmarket.com/sunday-farmers-market/",
+      "producer_page_url": "https://www.palisadepeachshack.com",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "The producer's own page, checked 2026-10-29, names no markets"
+     }
+    },
+    {
+     "id": "co-off-000870",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000122",
+      "name": "Palisade Sunday Farmers' Market",
+      "slug": "palisade-sunday-farmers-market",
+      "city": "Palisade",
+      "lat": 39.1103,
+      "lon": -108.35094,
+      "county_fips": "08077"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://townofpalisade.mymarket.org/profiles",
+      "producer_page_url": "https://www.palisadepeachshack.com",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "The producer's own page, checked 2026-10-29, names no markets"
+     }
+    },
+    {
+     "id": "co-off-000386",
+     "channel": "u_pick",
+     "location_id": "co-loc-000986",
+     "text": "Tours 9:00am - 5:00pm, no tours 12:00pm - 1:00pm, mid-June to mid-September",
+     "confirm_url": null,
+     "basis": "derived"
     }
    ],
    "certified_organic": null,
@@ -2729,29 +3834,11 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
-    },
-    {
-     "id": "co-loc-000026",
-     "role": "pickup",
-     "name": "Salida Farmers Market",
-     "address": "Alpine Park, 404 E Street, Salida, CO 81201",
-     "city": "Salida",
-     "zip": "81201",
-     "county_fips": "08015",
-     "lat": 38.533052,
-     "lon": -105.993304,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [
-      "Sat"
-     ],
-     "hours_text": "Sat: 8:00am - 12:00pm (through Oct 24)",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": [
+      "farm_stand",
+      "u_pick"
+     ]
     }
    ],
    "sources": [
@@ -2777,18 +3864,9 @@
    "product_groups": [
     "flowers"
    ],
-   "visits": [
-    {
-     "type": "by_appointment",
-     "label": "Visits by appointment",
-     "detail": "By appointment"
-    }
-   ],
-   "dropin_visits": false,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": true,
    "visit_basis": {
-    "dropin": "set",
     "pickup": "set"
    },
    "visit_note": "Not open to the public. Order online or by phone, or buy bouquets at Salida Garden Supply",
@@ -2807,7 +3885,40 @@
     "pickup",
     "retail_partners"
    ],
-   "sells_at": [],
+   "offerings": [
+    {
+     "id": "co-off-000399",
+     "channel": "csa",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000400",
+     "channel": "online",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000401",
+     "channel": "pickup",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000398",
+     "channel": "retail_partners",
+     "location_id": "co-loc-001519",
+     "text": null,
+     "confirm_url": "https://www.phytologyflowers.com/buy-flowers/",
+     "basis": "role"
+    }
+   ],
    "certified_organic": null,
    "accepts_snap": null,
    "ada_accessible": null,
@@ -2828,13 +3939,14 @@
      "lon": -106.0783,
      "precision": "town",
      "pin": false,
-     "pin_basis": "unconfirmed",
+     "pin_basis": "confirmed",
      "days": [],
      "hours_text": "By appointment",
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     },
     {
      "id": "co-loc-001519",
@@ -2854,7 +3966,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": "https://www.phytologyflowers.com/buy-flowers/"
+     "confirm_url": "https://www.phytologyflowers.com/buy-flowers/",
+     "channels": [
+      "retail_partners"
+     ]
     }
    ],
    "sources": [
@@ -2895,18 +4010,11 @@
     "veggies",
     "garlic-herbs"
    ],
-   "visits": [
-    {
-     "type": "farm_stand",
-     "label": "Farm stand",
-     "detail": "Mon-Sat 8:00am - 6:00pm, May-Nov (self-serve)"
-    }
-   ],
-   "dropin_visits": true,
-   "dropin_hours": "Mon-Sat: 8 am - 6 pm",
+   "channel_details": {
+    "farm_stand": "Mon-Sat 8:00am - 6:00pm, May-Nov (self-serve)"
+   },
    "farm_pickup": true,
    "visit_basis": {
-    "dropin": "set",
     "pickup": "listing"
    },
    "visit_note": null,
@@ -2964,15 +4072,88 @@
     "farmers_market",
     "online"
    ],
-   "sells_at": [
+   "offerings": [
     {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
+     "id": "co-off-000435",
+     "channel": "csa",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000436",
+     "channel": "farm_stand",
+     "location_id": "co-loc-000024",
+     "text": "Mon-Sat 8:00am - 6:00pm, May-Nov (self-serve)",
+     "confirm_url": null,
+     "basis": "derived"
+    },
+    {
+     "id": "co-off-000602",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000002",
+      "name": "Salida Farmers Market",
+      "slug": "salida-farmers-market",
+      "city": "Salida",
+      "lat": 38.533052,
+      "lon": -105.993304,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "confirmed_both",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": true,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.foodshedalliance.com/meet-our-vendors",
+      "producer_page_url": "https://www.rockymountaingarlic.net",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "Its homepage only has a nav link labeled 'Salida Market'; also confirmed by the Guidestone review of Oct 13 (Alycen Quattrocchi)"
+     }
+    },
+    {
+     "id": "co-off-000603",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000154",
+      "name": "Chaffee County Winter Farmers Market",
+      "slug": "chaffee-county-winter-farmers-market",
+      "city": "Salida",
+      "lat": 38.519154,
+      "lon": -106.063251,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "producer_only",
+      "confirmed_by_market": false,
+      "confirmed_by_producer": true,
+      "market_list_years": [],
+      "market_list_url": null,
+      "producer_page_url": "https://www.rockymountaingarlic.net",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "Confirmed by the Guidestone review of Oct 13 (Alycen Quattrocchi): also sells at the winter Chaffee County market"
+     }
+    },
+    {
+     "id": "co-off-000437",
+     "channel": "online",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
     }
    ],
    "certified_organic": false,
@@ -3008,29 +4189,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
-    },
-    {
-     "id": "co-loc-000026",
-     "role": "pickup",
-     "name": "Salida Farmers Market",
-     "address": "Alpine Park, 404 E Street, Salida, CO 81201",
-     "city": "Salida",
-     "zip": "81201",
-     "county_fips": "08015",
-     "lat": 38.533052,
-     "lon": -105.993304,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [
-      "Sat"
-     ],
-     "hours_text": "Sat: 8:00am - 12:00pm (through Oct 24); winter market Nov 14 - Dec 19",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": [
+      "farm_stand"
+     ]
     }
    ],
    "sources": [
@@ -3085,18 +4247,9 @@
     "poultry-eggs",
     "honey"
    ],
-   "visits": [
-    {
-     "type": "farm_stand",
-     "label": "Farm stand",
-     "detail": null
-    }
-   ],
-   "dropin_visits": true,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": true,
    "visit_basis": {
-    "dropin": "listing",
     "pickup": "listing"
    },
    "visit_note": null,
@@ -3112,7 +4265,16 @@
    "sales_channels": [
     "farm_stand"
    ],
-   "sells_at": [],
+   "offerings": [
+    {
+     "id": "co-off-000494",
+     "channel": "farm_stand",
+     "location_id": "co-loc-000028",
+     "text": null,
+     "confirm_url": null,
+     "basis": "derived"
+    }
+   ],
    "certified_organic": null,
    "accepts_snap": null,
    "ada_accessible": null,
@@ -3139,7 +4301,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": [
+      "farm_stand"
+     ]
     }
    ],
    "sources": [
@@ -3200,23 +4365,12 @@
     "garlic-herbs",
     "seeds-plants"
    ],
-   "visits": [
-    {
-     "type": "shop",
-     "label": "Shop",
-     "detail": "On-farm store opens in June"
-    },
-    {
-     "type": "u_pick",
-     "label": "Pick your own",
-     "detail": "From July, limited hours, by reservation"
-    }
-   ],
-   "dropin_visits": true,
-   "dropin_hours": null,
+   "channel_details": {
+    "farm_stand": "On-farm store opens in June",
+    "u_pick": "From July, limited hours, by reservation"
+   },
    "farm_pickup": true,
    "visit_basis": {
-    "dropin": "set",
     "pickup": "listing"
    },
    "visit_note": null,
@@ -3231,18 +4385,64 @@
    "instagram": "https://www.instagram.com/thetriangleoasisproject/",
    "sales_channels": [
     "csa",
+    "farm_stand",
     "farmers_market",
     "u_pick"
    ],
-   "sells_at": [
+   "offerings": [
     {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
+     "id": "co-off-000524",
+     "channel": "csa",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000525",
+     "channel": "farm_stand",
+     "location_id": "co-loc-000032",
+     "text": "On-farm store opens in June",
+     "confirm_url": null,
+     "basis": "derived"
+    },
+    {
+     "id": "co-off-000604",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000002",
+      "name": "Salida Farmers Market",
+      "slug": "salida-farmers-market",
+      "city": "Salida",
+      "lat": 38.533052,
+      "lon": -105.993304,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.foodshedalliance.com/meet-our-vendors",
+      "producer_page_url": "https://www.thetriangleoasis.com/",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "The producer's own page, checked 2026-10-29, names no markets"
+     }
+    },
+    {
+     "id": "co-off-000526",
+     "channel": "u_pick",
+     "location_id": "co-loc-000032",
+     "text": "From July, limited hours, by reservation",
+     "confirm_url": null,
+     "basis": "derived"
     }
    ],
    "certified_organic": null,
@@ -3271,7 +4471,11 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": [
+      "farm_stand",
+      "u_pick"
+     ]
     }
    ],
    "sources": [
@@ -3300,12 +4504,9 @@
     "poultry-eggs",
     "dairy"
    ],
-   "visits": [],
-   "dropin_visits": false,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": null,
    "visit_basis": {
-    "dropin": "set",
     "pickup": null
    },
    "visit_note": "Delivery food hub; not a place to visit",
@@ -3323,7 +4524,32 @@
     "online",
     "wholesale"
    ],
-   "sells_at": [],
+   "offerings": [
+    {
+     "id": "co-off-000555",
+     "channel": "delivery",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000556",
+     "channel": "online",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    },
+    {
+     "id": "co-off-000557",
+     "channel": "wholesale",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "channel"
+    }
+   ],
    "certified_organic": null,
    "accepts_snap": null,
    "ada_accessible": null,
@@ -3350,7 +4576,8 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     }
    ],
    "sources": [
@@ -3394,12 +4621,9 @@
    "product_groups": [
     "honey"
    ],
-   "visits": [],
-   "dropin_visits": null,
-   "dropin_hours": null,
+   "channel_details": {},
    "farm_pickup": null,
    "visit_basis": {
-    "dropin": null,
     "pickup": null
    },
    "visit_note": null,
@@ -3415,15 +4639,36 @@
    "sales_channels": [
     "farmers_market"
    ],
-   "sells_at": [
+   "offerings": [
     {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
+     "id": "co-off-001022",
+     "channel": "farmers_market",
+     "location_id": null,
+     "text": null,
+     "confirm_url": null,
+     "basis": "link",
+     "market": {
+      "id": "co-m-000002",
+      "name": "Salida Farmers Market",
+      "slug": "salida-farmers-market",
+      "city": "Salida",
+      "lat": 38.533052,
+      "lon": -105.993304,
+      "county_fips": "08015"
+     },
+     "link": {
+      "state": "market_only",
+      "confirmed_by_market": true,
+      "confirmed_by_producer": false,
+      "market_list_years": [
+       "2026"
+      ],
+      "market_list_url": "https://www.foodshedalliance.com/meet-our-vendors",
+      "producer_page_url": "https://www.westcliffehoneyco.com/",
+      "producer_checked_on": "2026-10-29",
+      "resolution": null,
+      "note": "The producer's own page, checked 2026-10-29, names no markets"
+     }
     }
    ],
    "certified_organic": null,
@@ -3452,29 +4697,8 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
-    },
-    {
-     "id": "co-loc-000026",
-     "role": "pickup",
-     "name": "Salida Farmers Market",
-     "address": "Alpine Park, 404 E Street, Salida, CO 81201",
-     "city": "Salida",
-     "zip": "81201",
-     "county_fips": "08015",
-     "lat": 38.533052,
-     "lon": -105.993304,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [
-      "Sat"
-     ],
-     "hours_text": "Sat: 8:00am - 12:00pm (through Oct 24)",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": []
     }
    ],
    "sources": [
@@ -3504,18 +4728,11 @@
     "beef-meat",
     "poultry-eggs"
    ],
-   "visits": [
-    {
-     "type": "farm_stand",
-     "label": "Farm stand",
-     "detail": "Tue-Sun 8:00am - 6:00pm"
-    }
-   ],
-   "dropin_visits": true,
-   "dropin_hours": "Tue-Sun: 8:00am - 6:00pm",
+   "channel_details": {
+    "farm_stand": "Tue-Sun 8:00am - 6:00pm"
+   },
    "farm_pickup": true,
    "visit_basis": {
-    "dropin": "set",
     "pickup": "listing"
    },
    "visit_note": null,
@@ -3562,7 +4779,16 @@
    "sales_channels": [
     "farm_stand"
    ],
-   "sells_at": [],
+   "offerings": [
+    {
+     "id": "co-off-000570",
+     "channel": "farm_stand",
+     "location_id": "co-loc-001497",
+     "text": "Tue-Sun 8:00am - 6:00pm",
+     "confirm_url": null,
+     "basis": "derived"
+    }
+   ],
    "certified_organic": null,
    "accepts_snap": null,
    "ada_accessible": null,
@@ -3596,7 +4822,10 @@
      "season_start": null,
      "season_end": null,
      "status": "listed",
-     "confirm_url": null
+     "confirm_url": null,
+     "channels": [
+      "farm_stand"
+     ]
     }
    ],
    "sources": [
@@ -3627,7 +4856,10 @@
     }
    ],
    "hours_status": "parsed",
-   "vendors": [],
+   "vendors": [
+    "co-p-000012",
+    "co-p-000018"
+   ],
    "website": "https://www.buenavistaheritage.org/",
    "phone": "(719) 297-5430",
    "email": "buenavistaheritage@msn.com",
@@ -3681,7 +4913,10 @@
     }
    ],
    "hours_status": "parsed",
-   "vendors": [],
+   "vendors": [
+    "co-p-000021",
+    "co-p-001234"
+   ],
    "website": "https://www.foodshedalliance.com/discover-the-market",
    "phone": "(719) 207-5787",
    "email": null,
