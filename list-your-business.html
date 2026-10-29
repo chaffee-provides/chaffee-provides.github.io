@@ -204,24 +204,16 @@ document.getElementById("f").addEventListener("submit", function(e){
   ];
   if(CP.CONFIG.forms.sheet){
     // Appends a row to the Google Sheet through the Apps Script web app in scripts/google-sheet-intake.gs.
-    // The thank-you appears only after the script confirms it stored the submission. The id is kept across retries,
-    // and the script ignores an id it has already stored, so pressing Submit again never makes a duplicate.
     var btn = f.querySelector("button[type=submit]"), row = new URLSearchParams();
-    var id = f.dataset.id = f.dataset.id || (window.crypto && crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
-    row.append("id", id);
     rec.forEach(function(r){ row.append(r[0], r[2].trim()); });
-    var backup = CP.mailto("New listing: " + el.name.value, rec.map(function(r){ return r[1] + ": " + r[2]; }).join("\n"));
-    try { localStorage.setItem("cp-unsent-listing", row.toString()); } catch(x){}  // survives a closed tab until confirmed
     btn.disabled = true; btn.textContent = "Sending…";
-    fetch(CP.CONFIG.forms.sheet, { method:"POST", body:row }).then(function(r){ return r.json(); }).then(function(d){
-      if(!d || !d.ok) throw new Error("not stored");
-      try { localStorage.removeItem("cp-unsent-listing"); } catch(x){}
+    // no-cors: Apps Script sends no CORS headers, so the reply is opaque; a resolved fetch means it was delivered.
+    fetch(CP.CONFIG.forms.sheet, { method:"POST", mode:"no-cors", body:row }).then(function(){
       f.innerHTML = '<h2>Thank you!</h2><p>We received your listing for <strong></strong>. A person will review it and check with you before anything is published.</p>';
       f.querySelector("strong").textContent = row.get("business");
     }).catch(function(){
-      btn.disabled = false; btn.textContent = "Try again";
-      err.innerHTML = 'We could not confirm that your listing was saved. Please press <strong>Try again</strong>, or <a></a> instead.';
-      var a = err.querySelector("a"); a.href = backup; a.textContent = "send it by email";
+      btn.disabled = false; btn.textContent = "Submit my listing";
+      err.textContent = "Sorry, that didn't send. Check your connection and try again, or email " + CP.CONFIG.contactEmail + ".";
     });
     return;
   }
