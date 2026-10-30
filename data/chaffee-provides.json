@@ -14,8 +14,8 @@
    "markets": 3,
    "access_points": 2,
    "market_links": 41,
-   "outlets": 4,
-   "outlet_pins": 4,
+   "outlets": 3,
+   "outlet_pins": 3,
    "pins": 26,
    "excluded_outside_area": {
     "producers": 1017,
@@ -5239,43 +5239,6 @@
      "date": "2026-10-15"
     }
    ]
-  },
-  {
-   "id": "co-o-000002",
-   "slug": "market-on-main-st-the-triangle-oasis-outlet",
-   "name": "Market on Main St. (The Triangle Oasis)",
-   "kind": "farm_store",
-   "group": "shops",
-   "brand": null,
-   "hours": [],
-   "website": "https://www.thetriangleoasis.com/markets",
-   "phone": null,
-   "facebook": "https://www.facebook.com/pages/category/Farm/The-Triangle-Oasis-219919395410862",
-   "instagram": "https://www.instagram.com/thetriangleoasisproject",
-   "status": "seasonal_closed",
-   "last_verified": null,
-   "location": {
-    "id": "co-loc-000017",
-    "role": "outlet_site",
-    "name": null,
-    "address": "125 N. F St",
-    "city": "Salida",
-    "zip": null,
-    "county_fips": "08015",
-    "lat": 38.536706,
-    "lon": -105.991271,
-    "precision": "exact",
-    "pin": true,
-    "pin_basis": "confirmed"
-   },
-   "sources": [
-    {
-     "source": "curated",
-     "label": "Farmers market vendor lists, checked by hand",
-     "url": null
-    }
-   ],
-   "confirmed_by": []
   },
   {
    "id": "co-o-000161",

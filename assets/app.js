@@ -132,13 +132,18 @@
   function makeRec(raw, group, photos, channelLabels, productLabels){
     var cat = catOf(raw, group), places = [];
     var locs = group === "farm" ? raw.locations : [raw.location];
+    // Places where an on-farm way to find them (a farm stand, a visit, a tour...) is offered: the places that welcome the public.
+    var visitHere = {};
+    (raw.offerings || []).forEach(function(o){ if(o.location_id && ON_FARM.indexOf(o.channel) !== -1) visitHere[o.location_id] = true; });
     locs.forEach(function(l){
       if(!l) return;
       var role = group === "farm" ? l.role : (group === "market" ? "market_site" : (group === "outlet" ? "outlet_site" : "access_site"));
       places.push({ id:raw.id + ":" + l.id, rec:null, loc:l, role:role, kind:cat, pickup:(role === "pickup" || role === "csa_dropoff"),
         market:(role === "pickup" && /market/i.test(l.name || "")),   // a stand at a farmers market, not a pickup point
         title:placeTitle(l), hours:l.hours_text || (group === "farm" ? "" : raw.hours_text) || "", days:l.days || [],
-        pin:!!l.pin && l.lat != null, unconfirmed:l.pin_basis === "unconfirmed", lat:l.lat, lng:l.lon });
+        pin:!!l.pin && l.lat != null,
+        mapPin:!!l.pin && l.lat != null && (role !== "home_base" || group !== "farm" || !!visitHere[l.id]),   // the big map: only places that welcome visitors
+        unconfirmed:l.pin_basis === "unconfirmed", lat:l.lat, lng:l.lon });
     });
     // A farm with no stated way to visit and no pickup at the farm is not somewhere to find them: keep the town, drop the place.
     var homeCity = ((places.filter(function(p){ return p.role === "home_base"; })[0] || { loc:{} }).loc.city || "");
