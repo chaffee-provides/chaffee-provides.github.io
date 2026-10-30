@@ -440,7 +440,8 @@
      "season_end": null,
      "status": "listed",
      "confirm_url": null,
-     "channels": []
+     "channels": [],
+     "main_map": false
     },
     {
      "id": "co-loc-001528",
