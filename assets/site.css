@@ -284,8 +284,6 @@ ul.plain{ margin:4px 0 0; padding-left:18px; }
 .about{ margin-top:14px; max-width:68ch; }
 .about p{ margin:0 0 10px; }
 
-.about-fig{ margin:18px 0 20px; }
-.about-fig img{ display:block; width:100%; max-width:420px; height:auto; border-radius:var(--radius); }
 .finder .intro{ font-size:.9rem; line-height:1.45; color:var(--muted); }
 .finder .intro p{ margin:0 0 .6em; }
 .finder .intro p:first-child{ color:var(--ink); }
