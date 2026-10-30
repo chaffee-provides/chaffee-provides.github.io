@@ -309,3 +309,7 @@ ul.plain{ margin:4px 0 0; padding-left:18px; }
   .band .wrap{ padding:40px 16px; }
   .band .panel{ padding:24px 18px; }
 }
+.about-section{ scroll-margin-top:72px; }
+.about-section .article{ padding-bottom:24px; }
+.about-section h2{ font-size:1.8rem; }
+.about-section h3{ margin-top:1.4em; font-size:1.5rem; }
