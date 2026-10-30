@@ -2,8 +2,8 @@
  "export": {
   "app": "chaffee-provides",
   "format_version": 3,
-  "release": "v2026.10.9",
-  "generated": "2026-10-29",
+  "release": "v2026.10.10",
+  "generated": "2026-10-30",
   "source": "Colorado Open Food Web",
   "county_fips": [
    "08015"
@@ -16,7 +16,7 @@
    "market_links": 41,
    "outlets": 3,
    "outlet_pins": 3,
-   "pins": 26,
+   "pins": 25,
    "excluded_outside_area": {
     "producers": 1017,
     "markets": 150,
@@ -2003,14 +2003,6 @@
      "basis": "role"
     },
     {
-     "id": "co-off-000180",
-     "channel": "retail_partners",
-     "location_id": "co-loc-001513",
-     "text": null,
-     "confirm_url": "https://foxtownfarm.com/pages/find-a-store",
-     "basis": "role"
-    },
-    {
      "id": "co-off-000181",
      "channel": "retail_partners",
      "location_id": "co-loc-001514",
@@ -2089,29 +2081,6 @@
      "county_fips": "08015",
      "lat": 38.842749,
      "lon": -106.128913,
-     "precision": "approximate",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [],
-     "hours_text": null,
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": "https://foxtownfarm.com/pages/find-a-store",
-     "channels": [
-      "retail_partners"
-     ]
-    },
-    {
-     "id": "co-loc-001513",
-     "role": "store",
-     "name": "Rock Paper Scissors (Salida)",
-     "address": null,
-     "city": "Salida",
-     "zip": null,
-     "county_fips": "08015",
-     "lat": 38.535854,
-     "lon": -105.992413,
      "precision": "approximate",
      "pin": true,
      "pin_basis": "confirmed",
