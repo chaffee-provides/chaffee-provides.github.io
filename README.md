@@ -32,7 +32,6 @@ it goes into the Food Web. `python scripts/import_descriptions.py <wordpress-exp
 | `directory.html` | Scrolling card list with the same filters and a search box with suggestions |
 | `provider.html?slug=` | One business: photo, every place to find them with hours, contact, sources, suggest-an-update and remove buttons |
 | `list-your-business.html` | Prototype form (opens an email) with a hidden spam trap |
-| `about.html` | About, how listings stay current, contact, attribution |
 
 ## Scope (agreed with Guidestone, Oct 2026)
 
