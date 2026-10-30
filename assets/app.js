@@ -7,7 +7,7 @@
 
   // ---- settings you may need to change -------------------------------------------------------
   var CONFIG = {
-    draft: true,                      // true shows the "prototype" banner; set false at launch (and drop the noindex tags)
+    draft: false,                     // true shows the "prototype" banner; set false at launch (and drop the noindex tags)
     contactEmail: "info@guidestonecolorado.org",
     forms: { suggest: "", add: "" },  // Google Form addresses; until set, the buttons open an email instead
     supportedFormat: 3                // export format_version this site understands
