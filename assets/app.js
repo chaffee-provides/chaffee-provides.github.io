@@ -86,7 +86,7 @@
       + '<li>c/o Guidestone Colorado<br>P.O. Box 1056, Salida, CO 81201</li>'
       + '<li><a href="https://www.facebook.com/ChaffeeProvides" rel="noopener">Facebook</a></li>'
       + '</ul></div></div>'
-      + '<p class="fine" id="attribution">Listings come from the <a href="https://github.com/open-food-web/colorado-open-food-web" rel="noopener">Colorado Open Food Web</a> '
+      + '<p class="fine" id="attribution">Listings come from the <a href="https://open-food-web.github.io/colorado-open-food-web/" rel="noopener">Colorado Open Food Web</a> '
       + '(data under CC BY 4.0), which combines Guidestone Colorado\'s review, each business\'s own website and public directories. '
       + 'Funded in part by the Chaffee County Community Foundation\'s Food Access Cohort and Chaffee Common Ground.</p>'
       + '</div></footer>';
