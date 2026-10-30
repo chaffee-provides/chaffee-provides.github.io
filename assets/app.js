@@ -43,7 +43,7 @@
   var ON_FARM_TITLE = { farm_stand:"Farm stand", farm_visit:"Visit the farm", u_pick:"Pick your own", tour:"Farm tours", stay:"Farm stay", volunteer:"Volunteer days" };
   var ON_FARM = Object.keys(ON_FARM_TITLE);
   function onFarmOf(raw){ return ON_FARM.filter(function(c){ return (raw.sales_channels || []).indexOf(c) !== -1; }); }
-  var NAV = [ ["find-food.html","Map"], ["directory.html","Directory"], ["list-your-business.html","List Your Business"], ["index.html#about","About"] ];
+  var NAV = [ ["find-food.html","Map"], ["directory.html","Directory"], ["list-your-business.html","List Your Business"] ];
 
   function esc(s){
     return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
