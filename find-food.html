@@ -177,7 +177,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
     CP.browse.save(rows.map(function(x){ return x.r.slug; }));
     layer.clearLayers();
     els.list.innerHTML = rows.map(function(x){
-      var r = x.r, pins = x.ps.filter(function(p){ return p.pin; }).length;
+      var r = x.r, pins = x.ps.filter(function(p){ return p.mapPin; }).length;
       var sub = [r.towns.slice(0,3).join(", "), r.productText.slice(0,4).join(" · ") || (r.group === "access" ? (r.hours || "") : "")].filter(Boolean).join(" · ");
       return '<a class="result" href="'+CP.recUrl(r)+'" data-id="'+esc(r.id)+'"><strong>'+esc(r.name)+'</strong>'
         + '<div class="types">'+catTag(r)+'</div><div class="sub">'+esc(sub)+(pins > 1 ? ' · '+pins+' places' : '')+'</div></a>';
@@ -185,7 +185,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
     var r2 = document.getElementById("reset2"); if(r2) r2.addEventListener("click", reset);
 
     var pins = [];
-    rows.forEach(function(x){ x.ps.forEach(function(p){ if(p.pin) pins.push(p); }); });
+    rows.forEach(function(x){ x.ps.forEach(function(p){ if(p.mapPin) pins.push(p); }); });
     var byLoc = {};
     pins.forEach(function(p){ (byLoc[p.loc.id] = byLoc[p.loc.id] || []).push(p); });
     var groups = Object.keys(byLoc).map(function(k){ return { id:k, ps:byLoc[k], lat:byLoc[k][0].lat, lng:byLoc[k][0].lng }; });
@@ -203,7 +203,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
       });
       m.addTo(layer); bounds.push([g.lat, g.lng]);
     });
-    var offMap = rows.filter(function(x){ return !x.ps.some(function(p){ return p.pin; }); }).length;
+    var offMap = rows.filter(function(x){ return !x.ps.some(function(p){ return p.mapPin; }); }).length;
     els.count.textContent = rows.length + " of " + ALL.length + " listings · " + (rows.length - offMap) + " on the map" + (offMap ? ", " + offMap + " not" : "");
     var filtered = state.q || state.cat || state.product || state.town || state.snap;
     var fit = bounds.length ? L.latLngBounds(bounds) : null;
@@ -241,7 +241,7 @@ if (new URLSearchParams(location.search).get("embed") === "1") document.document
       els.products.appendChild(chip("product", k, MODEL.vocab.product_groups[k]));
     });
     // Kinds of place are not quick filters here: the map key (bottom left) already lists them and filters by them.
-    var towns = {}; ALL.forEach(function(x){ x.places.forEach(function(p){ if(p.pin && p.loc.city) towns[p.loc.city] = (towns[p.loc.city]||0) + 1; }); });
+    var towns = {}; ALL.forEach(function(x){ x.places.forEach(function(p){ if(p.mapPin && p.loc.city) towns[p.loc.city] = (towns[p.loc.city]||0) + 1; }); });
     Object.keys(towns).sort().forEach(function(t){
       var o = document.createElement("option"); o.value = t; o.textContent = t + " ("+towns[t]+")"; els.town.appendChild(o);
     });

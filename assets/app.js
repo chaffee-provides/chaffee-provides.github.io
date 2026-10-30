@@ -138,7 +138,9 @@
       places.push({ id:raw.id + ":" + l.id, rec:null, loc:l, role:role, kind:cat, pickup:(role === "pickup" || role === "csa_dropoff"),
         market:(role === "pickup" && /market/i.test(l.name || "")),   // a stand at a farmers market, not a pickup point
         title:placeTitle(l), hours:l.hours_text || (group === "farm" ? "" : raw.hours_text) || "", days:l.days || [],
-        pin:!!l.pin && l.lat != null, unconfirmed:l.pin_basis === "unconfirmed", lat:l.lat, lng:l.lon });
+        pin:!!l.pin && l.lat != null,
+        mapPin:!!l.pin && l.lat != null && l.main_map !== false,   // the main map; a few pins stay on the producer page only (scope.json off_main_map_home_slugs)
+        unconfirmed:l.pin_basis === "unconfirmed", lat:l.lat, lng:l.lon });
     });
     // A farm with no stated way to visit and no pickup at the farm is not somewhere to find them: keep the town, drop the place.
     var homeCity = ((places.filter(function(p){ return p.role === "home_base"; })[0] || { loc:{} }).loc.city || "");

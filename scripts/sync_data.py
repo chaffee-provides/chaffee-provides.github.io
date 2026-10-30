@@ -56,6 +56,7 @@ def apply_scope(d, scope):
     sources = set(scope.get("include_sources", []))
     exclude_slugs = set(scope.get("exclude_slugs", {}))
     hide_pin_slugs = set(scope.get("hide_pin_slugs", {}))
+    off_main_map = set(scope.get("off_main_map_home_slugs", {}))
     exclude_producer_types = set(scope.get("exclude_producer_types", {}))
     exclude_only_channels = set(scope.get("exclude_only_channels", {}))
     outlet_kinds = set(scope.get("include_outlet_kinds", []))
@@ -85,6 +86,8 @@ def apply_scope(d, scope):
                 pin = False       # a place outside these counties is not a place to buy on this map
             l["pin"] = bool(pin and l["lat"] is not None)
             l.pop("pin_unconfirmed_home", None)
+            if l["role"] == "home_base" and p["slug"] in off_main_map:
+                l["main_map"] = False        # stays a pin on the producer page, not on the main map
             locs.append(l)
         q = {k: v for k, v in p.items() if k != "service_county_fips"}
         q["locations"] = locs

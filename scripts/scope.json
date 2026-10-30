@@ -8,6 +8,7 @@
   ],
   "show_unconfirmed_home_pins": true,
   "exclude_slugs": {
+    "market-on-main-st-the-triangle-oasis-outlet": "Closed for the season: not listed (Alycen Quattrocchi, Oct 29 2026)",
     "mountain-goat-lodge": "Lodge and cheesemaking classes on a goat farm: agritourism, not wanted on Chaffee Provides (user, 2026-10-15)"
   },
   "exclude_producer_types": {
@@ -15,6 +16,9 @@
   },
   "exclude_only_channels": {
     "wholesale": "A grower that sells only wholesale is not somewhere the public can buy (was the Wholesale Grower category)"
+  },
+  "off_main_map_home_slugs": {
+    "arrowpoint-cattle-company": "The ranch is an online-order pickup point, not somewhere to visit; its South Main farm stand is the public place (Alycen Quattrocchi, Oct 29 2026)"
   },
   "hide_pin_slugs": {
     "everett-ranch-beef": "Social media only; listed so people can message them, but not shown on the map (user, 2026-10-15)"
