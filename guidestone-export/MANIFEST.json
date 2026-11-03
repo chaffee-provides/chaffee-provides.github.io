@@ -9,13 +9,13 @@
  "license": "Food Web data: CC BY 4.0. Descriptions and photos: used with Guidestone's permission, see README.",
  "attribution": "Colorado Open Food Web, CC BY 4.0. Partner data from Guidestone Colorado.",
  "counts": {
-  "producers": 27,
+  "producers": 26,
   "markets": 3,
   "access_points": 2,
-  "market_links": 37,
-  "outlets": 4,
-  "outlet_pins": 4,
-  "pins": 38,
+  "market_links": 36,
+  "outlets": 3,
+  "outlet_pins": 3,
+  "pins": 37,
   "excluded_outside_area": {
    "producers": 1017,
    "markets": 150,
@@ -25,30 +25,30 @@
  },
  "files": {
   "README.md": {
-   "sha256": "a1d0636bd56905003817757b1baeea3636bd2611c4801301042caeb610427953"
+   "sha256": "8264da19f69cf642da76a6c98204a158ebc5cbbdc138c24c7057f70356893289"
   },
   "chaffee-provides.json": {
-   "sha256": "3d1f94b1cd725ea3ec8e086754ce4c45b2c283437efe33871905b618a435ce19"
+   "sha256": "57ccf15a016356be5a4a9180c1979d81adcfc8bf527685c88a4bd70dd2f712cd"
   },
   "csv/free_food_sites.csv": {
    "sha256": "cec5f66669f241d526be83e72d5defbb5b460ba4ab67759c124beda11ed9f40c",
    "rows": 2
   },
   "csv/markets.csv": {
-   "sha256": "fec35f3d899dcf8ade84bf85d06bfe1295b6790512f1aeb3c432d7ab9c12d4c2",
+   "sha256": "1f94139f38d37abdef85a3fcc9cb37249e8a2a4455feaa5b05400c7caaeda123",
    "rows": 3
   },
   "csv/producer_locations.csv": {
-   "sha256": "46a94a1d645765c2e15537f039ce86f418c43691bcaeab377a59015296f9b57e",
-   "rows": 57
+   "sha256": "c86186e5c4ad39c9e119ff0075db822dd2c449451829e2f2362cdb49136df9bb",
+   "rows": 56
   },
   "csv/producers.csv": {
-   "sha256": "9f4e3cdb59324f836af58be3936f16b1a592f0f498f5437e02b24ad6ec76122a",
-   "rows": 27
+   "sha256": "5230be652b619ffe1e712416f9357a46ba4ff5f4e2a5f4d6573d98ac58599ead",
+   "rows": 26
   },
   "csv/shops.csv": {
-   "sha256": "9f621d76604dfc411bd388712d2ee86d16a6bab7f7a3cfe711d77a3c80dad601",
-   "rows": 4
+   "sha256": "68b3894e5826506fe3a28cd85fe77fce3c2102aaf161a714138e81ba37aef2c8",
+   "rows": 3
   },
   "site-content/descriptions.json": {
    "sha256": "1ec043a2126abd7ac5b6003b4cb638a6f35d01594ddd96410e0f0beedf90c85f"

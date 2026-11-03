@@ -6,11 +6,16 @@ and writes the snapshot folder: the JSON the site runs from, spreadsheet-friendl
 a MANIFEST.json with a sha256 for every file, and a README.md filled in from scripts/export_readme.md.
 Rebuilding is safe: the folder is regenerated from scratch, and the script re-reads what it wrote to verify it.
 
-Usage:  python scripts/build_export.py
+Opted-out businesses (scripts/opt_outs.json) are removed from what is exported, and the export fails if any trace is left.
+
+Usage:  python scripts/build_export.py [--source path/to/chaffee-provides.json]
+        (--source rebuilds a snapshot from an older export instead of data/chaffee-provides.json)
 """
 import csv, hashlib, json, os, shutil, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import opt_outs
 ROOT = os.path.normpath(os.path.join(HERE, ".."))
 DATA = os.path.join(ROOT, "data")
 OUT = os.path.join(ROOT, "guidestone-export")
@@ -122,8 +127,10 @@ def build_csvs(d, out):
 
 
 def main():
-    src = os.path.join(DATA, "chaffee-provides.json")
+    src = sys.argv[2] if len(sys.argv) > 2 and sys.argv[1] == "--source" else os.path.join(DATA, "chaffee-provides.json")
     d = read_json(src)
+    for kind, name, who in opt_outs.scrub(d):
+        print("opted out, not exported: %s %s (%s)" % (kind, name, who))
     ex, c = d["export"], d["export"]["counts"]
     for k, key in (("producers", "producers"), ("markets", "markets"), ("access_points", "access_points"),
                    ("outlets", "outlets")):
@@ -131,6 +138,8 @@ def main():
             fail("counts say %s=%s but the file has %d; run sync_data.py again" % (k, c[k], len(d[key])))
     if ex["release"].startswith("local"):
         fail("the data is pinned to %r, not a tagged Food Web release; run sync_data.py with a release URL" % ex["release"])
+    opt_outs.check_or_fail(files=[os.path.join(DATA, f) for f in os.listdir(DATA) if f.endswith(".json")],
+                           what="the site data about to be exported")
     desc = read_json(os.path.join(DATA, "descriptions.json"))
     photos = read_json(os.path.join(DATA, "photos.json"))
     # the site matches an outlet to its description or photo by slug, with "-outlet" removed
@@ -145,8 +154,10 @@ def main():
     if os.path.exists(OUT):
         shutil.rmtree(OUT)
     os.makedirs(os.path.join(OUT, "site-content"))
-    shutil.copyfile(src, os.path.join(OUT, "chaffee-provides.json"))
-    rows = build_csvs(d, os.path.join(OUT, "csv"))
+    with open(os.path.join(OUT, "chaffee-provides.json"), "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(d, fh, ensure_ascii=False, indent=1)
+        fh.write("\n")
+    rows =build_csvs(d, os.path.join(OUT, "csv"))
     for f, content in (("descriptions.json", desc), ("photos.json", photos)):
         with open(os.path.join(OUT, "site-content", f), "w", encoding="utf-8", newline="\n") as fh:
             json.dump(content, fh, ensure_ascii=False, indent=1)
@@ -195,7 +206,9 @@ def main():
                 if sum(1 for _ in csv.reader(f)) - 1 != info["rows"]:
                     fail("row count mismatch in " + rel)
     if read_json(os.path.join(OUT, "chaffee-provides.json")) != d:
-        fail("the exported JSON differs from data/chaffee-provides.json")
+        fail("the exported JSON differs from the source")
+    opt_outs.check_or_fail(files=[os.path.join(dp, n) for dp, _, ns in os.walk(OUT) for n in ns],
+                           what="the Guidestone export")
     print("exported %s (generated %s): %d files, %d producers, %d markets, %d free-food sites, %d shops"
           % (ex["release"], ex["generated"], len(files), c["producers"], c["markets"], c["access_points"], c["outlets"]))
 

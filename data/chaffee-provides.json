@@ -10,13 +10,13 @@
   ],
   "attribution": "Colorado Open Food Web, CC BY 4.0. Partner data from Guidestone Colorado.",
   "counts": {
-   "producers": 28,
+   "producers": 27,
    "markets": 3,
    "access_points": 2,
-   "market_links": 41,
+   "market_links": 40,
    "outlets": 3,
    "outlet_pins": 3,
-   "pins": 25,
+   "pins": 24,
    "excluded_outside_area": {
     "producers": 1017,
     "markets": 150,
@@ -4314,150 +4314,6 @@
    ]
   },
   {
-   "id": "co-p-000026",
-   "slug": "the-triangle-oasis",
-   "name": "The Triangle Oasis",
-   "producer_type": "farm",
-   "products": [
-    "Seasonal produce",
-    "vegetables",
-    "herbs",
-    "flowers",
-    "seedlings",
-    "roasted chilies",
-    "sausages",
-    "frozen treats"
-   ],
-   "product_groups": [
-    "veggies",
-    "beef-meat",
-    "flowers",
-    "garlic-herbs",
-    "seeds-plants"
-   ],
-   "channel_details": {
-    "farm_stand": "On-farm store opens in June",
-    "u_pick": "From July, limited hours, by reservation"
-   },
-   "farm_pickup": true,
-   "visit_basis": {
-    "pickup": "listing"
-   },
-   "visit_note": null,
-   "months_open": [],
-   "hours_text": "Pick-your-own flowers by appointment, June–October",
-   "hours": [],
-   "hours_status": "appointment",
-   "website": "https://www.thetriangleoasis.com/",
-   "phone": null,
-   "email": "thetriangleoasis@gmail.com",
-   "facebook": "https://www.facebook.com/pages/category/Farm/The-Triangle-Oasis-219919395410862",
-   "instagram": "https://www.instagram.com/thetriangleoasisproject/",
-   "sales_channels": [
-    "csa",
-    "farm_stand",
-    "farmers_market",
-    "u_pick"
-   ],
-   "offerings": [
-    {
-     "id": "co-off-000524",
-     "channel": "csa",
-     "location_id": null,
-     "text": null,
-     "confirm_url": null,
-     "basis": "channel"
-    },
-    {
-     "id": "co-off-000525",
-     "channel": "farm_stand",
-     "location_id": "co-loc-000032",
-     "text": "On-farm store opens in June",
-     "confirm_url": null,
-     "basis": "derived"
-    },
-    {
-     "id": "co-off-000604",
-     "channel": "farmers_market",
-     "location_id": null,
-     "text": null,
-     "confirm_url": null,
-     "basis": "link",
-     "market": {
-      "id": "co-m-000002",
-      "name": "Salida Farmers Market",
-      "slug": "salida-farmers-market",
-      "city": "Salida",
-      "lat": 38.533052,
-      "lon": -105.993304,
-      "county_fips": "08015"
-     },
-     "link": {
-      "state": "market_only",
-      "confirmed_by_market": true,
-      "confirmed_by_producer": false,
-      "market_list_years": [
-       "2026"
-      ],
-      "market_list_url": "https://www.foodshedalliance.com/meet-our-vendors",
-      "producer_page_url": "https://www.thetriangleoasis.com/",
-      "producer_checked_on": "2026-10-29",
-      "resolution": null,
-      "note": "The producer's own page, checked 2026-10-29, names no markets"
-     }
-    },
-    {
-     "id": "co-off-000526",
-     "channel": "u_pick",
-     "location_id": "co-loc-000032",
-     "text": "From July, limited hours, by reservation",
-     "confirm_url": null,
-     "basis": "derived"
-    }
-   ],
-   "certified_organic": null,
-   "accepts_snap": null,
-   "ada_accessible": null,
-   "call_first": null,
-   "status": "unverified",
-   "claimed": false,
-   "last_verified": null,
-   "locations": [
-    {
-     "id": "co-loc-000032",
-     "role": "home_base",
-     "name": null,
-     "address": "8875 Co Rd 150",
-     "city": "Salida",
-     "zip": "81201",
-     "county_fips": "08015",
-     "lat": 38.56156,
-     "lon": -106.036496,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [],
-     "hours_text": "Pick-your-own flowers by appointment, June–October",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null,
-     "channels": [
-      "farm_stand",
-      "u_pick"
-     ]
-    }
-   ],
-   "sources": [
-    {
-     "source": "curated",
-     "label": "Farmers market vendor lists, checked by hand",
-     "url": null
-    }
-   ],
-   "confirmed_by": []
-  },
-  {
    "id": "co-p-000028",
    "slug": "valley-roots-food-hub",
    "name": "Valley Roots Food Hub",
@@ -4946,7 +4802,6 @@
     "co-p-000004",
     "co-p-000012",
     "co-p-000021",
-    "co-p-000026",
     "co-p-000792",
     "co-p-001232",
     "co-p-001234",

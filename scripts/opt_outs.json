@@ -1,0 +1,31 @@
+{
+  "_comment": "Businesses that have opted out of Chaffee Provides. Nothing listed here may appear anywhere the site publishes: sync_data.py removes them, and scripts/opt_outs.py (run by sync_data.py, build_export.py and CI) fails if a name, alias, id, slug, address or web address from an entry is found in the data, the descriptions, the photos, the Guidestone export or the pages. This is a permanent block, not a seasonal hide: use scope.json exclude_slugs for a business that is only closed or not wanted. Never delete an entry; if a business later opts back in, set reinstated_on and reinstated_note, keep the entry, and get Guidestone's written okay first. name: the business as it is listed. aliases: other names, including the names of its shops, stands and markets. ids / slugs: Food Web ids and slugs (a slug ending -outlet also matches without it). urls: web and social addresses, written without https:// or www. emails: addresses. recorded_by: who relayed the opt-out. note: the evidence in plain words.",
+  "opted_out": [
+    {
+      "name": "The Triangle Oasis",
+      "aliases": [
+        "Triangle Oasis",
+        "Triangle Oasis Project"
+      ],
+      "ids": [
+        "co-p-000026",
+        "co-o-000002"
+      ],
+      "slugs": [
+        "the-triangle-oasis",
+        "market-on-main-st-the-triangle-oasis-outlet"
+      ],
+      "urls": [
+        "thetriangleoasis.com",
+        "facebook.com/pages/category/Farm/The-Triangle-Oasis-219919395410862",
+        "instagram.com/thetriangleoasisproject"
+      ],
+      "emails": [
+        "thetriangleoasis@gmail.com"
+      ],
+      "recorded_on": "2026-11-03",
+      "recorded_by": "David Brown (relayed)",
+      "note": "The Triangle Oasis has opted out of participating in Chaffee Provides. Remove the farm, its Market on Main St. shop and any mention of them; do not show them in any future product built from this data."
+    }
+  ]
+}

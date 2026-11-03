@@ -24,6 +24,24 @@ Food Web repo, not here. `data/photos.json`, `assets/photos/` and `data/descript
 descriptions reused from the old site with Guidestone's permission (thumbnails in `assets/photos/thumb/`). None of
 it goes into the Food Web. `python scripts/import_descriptions.py <wordpress-export.xml>` rebuilds the descriptions file.
 
+## Businesses that opted out
+
+`scripts/opt_outs.json` is the table of businesses that have opted out of Chaffee Provides (today: The Triangle Oasis).
+It is a permanent block, separate from `scope.json` (which only hides what is closed or not wanted):
+
+- `sync_data.py` removes an opted-out business, its shops and its market-vendor links from every release it syncs,
+  then fails if any trace is left.
+- `build_export.py` does the same for the Guidestone snapshot, before and after it writes the files.
+- `python scripts/opt_outs.py check` reads every published file (data, descriptions, photos, the snapshot, the pages and
+  scripts) and fails if a name, alias, Food Web id, slug, web address or email from the table is in any of them. A GitHub
+  Action runs it, and `python -m unittest scripts/test_opt_outs.py`, on every pull request and push to `main`.
+- `python scripts/opt_outs.py list` shows the table. `python scripts/opt_outs.py apply` cleans the data files in place.
+
+To add a business: add an entry with its name, aliases (including its shops and stands), Food Web ids and slugs, web
+addresses and email, who relayed the opt-out and when. Never delete an entry; to reverse one, set `reinstated_on` once
+Guidestone has said so in writing. The Food Web should also record the opt-out in its entity registry (decision
+`opted_out`, reason `owner_opt_out`) so other products built from it do the same.
+
 ## Pages
 
 | Page | What it is |
@@ -41,10 +59,16 @@ and the list-your-business form. Not included: Spotlight blog (dropped), food as
 
 ## To talk to Guidestone about
 
+
+
 - **Who owns the business descriptions.** They came from what each business submitted to the old site, and they
+
   live only in this repo. It would help to have Guidestone's okay (ownership or a clear license) to show them
+
   in other places too, such as the Food Web or other sites. That can wait; for now they stay here.
 
+
+
 ## Ideas for later
 
 - **Season tags.** A small tag on a way to buy ("Closing for the season soon", "Opens for the season soon")

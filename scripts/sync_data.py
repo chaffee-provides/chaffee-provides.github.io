@@ -13,6 +13,9 @@ Usage:
 """
 import hashlib, json, os, sys, urllib.request
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import opt_outs
+
 SUPPORTED = 3
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEST = os.path.join(HERE, "..", "data", "chaffee-provides.json")
@@ -153,7 +156,14 @@ def main():
     d = json.loads(raw.decode("utf-8"))
     check_statewide(d)
     out = apply_scope(d, json.load(open(SCOPE, encoding="utf-8")))
+    for kind, name, who in opt_outs.scrub(out):
+        print("opted out, not synced: %s %s (%s)" % (kind, name, who))
     check_scoped(out)
+    left = json.dumps(out, ensure_ascii=False).lower()
+    for e in opt_outs.load_table():
+        for t in opt_outs.terms(e):
+            if t in left:
+                fail("%s (opted out) still appears in the synced data as %r" % (e["name"], t))
     old = json.load(open(DEST, encoding="utf-8"))["export"] if os.path.exists(DEST) else None
     os.makedirs(os.path.dirname(DEST), exist_ok=True)
     with open(DEST, "w", encoding="utf-8", newline="\n") as f:

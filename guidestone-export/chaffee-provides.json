@@ -10,13 +10,13 @@
   ],
   "attribution": "Colorado Open Food Web, CC BY 4.0. Partner data from Guidestone Colorado.",
   "counts": {
-   "producers": 27,
+   "producers": 26,
    "markets": 3,
    "access_points": 2,
-   "market_links": 37,
-   "outlets": 4,
-   "outlet_pins": 4,
-   "pins": 38,
+   "market_links": 36,
+   "outlets": 3,
+   "outlet_pins": 3,
+   "pins": 37,
    "excluded_outside_area": {
     "producers": 1017,
     "markets": 150,
@@ -3179,111 +3179,6 @@
    ]
   },
   {
-   "id": "co-p-000026",
-   "slug": "the-triangle-oasis",
-   "name": "The Triangle Oasis",
-   "producer_type": "farm",
-   "products": [
-    "Seasonal produce",
-    "vegetables",
-    "herbs",
-    "flowers",
-    "seedlings",
-    "roasted chilies",
-    "sausages",
-    "frozen treats"
-   ],
-   "product_groups": [
-    "veggies",
-    "beef-meat",
-    "flowers",
-    "garlic-herbs",
-    "seeds-plants"
-   ],
-   "visits": [
-    {
-     "type": "shop",
-     "label": "Shop",
-     "detail": "On-farm store opens in June"
-    },
-    {
-     "type": "u_pick",
-     "label": "Pick your own",
-     "detail": "From July, limited hours, by reservation"
-    }
-   ],
-   "dropin_visits": true,
-   "dropin_hours": null,
-   "farm_pickup": true,
-   "visit_basis": {
-    "dropin": "set",
-    "pickup": "listing"
-   },
-   "visit_note": null,
-   "months_open": [],
-   "hours_text": "Pick-your-own flowers by appointment, June–October",
-   "hours": [],
-   "hours_status": "appointment",
-   "website": "https://www.thetriangleoasis.com/",
-   "phone": null,
-   "email": "thetriangleoasis@gmail.com",
-   "facebook": "https://www.facebook.com/pages/category/Farm/The-Triangle-Oasis-219919395410862",
-   "instagram": "https://www.instagram.com/thetriangleoasisproject/",
-   "sales_channels": [
-    "csa",
-    "farmers_market",
-    "u_pick"
-   ],
-   "sells_at": [
-    {
-     "market_id": "co-m-000002",
-     "name": "Salida Farmers Market",
-     "county_fips": "08015",
-     "year": 2026,
-     "season_label": null,
-     "basis": "exact_name",
-     "source_url": "https://www.foodshedalliance.com/meet-our-vendors"
-    }
-   ],
-   "certified_organic": null,
-   "accepts_snap": null,
-   "ada_accessible": null,
-   "call_first": null,
-   "status": "unverified",
-   "claimed": false,
-   "last_verified": null,
-   "locations": [
-    {
-     "id": "co-loc-000032",
-     "role": "home_base",
-     "name": null,
-     "address": "8875 Co Rd 150",
-     "city": "Salida",
-     "zip": "81201",
-     "county_fips": "08015",
-     "lat": 38.56156,
-     "lon": -106.036496,
-     "precision": "exact",
-     "pin": true,
-     "pin_basis": "confirmed",
-     "days": [],
-     "hours_text": "Pick-your-own flowers by appointment, June–October",
-     "season_start": null,
-     "season_end": null,
-     "status": "listed",
-     "confirm_url": null
-    }
-   ],
-   "sources": [
-    {
-     "source": "curated",
-     "label": "Farmers market vendor lists, checked by hand",
-     "url": null
-    }
-   ],
-   "confirmed_by": []
-  },
-  {
    "id": "co-p-000028",
    "slug": "valley-roots-food-hub",
    "name": "Valley Roots Food Hub",
@@ -3741,7 +3636,6 @@
     "co-p-000004",
     "co-p-000012",
     "co-p-000021",
-    "co-p-000026",
     "co-p-000792",
     "co-p-001232",
     "co-p-001234",
@@ -4004,43 +3898,6 @@
      "date": "2026-10-15"
     }
    ]
-  },
-  {
-   "id": "co-o-000002",
-   "slug": "market-on-main-st-the-triangle-oasis-outlet",
-   "name": "Market on Main St. (The Triangle Oasis)",
-   "kind": "farm_store",
-   "group": "shops",
-   "brand": null,
-   "hours": [],
-   "website": "https://www.thetriangleoasis.com/markets",
-   "phone": null,
-   "facebook": "https://www.facebook.com/pages/category/Farm/The-Triangle-Oasis-219919395410862",
-   "instagram": "https://www.instagram.com/thetriangleoasisproject",
-   "status": "seasonal_closed",
-   "last_verified": null,
-   "location": {
-    "id": "co-loc-000017",
-    "role": "outlet_site",
-    "name": null,
-    "address": "125 N. F St",
-    "city": "Salida",
-    "zip": null,
-    "county_fips": "08015",
-    "lat": 38.536706,
-    "lon": -105.991271,
-    "precision": "exact",
-    "pin": true,
-    "pin_basis": "confirmed"
-   },
-   "sources": [
-    {
-     "source": "curated",
-     "label": "Farmers market vendor lists, checked by hand",
-     "url": null
-    }
-   ],
-   "confirmed_by": []
   },
   {
    "id": "co-o-000161",
