@@ -8,7 +8,7 @@ Nothing in this folder updates by itself.
 
 | Item | What it is |
 |---|---|
-| `chaffee-provides.json` | The file the website runs from. 27 producers, 3 farmers' markets, 2 free-food sites, 4 shops, 38 map pins. Complete, with sources and hours. |
+| `chaffee-provides.json` | The file the website runs from. 26 producers, 3 farmers' markets, 2 free-food sites, 3 shops, 37 map pins. Complete, with sources and hours. |
 | `csv/producers.csv` | One row per farm, ranch, orchard, food maker and so on. Opens in Excel or Google Sheets. |
 | `csv/producer_locations.csv` | One row per place a producer can be found (home base, farm stand, market, store). Joins to `producers.csv` on `producer_id`. |
 | `csv/markets.csv`, `csv/free_food_sites.csv`, `csv/shops.csv` | One row per market, free-food site (community fridges) and shop. |
@@ -18,7 +18,7 @@ Nothing in this folder updates by itself.
 
 ## How to read it
 
-- **Status.** 27 of 27 producers are `unverified`: the facts were collected from public sources
+- **Status.** 26 of 26 producers are `unverified`: the facts were collected from public sources
   and checked by hand where noted under `sources`, but the business has not yet confirmed them.
 - **On map / location precision.** `on_map` says whether the place gets a pin on the Find Food map. `precision`
   of `town` means the exact address is deliberately hidden and only the town is shown; those rows have no street address.

@@ -1,0 +1,18 @@
+name: Opt-outs
+
+# A business that opted out (scripts/opt_outs.json) must not appear anywhere the site publishes.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  opt-outs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/opt_outs.py check
+      - run: python -m unittest scripts/test_opt_outs.py
