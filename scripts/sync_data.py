@@ -14,7 +14,7 @@ Usage:
 import hashlib, json, os, sys, urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import opt_outs
+import build_seo, opt_outs
 
 SUPPORTED = 3
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -174,6 +174,7 @@ def main():
           % (ex["release"], ex["generated"], c["producers"], c["markets"], c["access_points"], c["outlets"], c["pins"]))
     if old:
         print("previous: release %s, %d pins" % (old["release"], old["counts"]["pins"]))
+    build_seo.main()   # sitemap.xml and the old-address redirects follow the data
 
 
 if __name__ == "__main__":

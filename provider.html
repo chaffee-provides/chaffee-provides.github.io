@@ -14,7 +14,6 @@
 <link rel="icon" href="assets/icon-32.png" sizes="32x32">
 <link rel="icon" href="assets/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="assets/icon-180.png">
-<meta name="robots" content="noindex, nofollow">
 <title>Listing · Chaffee Provides</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
@@ -189,6 +188,10 @@
     if(!r){ main.innerHTML = '<p style="padding:40px 0">We couldn\'t find that listing. <a href="directory.html">Browse the directory →</a></p>'; return; }
     var raw = r.raw, st = CP.typeStyle(r.cat);
     document.title = r.name + " · Chaffee Provides";
+    // tell search engines this listing's one address (the page is shared by every listing)
+    var canon = document.createElement("link"); canon.rel = "canonical";
+    canon.href = "https://chaffeeprovides.org/provider.html?slug=" + encodeURIComponent(r.slug);
+    document.head.appendChild(canon);
 
     var tag = '<span class="tag" style="color:'+st.color+'">'+esc(CP.catLabel(r.cat))+'</span>';
     var prodChips = r.productGroups.map(function(g, i){
