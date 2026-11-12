@@ -95,7 +95,8 @@ DNS for chaffeeprovides.org. Cost: the domain only. GitHub Pages is free for pub
 - `scripts/build_seo.py` rebuilds `sitemap.xml` and runs by itself at the end of every data sync.
 - The same script builds the redirects from the old WordPress site's addresses (`about/`, `provider/<slug>/`
   and so on, listed in `scripts/old_urls.json`). GitHub Pages cannot send real redirects, so each is a tiny
-  page that forwards at once. Anything else that no longer exists gets `404.html`.
+  page that forwards at once. An old listing with no page on the new site goes to the home page. Anything else that no longer
+  exists gets `404.html`.
 - Do not put `noindex` back on the live pages: it removes the site from Google.
 
 ## Before launch

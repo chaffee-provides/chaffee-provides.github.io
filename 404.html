@@ -9,6 +9,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css">
+<script>
+// An old listing address we have no redirect page for: go to the home page.
+if (/^\/provider\/./.test(location.pathname)) location.replace("/");
+</script>
 </head>
 <body>
 <!-- Shown for any address that does not exist, at any depth, so every link here starts with "/". -->

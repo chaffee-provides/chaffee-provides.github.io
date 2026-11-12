@@ -9,8 +9,8 @@ data/chaffee-provides.json. Safe to run by hand at any time.
 - Redirect pages: GitHub Pages cannot send real redirects, so each old address in scripts/old_urls.json
   gets a tiny index.html that forwards straight away and names the new page as canonical. Search engines
   treat that as a permanent move.
-- A redirect to a listing that has left the data (closed, out of scope, opted out) is deleted, so the old
-  address falls through to 404.html.
+- An old listing address whose business has no listing today goes to the home page. One that is taken out
+  of old_urls.json (an opt-out) has its redirect deleted.
 """
 import html, json, os, shutil, sys
 from urllib.parse import quote
@@ -71,13 +71,13 @@ def main():
     wanted = dict(old["pages"])
     live = slugs(d)
     for was, now in old["providers"].items():
-        if now in live:
-            wanted["provider/%s/" % was] = listing_url(now)
+        # no listing on the new site (or it has since left the data): send people to the home page
+        wanted["provider/%s/" % was] = listing_url(now) if now in live else ""
     for path, target in wanted.items():
         if path.startswith(("/", ".")) or ".." in path or not path.endswith("/"):
             sys.exit("build_seo: bad old address %r in old_urls.json" % path)
         write(os.path.join(ROOT, path.replace("/", os.sep), "index.html"), stub(target))
-    # a listing that left the data loses its redirect
+    # an old listing address taken out of old_urls.json (an opt-out) loses its redirect
     gone = 0
     pdir = os.path.join(ROOT, "provider")
     for name in (os.listdir(pdir) if os.path.isdir(pdir) else []):
