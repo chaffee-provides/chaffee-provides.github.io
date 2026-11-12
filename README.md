@@ -89,10 +89,18 @@ npx serve . -l 3011
 GitHub Pages from `main`. The custom domain is set with a `CNAME` file once Guidestone controls the
 DNS for chaffeeprovides.org. Cost: the domain only. GitHub Pages is free for public repos.
 
+## Search engines
+
+- `robots.txt` points search engines to `sitemap.xml`, which lists the four pages and every listing.
+- `scripts/build_seo.py` rebuilds `sitemap.xml` and runs by itself at the end of every data sync.
+- The same script builds the redirects from the old WordPress site's addresses (`about/`, `provider/<slug>/`
+  and so on, listed in `scripts/old_urls.json`). GitHub Pages cannot send real redirects, so each is a tiny
+  page that forwards at once. An old listing with no page on the new site goes to the home page. Anything else that no longer
+  exists gets `404.html`.
+- Do not put `noindex` back on the live pages: it removes the site from Google.
+
 ## Before launch
 
-- Remove the "Draft for review" banner and `noindex` tags.
 - Copy photos into the repo (they are hotlinked from chaffeeprovides.org).
 - Connect the list-your-business form to Guidestone's intake.
-- Redirects from old chaffeeprovides.org addresses (needs control of the domain).
 - Map basemap key: the prototype uses the Farm Trail's; use a separate key or OpenStreetMap tiles.

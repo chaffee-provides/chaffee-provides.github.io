@@ -20,7 +20,8 @@ TABLE = os.path.join(HERE, "opt_outs.json")
 DATA = os.path.join(ROOT, "data", "chaffee-provides.json")
 LISTS = ("producers", "markets", "access_points", "outlets")
 # every file the site or Guidestone's snapshot publishes; the table and scope.json are the only places an opted-out name may live
-PUBLISHED = ["data/*.json", "guidestone-export/**/*", "assets/*.js", "assets/*.css", "*.html", "CNAME", "serve.json"]
+PUBLISHED = ["data/*.json", "guidestone-export/**/*", "assets/*.js", "assets/*.css", "*.html", "CNAME", "serve.json",
+             "sitemap.xml", "provider/**/*"]
 
 
 def fail(msg):
