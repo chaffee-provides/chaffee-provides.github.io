@@ -48,7 +48,7 @@ Guidestone has said so in writing. The Food Web should also record the opt-out i
 |---|---|
 | `find-food.html` | The map: one pin per place to buy, filters, search, faded pins for places not yet confirmed |
 | `directory.html` | Scrolling card list with the same filters and a search box with suggestions |
-| `provider.html?slug=` | One business: photo, every place to find them with hours, contact, sources, suggest-an-update and remove buttons |
+| `provider/<slug>/` (built from `provider.html`) | One business: photo, every place to find them with hours, contact, sources, suggest-an-update and remove buttons |
 | `list-your-business.html` | Prototype form (opens an email) with a hidden spam trap |
 
 ## Scope (agreed with Guidestone, Oct 2026)
@@ -92,7 +92,13 @@ DNS for chaffeeprovides.org. Cost: the domain only. GitHub Pages is free for pub
 ## Search engines
 
 - `robots.txt` points search engines to `sitemap.xml`, which lists the four pages and every listing.
-- `scripts/build_seo.py` rebuilds `sitemap.xml` and runs by itself at the end of every data sync.
+- Every listing has its own page at `provider/<slug>/`, so a search engine can read it without running
+  JavaScript. `scripts/build_seo.py` builds these from `provider.html` (the template) and the data: each gets
+  its own title and description and a plain-text version of the listing, and the script in `provider.html`
+  then draws the full listing over it. **Do not edit files under `provider/`**; edit `provider.html` and run
+  `python scripts/build_seo.py`. The old `provider.html?slug=` addresses forward to the new ones.
+- The plain-text version gives a street address only for a place that is pinned on the map.
+- `scripts/build_seo.py` also rebuilds `sitemap.xml`. It runs by itself at the end of every data sync.
 - The same script builds the redirects from the old WordPress site's addresses (`about/`, `provider/<slug>/`
   and so on, listed in `scripts/old_urls.json`). GitHub Pages cannot send real redirects, so each is a tiny
   page that forwards at once. An old listing with no page on the new site goes to the home page. Anything else that no longer
