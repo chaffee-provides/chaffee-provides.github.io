@@ -1,6 +1,7 @@
 {
-  "_comment": "Addresses from the old (WordPress) chaffeeprovides.org and where each one goes now. scripts/build_seo.py turns every entry into a small redirect page at the old address, so old links, bookmarks and search results still land somewhere useful. pages: old path -> new page ('' is the home page). providers: old /provider/<slug>/ -> the listing's slug today, or null for a business with no listing on the new site, which goes to the home page (so does a listing that later leaves the data). If a business opts out, delete its line here: the opt-out check fails until you do, and the next build removes its redirect.",
+  "_comment": "Addresses from the old (WordPress) chaffeeprovides.org and where each one goes now. scripts/build_seo.py turns every entry into a small redirect page at the old address, so old links, bookmarks and search results still land somewhere useful. pages: old path -> new page ('' is the home page). lander/ is not from the old site: it is the domain registrar's parking page, which Google picked up while the domain was being moved. providers: old /provider/<slug>/ -> the listing's slug today, or null for a business with no listing on the new site, which goes to the home page (so does a listing that later leaves the data). If a business opts out, delete its line here: the opt-out check fails until you do, and the next build removes its redirect.",
   "pages": {
+    "lander/": "",
     "about/": "",
     "contact-us/": "",
     "promote-your-services/": "list-your-business.html",
