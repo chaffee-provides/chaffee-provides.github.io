@@ -30,7 +30,10 @@
 (function(){
   "use strict";
   var esc = CP.esc, main = document.getElementById("main");
-  var slug = new URLSearchParams(location.search).get("slug");
+  // A listing's own page (provider/<slug>/, built by scripts/build_seo.py from this file) names its listing in data-slug.
+  // This file opened directly, as provider.html?slug=..., is the old address: it forwards to the listing's own page.
+  var staticSlug = document.documentElement.getAttribute("data-slug");
+  var slug = staticSlug || new URLSearchParams(location.search).get("slug");
   var MODEL = null;
   // The farmers market's own page, for the market stops in "places to find them".
   function marketPage(p){
@@ -185,17 +188,13 @@
   CP.loadModel().then(function(M){
     MODEL = M;
     var r = M.bySlug[slug];
-    if(!r){ main.innerHTML = '<p style="padding:40px 0">We couldn\'t find that listing. <a href="directory.html">Browse the directory →</a></p>'; return; }
+    if(!r){ main.innerHTML = '<p style="padding:40px 0">We couldn\'t find that listing. <a href="'+CP.url("directory.html")+'">Browse the directory →</a></p>'; return; }
     var raw = r.raw, st = CP.typeStyle(r.cat);
-    document.title = r.name + " · Chaffee Provides";
-    // tell search engines this listing's one address (the page is shared by every listing)
-    var canon = document.createElement("link"); canon.rel = "canonical";
-    canon.href = "https://chaffeeprovides.org/provider.html?slug=" + encodeURIComponent(r.slug);
-    document.head.appendChild(canon);
+    if(!staticSlug){ location.replace(CP.recUrl(r)); return; }
 
     var tag = '<span class="tag" style="color:'+st.color+'">'+esc(CP.catLabel(r.cat))+'</span>';
     var prodChips = r.productGroups.map(function(g, i){
-      return '<a class="chip" href="directory.html?product='+encodeURIComponent(g)+'">'+esc(r.productText[i])+'</a>';
+      return '<a class="chip" href="'+CP.url("directory.html?product="+encodeURIComponent(g))+'">'+esc(r.productText[i])+'</a>';
     }).join(" ");
     var wl = ways(r);
     var pins = r.places.filter(function(p){ return p.pin; });
@@ -241,7 +240,7 @@
       + (nextR ? '<a rel="next" href="'+CP.recUrl(nextR)+'" aria-label="Next listing: '+esc(nextR.name)+'">'+esc(nextR.name)+' →</a>' : '<span class="off"></span>')
       + '</nav>';
     main.innerHTML =
-      '<nav class="crumbs" aria-label="Breadcrumb"><a href="find-food.html">Map</a> › <a href="directory.html">Directory</a> › '+esc(r.name)+'</nav>' + pager
+      '<nav class="crumbs" aria-label="Breadcrumb"><a href="'+CP.url("find-food.html")+'">Map</a> › <a href="'+CP.url("directory.html")+'">Directory</a> › '+esc(r.name)+'</nav>' + pager
       + '<div class="provider"><div>'
       +   '<h1>'+esc(r.name)+'</h1><div>'+tag+(r.group === "farm" && r.homeTown ? ' <span class="muted">· Based in '+esc(r.homeTown)+'</span>' : '')+'</div>'
       +   '<div style="margin-top:12px"></div>'
@@ -270,7 +269,7 @@
       stops.forEach(function(s){
         L.marker([s.lat, s.lon], { icon:CP.pinIcon("market", [0, 0], false, false, true), title:s.name }).addTo(m)
           .bindPopup('<strong>' + esc(s.name) + '</strong>' + (s.city ? '<br>' + esc(s.city) : "")
-            + (s.slug ? '<br><a href="' + CP.url("provider.html?slug=" + encodeURIComponent(s.slug)) + '">Market page</a>' : ""));
+            + (s.slug ? '<br><a href="' + CP.url("provider/" + encodeURIComponent(s.slug) + "/") + '">Market page</a>' : ""));
         b.push([s.lat, s.lon]);
       });
       if(b.length === 1) m.setView(b[0], 12); else m.fitBounds(b, { padding:[30,30], maxZoom:12 });

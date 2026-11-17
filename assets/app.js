@@ -247,7 +247,7 @@
     if(p.lat != null) return "https://www.google.com/maps/dir/?api=1&destination="+p.lat+","+p.lng;
     return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent([p.title, p.loc && p.loc.city, "CO"].filter(Boolean).join(", "));
   }
-  function recUrl(rec){ return url("provider.html?slug="+encodeURIComponent(rec.slug)); }
+  function recUrl(rec){ return url("provider/"+encodeURIComponent(rec.slug)+"/"); }   // the listing's own page, built by scripts/build_seo.py
   function safeLink(u, label){
     if(!/^https?:\/\//i.test(u || "")) return esc(label || u || "");
     return '<a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(label || u.replace(/^https?:\/\/(www\.)?/,"").replace(/\/$/,"").slice(0,48))+'</a>';
